@@ -1,12 +1,15 @@
+import React, { useState } from "react";
 import { MadeWithDyad } from "@/components/made-with-dyad";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Search, Plus } from "lucide-react";
-import { PatientsList } from "@/components/PatientsList"; // Importa o novo componente
+import { PatientsList } from "@/components/PatientsList";
+import { AddPatientDialog } from "@/components/AddPatientDialog"; // Importa o novo componente de diálogo
+import { toast } from "sonner"; // Importa o toast para feedback
 
 const Patients = () => {
-  // Mock data for demonstration
-  const mockPatients = [
+  const [isAddPatientDialogOpen, setIsAddPatientDialogOpen] = useState(false);
+  const [patients, setPatients] = useState([
     {
       id: "1",
       name: "João Pedro Santos",
@@ -37,7 +40,18 @@ const Patients = () => {
       specialty: "Fonoaudiologia",
       avatarUrl: "/public/placeholder.svg",
     },
-  ];
+  ]);
+
+  const handleAddPatient = (name: string, specialty: string) => {
+    const newPatient = {
+      id: String(patients.length + 1), // ID simples para demonstração
+      name,
+      specialty,
+      avatarUrl: "/public/placeholder.svg",
+    };
+    setPatients((prevPatients) => [...prevPatients, newPatient]);
+    toast.success(`Paciente ${name} adicionado com sucesso!`);
+  };
 
   return (
     <div className="min-h-screen bg-gray-50 p-4 pb-20 md:pb-0 flex-1">
@@ -53,13 +67,20 @@ const Patients = () => {
             className="pl-9 pr-4 py-2 border rounded-md w-full"
           />
         </div>
-        <Button className="w-full md:w-auto">
+        <Button className="w-full md:w-auto" onClick={() => setIsAddPatientDialogOpen(true)}>
           <Plus className="h-4 w-4 mr-2" /> Adicionar Paciente
         </Button>
       </div>
 
       {/* Patients List */}
-      <PatientsList patients={mockPatients} />
+      <PatientsList patients={patients} />
+
+      {/* Add Patient Dialog */}
+      <AddPatientDialog
+        isOpen={isAddPatientDialogOpen}
+        onClose={() => setIsAddPatientDialogOpen(false)}
+        onAddPatient={handleAddPatient}
+      />
 
       <MadeWithDyad />
     </div>
