@@ -3,8 +3,11 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { MadeWithDyad } from "@/components/made-with-dyad";
+import { useIsMobile } from "@/hooks/use-mobile"; // Importa o hook useIsMobile
 
 const Dashboard = () => {
+  const isMobile = useIsMobile(); // Usa o hook para verificar se é mobile
+
   // Mock data for demonstration
   const nextAppointments = [
     {
@@ -31,17 +34,20 @@ const Dashboard = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50 pb-20 md:pb-0"> {/* Added padding-bottom for mobile nav */}
+    <div className="min-h-screen bg-gray-50 pb-20 md:pb-0 flex-1"> {/* Adicionado flex-1 */}
       {/* Header */}
       <header className="flex items-center justify-between p-4 bg-white border-b border-gray-200">
-        <div className="flex items-center space-x-2">
-          <img src="/public/images/terapiapp-logo.png" alt="TerapiaApp Logo" className="h-8" />
-          <div className="flex flex-col">
-            <span className="font-semibold text-lg">TerapiaApp</span>
-            <span className="text-xs text-gray-500">Dra. Marina Silva</span>
+        {isMobile && ( // Renderiza logo e nome apenas em mobile
+          <div className="flex items-center space-x-2">
+            <img src="/public/images/terapiapp-logo.png" alt="TerapiaApp Logo" className="h-8" />
+            <div className="flex flex-col">
+              <span className="font-semibold text-lg">TerapiaApp</span>
+              <span className="text-xs text-gray-500">Dra. Marina Silva</span>
+            </div>
           </div>
-        </div>
-        <div className="flex items-center space-x-4">
+        )}
+        {!isMobile && <div className="w-8"></div>} {/* Placeholder para manter o espaçamento em desktop */}
+        <div className="flex items-center space-x-4 ml-auto"> {/* ml-auto para empurrar para a direita */}
           <Bell className="h-5 w-5 text-gray-600" />
           <Avatar>
             <AvatarImage src="/public/placeholder.svg" alt="Therapist Profile" /> {/* Replace with actual image path */}
