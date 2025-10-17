@@ -1,4 +1,4 @@
-import { Bell, User, CalendarDays, Plus, ChevronRight, ClipboardList, MessageSquare } from "lucide-react";
+import { Bell, User, CalendarDays, Plus, ChevronRight, ClipboardList, MessageSquare, Users } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
