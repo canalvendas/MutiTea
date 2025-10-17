@@ -18,7 +18,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Label } from "@/components/ui/label"; // Importação adicionada
+import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
@@ -40,31 +40,47 @@ interface AnamneseField {
 // Modelos de Anamnese por especialidade
 const anamneseModels: Record<string, AnamneseField[]> = {
   "Psicologia Clínica": [
-    { id: "queixaPrincipal", label: "Queixa Principal", type: "textarea", placeholder: "Descreva a principal queixa do paciente..." },
-    { id: "historicoQueixa", label: "Histórico da Queixa", type: "textarea", placeholder: "Quando começou, frequência, intensidade..." },
-    { id: "historicoFamiliar", label: "Histórico Familiar", type: "textarea", placeholder: "Dinâmica familiar, doenças mentais na família..." },
-    { id: "historicoSaude", label: "Histórico de Saúde", type: "textarea", placeholder: "Doenças preexistentes, cirurgias, internações..." },
-    { id: "usoMedicamentos", label: "Uso de Medicamentos", type: "text", placeholder: "Quais medicamentos, dosagem, para quê..." },
-    { id: "expectativasTratamento", label: "Expectativas do Tratamento", type: "textarea", placeholder: "O que o paciente espera alcançar com a terapia..." },
+    { id: "queixaPrincipal", label: "Queixa Principal", type: "textarea", placeholder: "Descreva a principal queixa do paciente e o que o motivou a buscar terapia neste momento..." },
+    { id: "historicoQueixa", label: "Histórico da Queixa", type: "textarea", placeholder: "Quando os sintomas ou dificuldades começaram? Qual a frequência, intensidade e duração? Houve algum evento desencadeante?" },
+    { id: "historicoPessoalDesenvolvimento", label: "Histórico Pessoal e Desenvolvimento", type: "textarea", placeholder: "Informações sobre gestação, parto, desenvolvimento infantil (motor, fala, social), escolaridade, vida profissional, relacionamentos significativos e eventos traumáticos." },
+    { id: "historicoFamiliar", label: "Histórico Familiar", type: "textarea", placeholder: "Dinâmica familiar, histórico de doenças mentais, alcoolismo, uso de drogas ou outros problemas relevantes na família de origem e atual." },
+    { id: "historicoSaudeFisica", label: "Histórico de Saúde Física", type: "textarea", placeholder: "Doenças preexistentes, cirurgias, internações, alergias, uso de medicamentos (quais, dosagem, para quê), hábitos de sono, alimentação e atividade física." },
+    { id: "usoSubstancias", label: "Uso de Álcool/Drogas/Tabaco", type: "textarea", placeholder: "Hábitos de uso, frequência, quantidade, impacto na vida diária." },
+    { id: "relacionamentosSociais", label: "Relacionamentos Sociais", type: "textarea", placeholder: "Qualidade dos relacionamentos com amigos, familiares, parceiros. Rede de apoio social." },
+    { id: "interessesLazer", label: "Interesses e Lazer", type: "textarea", placeholder: "Atividades que o paciente gosta de fazer, hobbies, como lida com o tempo livre." },
+    { id: "expectativasTratamento", label: "Expectativas do Tratamento", type: "textarea", placeholder: "O que o paciente espera alcançar com a terapia? Quais são seus objetivos?" },
     { id: "jaFezTerapia", label: "Já fez terapia antes?", type: "checkbox", defaultValue: false },
+    { id: "observacoesGerais", label: "Observações Gerais do Terapeuta", type: "textarea", placeholder: "Impressões iniciais, observações sobre o comportamento, humor, fala do paciente durante a sessão." },
   ],
   "Fonoaudiologia": [
-    { id: "queixaPrincipal", label: "Queixa Principal", type: "textarea", placeholder: "Descreva a principal queixa fonoaudiológica..." },
-    { id: "desenvolvimentoFalaLinguagem", label: "Histórico de Desenvolvimento da Fala/Linguagem", type: "textarea", placeholder: "Marcos de desenvolvimento, dificuldades observadas..." },
-    { id: "historicoAuditivo", label: "Histórico Auditivo", type: "textarea", placeholder: "Exames auditivos, infecções de ouvido, uso de aparelhos..." },
-    { id: "habitosOrais", label: "Hábitos Orais", type: "select", options: [{value: "chupeta", label: "Chupeta"}, {value: "mamadeira", label: "Mamadeira"}, {value: "dedo", label: "Dedo"}, {value: "nenhum", label: "Nenhum"}], placeholder: "Selecione hábitos orais..." },
-    { id: "comunicacaoAmbientes", label: "Comunicação em Casa/Escola", type: "textarea", placeholder: "Como se comunica em diferentes ambientes..." },
-    { id: "dificuldadeAlimentacao", label: "Dificuldade na Alimentação", type: "checkbox", defaultValue: false },
+    { id: "queixaPrincipal", label: "Queixa Principal", type: "textarea", placeholder: "Descreva a principal queixa fonoaudiológica (ex: dificuldade na fala, voz rouca, problemas de audição, deglutição) e o impacto na vida diária." },
+    { id: "historicoDesenvolvimentoLinguagem", label: "Histórico de Desenvolvimento da Fala/Linguagem", type: "textarea", placeholder: "Marcos de desenvolvimento (balbucio, primeiras palavras, frases), idade de aquisição da fala, dificuldades observadas por pais/professores." },
+    { id: "historicoAuditivo", label: "Histórico Auditivo", type: "textarea", placeholder: "Exames auditivos prévios (resultados), infecções de ouvido recorrentes, exposição a ruídos altos, uso de aparelhos auditivos." },
+    { id: "funcoesOrofaciais", label: "Funções Orofaciais", type: "textarea", placeholder: "Padrão de mastigação, deglutição, respiração (oral/nasal), sucção (chupeta, mamadeira, dedo), bruxismo, hábitos orais nocivos." },
+    { id: "historicoVoz", label: "Histórico Vocal", type: "textarea", placeholder: "Qualidade vocal (rouquidão, soprosidade), uso profissional da voz, histórico de cirurgias na garganta, refluxo gastroesofágico." },
+    { id: "fluenciaComunicacao", label: "Fluência e Comunicação Social", type: "textarea", placeholder: "Histórico de gagueira, taquilalia. Como o paciente se comunica em diferentes ambientes (casa, escola, trabalho), interação social." },
+    { id: "escolaridadeProfissao", label: "Escolaridade/Profissão", type: "textarea", placeholder: "Desempenho escolar, dificuldades de leitura/escrita. Exigências vocais ou comunicativas da profissão." },
+    { id: "historicoSaudeGeral", label: "Histórico de Saúde Geral", type: "textarea", placeholder: "Doenças neurológicas, síndromes, alergias, uso de medicamentos que possam afetar a comunicação." },
+    { id: "expectativasTratamento", label: "Expectativas do Tratamento", type: "textarea", placeholder: "O que o paciente/família espera alcançar com a terapia fonoaudiológica?" },
+    { id: "observacoesGerais", label: "Observações Gerais do Terapeuta", type: "textarea", placeholder: "Impressões iniciais, observações sobre a fala, voz, audição e comportamento do paciente." },
   ],
   "Terapia Ocupacional": [
-    { id: "queixaPrincipal", label: "Queixa Principal", type: "textarea", placeholder: "Descreva a principal queixa relacionada à ocupação..." },
-    { id: "desenvolvimentoMotor", label: "Histórico de Desenvolvimento Motor", type: "textarea", placeholder: "Marcos motores, dificuldades de coordenação..." },
-    { id: "atividadesVidaDiaria", label: "Atividades de Vida Diária (AVDs)", type: "textarea", placeholder: "Independência em higiene, alimentação, vestuário..." },
-    { id: "interessesHobbies", label: "Interesses e Hobbies", type: "textarea", placeholder: "Atividades de lazer, preferências..." },
-    { id: "ambienteDomiciliarEscolar", label: "Ambiente Domiciliar/Escolar", type: "textarea", placeholder: "Adaptações necessárias, barreiras, apoios..." },
-    { id: "dificuldadeEscolar", label: "Dificuldade Escolar/Profissional", type: "checkbox", defaultValue: false },
+    { id: "queixaPrincipal", label: "Queixa Principal", type: "textarea", placeholder: "Descreva a principal queixa relacionada à ocupação, desempenho em atividades diárias, escolares ou profissionais." },
+    { id: "historicoDesenvolvimentoMotorCognitivo", label: "Histórico de Desenvolvimento Motor e Cognitivo", type: "textarea", placeholder: "Marcos de desenvolvimento (sentar, engatinhar, andar), coordenação motora, atenção, memória, raciocínio." },
+    { id: "atividadesVidaDiariaAVDs", label: "Atividades de Vida Diária (AVDs)", type: "textarea", placeholder: "Nível de independência em higiene pessoal, alimentação, vestuário, mobilidade funcional. Dificuldades e adaptações." },
+    { id: "atividadesInstrumentaisVidaDiariaAIVDs", label: "Atividades Instrumentais de Vida Diária (AIVDs)", type: "textarea", placeholder: "Nível de independência em tarefas como cozinhar, limpar, gerenciar finanças, usar transporte, fazer compras." },
+    { id: "brincarLazer", label: "Brincar e Lazer", type: "textarea", placeholder: "Como o paciente ocupa seu tempo livre? Interesses, hobbies, participação em atividades recreativas. Qualidade do brincar (para crianças)." },
+    { id: "escolaridadeTrabalho", label: "Escolaridade e Trabalho", type: "textarea", placeholder: "Desempenho escolar, dificuldades de aprendizado, adaptações necessárias. Histórico profissional, satisfação no trabalho, desafios." },
+    { id: "ambienteDomiciliarEscolarComunitario", label: "Ambiente Domiciliar, Escolar e Comunitário", type: "textarea", placeholder: "Descrição do ambiente físico (casa, escola, trabalho), barreiras arquitetônicas, recursos disponíveis, apoio social." },
+    { id: "interessesValores", label: "Interesses e Valores", type: "textarea", placeholder: "Quais são os interesses, motivações e valores do paciente? O que é significativo para ele?" },
+    { id: "historicoSaude", label: "Histórico de Saúde", type: "textarea", placeholder: "Condições médicas, lesões, cirurgias, uso de órteses/próteses, medicamentos que afetam o desempenho ocupacional." },
+    { id: "expectativasTratamento", label: "Expectativas do Tratamento", type: "textarea", placeholder: "O que o paciente espera alcançar com a terapia ocupacional? Quais são seus objetivos funcionais?" },
+    { id: "observacoesGerais", label: "Observações Gerais do Terapeuta", type: "textarea", placeholder: "Impressões iniciais, observações sobre o desempenho funcional, postura, coordenação e engajamento do paciente." },
   ],
   "Padrão": [ // Modelo padrão caso a especialidade não seja encontrada
+    { id: "queixaPrincipal", label: "Queixa Principal", type: "textarea", placeholder: "Descreva a principal queixa do paciente." },
+    { id: "historicoSaudeGeral", label: "Histórico de Saúde Geral", type: "textarea", placeholder: "Doenças preexistentes, cirurgias, medicamentos em uso." },
+    { id: "expectativasTratamento", label: "Expectativas do Tratamento", type: "textarea", placeholder: "O que o paciente espera alcançar com o tratamento?" },
     { id: "observacoesGerais", label: "Observações Gerais", type: "textarea", placeholder: "Nenhuma anamnese específica registrada ainda. Use este campo para observações gerais." },
   ]
 };
