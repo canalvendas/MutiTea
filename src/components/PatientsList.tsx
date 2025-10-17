@@ -18,11 +18,11 @@ export const PatientsList = ({ patients }: PatientsListProps) => {
   return (
     <div className="space-y-4">
       {patients.map((patient) => (
-        <Card key={patient.id} className="bg-white shadow-sm">
+        <Card key={patient.id} className="bg-white shadow-sm hover:shadow-md transition-shadow duration-200 cursor-pointer">
           <CardContent className="p-4 flex items-center justify-between">
             <div className="flex items-center space-x-4">
               <Avatar className="h-12 w-12">
-                <AvatarImage src={patient.avatarUrl || "/public/placeholder.svg"} alt={patient.name} />
+                <AvatarImage src={patient.avatarUrl || "/placeholder.svg"} alt={patient.name} />
                 <AvatarFallback>{patient.name.charAt(0)}</AvatarFallback>
               </Avatar>
               <div>

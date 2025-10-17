@@ -9,7 +9,7 @@ const Profile = () => {
       <ProfileHeader
         name="Dra. Marina Silva"
         specialty="Psicologia Clínica"
-        avatarUrl="/public/placeholder.svg" // Substitua pelo caminho da imagem real, se disponível
+        avatarUrl="/placeholder.svg" // Substitua pelo caminho da imagem real, se disponível
       />
       <ProfileTabs />
       <MadeWithDyad />

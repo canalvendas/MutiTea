@@ -13,7 +13,7 @@ export const ProfileHeader = ({ name, specialty, avatarUrl }: ProfileHeaderProps
     <div className="flex flex-col items-center p-6 bg-white shadow-sm rounded-lg mb-6 md:flex-row md:justify-between md:items-start">
       <div className="flex flex-col items-center md:flex-row md:items-center md:space-x-4">
         <Avatar className="h-24 w-24 mb-4 md:mb-0">
-          <AvatarImage src={avatarUrl || "/public/placeholder.svg"} alt={name} />
+          <AvatarImage src={avatarUrl || "/placeholder.svg"} alt={name} />
           <AvatarFallback>{name.charAt(0)}</AvatarFallback>
         </Avatar>
         <div className="text-center md:text-left">
