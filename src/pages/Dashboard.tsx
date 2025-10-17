@@ -39,9 +39,9 @@ const Dashboard = () => {
       <header className="flex items-center justify-between p-4 bg-white border-b border-gray-200">
         {isMobile && ( // Renderiza logo e nome apenas em mobile
           <div className="flex items-center space-x-2">
-            <img src="/public/images/terapiapp-logo.png" alt="TerapiaApp Logo" className="h-8" />
+            <img src="/public/images/terapiapp-logo.png" alt="Multi Tea Logo" className="h-8" />
             <div className="flex flex-col">
-              <span className="font-semibold text-lg">TerapiaApp</span>
+              <span className="font-semibold text-lg">Multi Tea</span>
               <span className="text-xs text-gray-500">Dra. Marina Silva</span>
             </div>
           </div>

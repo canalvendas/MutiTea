@@ -15,7 +15,7 @@ export const Sidebar = () => {
     <aside className="hidden md:flex flex-col w-64 border-r border-border bg-sidebar-background text-sidebar-foreground p-4">
       {/* Logo Section */}
       <div className="flex items-center justify-center h-16 mb-6">
-        <img src="/public/images/terapiapp-logo.png" alt="TerapiaApp Logo" className="h-10" />
+        <img src="/public/images/terapiapp-logo.png" alt="Multi Tea Logo" className="h-10" />
       </div>
 
       {/* Navigation Links */}
