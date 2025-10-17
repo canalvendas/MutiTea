@@ -48,7 +48,7 @@ export const ProfileTabs = () => {
       email: "marina.silva@multitea.com",
       phone: "(XX) XXXXX-XXXX",
       address: "Rua Exemplo, 123 - Cidade, Estado",
-      specialty: "Psicologia Clínica", // Valor inicial da especialidade
+      specialty: "Psicologia", // Valor inicial da especialidade
       crp: "CRP 00/12345",
     },
   });
@@ -150,9 +150,14 @@ export const ProfileTabs = () => {
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
-                            <SelectItem value="Psicologia Clínica">Psicologia Clínica</SelectItem>
+                            <SelectItem value="Psicologia">Psicologia</SelectItem>
                             <SelectItem value="Fonoaudiologia">Fonoaudiologia</SelectItem>
                             <SelectItem value="Terapia Ocupacional">Terapia Ocupacional</SelectItem>
+                            <SelectItem value="Psicomotricidade">Psicomotricidade</SelectItem>
+                            <SelectItem value="Psicopedagogia">Psicopedagogia</SelectItem>
+                            <SelectItem value="Musicoterapia">Musicoterapia</SelectItem>
+                            <SelectItem value="Fisioterapia">Fisioterapia</SelectItem>
+                            <SelectItem value="Nutrição">Nutrição</SelectItem>
                             <SelectItem value="Padrão">Outra / Padrão</SelectItem>
                           </SelectContent>
                         </Select>

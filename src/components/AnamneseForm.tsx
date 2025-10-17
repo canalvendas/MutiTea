@@ -39,7 +39,7 @@ interface AnamneseField {
 
 // Modelos de Anamnese por especialidade
 const anamneseModels: Record<string, AnamneseField[]> = {
-  "Psicologia Clínica": [
+  "Psicologia": [
     { id: "queixaPrincipal", label: "Queixa Principal", type: "textarea", placeholder: "Descreva a principal queixa do paciente e o que o motivou a buscar terapia neste momento..." },
     { id: "historicoQueixa", label: "Histórico da Queixa", type: "textarea", placeholder: "Quando os sintomas ou dificuldades começaram? Qual a frequência, intensidade e duração? Houve algum evento desencadeante?" },
     { id: "historicoPessoalDesenvolvimento", label: "Histórico Pessoal e Desenvolvimento", type: "textarea", placeholder: "Informações sobre gestação, parto, desenvolvimento infantil (motor, fala, social), escolaridade, vida profissional, relacionamentos significativos e eventos traumáticos." },
@@ -77,6 +77,69 @@ const anamneseModels: Record<string, AnamneseField[]> = {
     { id: "expectativasTratamento", label: "Expectativas do Tratamento", type: "textarea", placeholder: "O que o paciente espera alcançar com a terapia ocupacional? Quais são seus objetivos funcionais?" },
     { id: "observacoesGerais", label: "Observações Gerais do Terapeuta", type: "textarea", placeholder: "Impressões iniciais, observações sobre o desempenho funcional, postura, coordenação e engajamento do paciente." },
   ],
+  "Psicomotricidade": [
+    { id: "queixaPrincipal", label: "Queixa Principal", type: "textarea", placeholder: "Descreva a principal queixa psicomotora (ex: dificuldades de coordenação, equilíbrio, esquema corporal, lateralidade) e o impacto no desenvolvimento/vida diária." },
+    { id: "historicoDesenvolvimentoMotor", label: "Histórico de Desenvolvimento Motor", type: "textarea", placeholder: "Marcos do desenvolvimento motor (rolar, sentar, engatinhar, andar), quedas frequentes, dificuldades em atividades que exigem coordenação." },
+    { id: "esquemaCorporal", label: "Esquema Corporal e Imagem Corporal", type: "textarea", placeholder: "Consciência do próprio corpo, reconhecimento das partes do corpo, dificuldades em desenhar a figura humana." },
+    { id: "organizacaoEspacialTemporal", label: "Organização Espacial e Temporal", type: "textarea", placeholder: "Dificuldades em se localizar no espaço, seguir sequências, noção de antes/depois, ritmo." },
+    { id: "lateralidade", label: "Lateralidade", type: "select", options: [{value: "direita", label: "Destro"}, {value: "esquerda", label: "Canhoto"}, {value: "ambidestro", label: "Ambidestro"}, {value: "indefinida", label: "Indefinida"}], placeholder: "Selecione a lateralidade..." },
+    { id: "tonusMuscular", label: "Tônus Muscular", type: "textarea", placeholder: "Observações sobre o tônus (hipotonia, hipertonia), postura, movimentos involuntários." },
+    { id: "equilibrio", label: "Equilíbrio", type: "textarea", placeholder: "Dificuldades de equilíbrio estático e dinâmico, quedas, insegurança motora." },
+    { id: "relacaoObjetoOutro", label: "Relação com o Objeto e o Outro", type: "textarea", placeholder: "Como o paciente interage com objetos e outras pessoas através do movimento e do corpo." },
+    { id: "historicoSaudeGeral", label: "Histórico de Saúde Geral", type: "textarea", placeholder: "Doenças neurológicas, síndromes, lesões que afetam o desenvolvimento motor." },
+    { id: "expectativasTratamento", label: "Expectativas do Tratamento", type: "textarea", placeholder: "O que o paciente/família espera alcançar com a terapia psicomotora?" },
+    { id: "observacoesGerais", label: "Observações Gerais do Terapeuta", type: "textarea", placeholder: "Impressões iniciais, observações sobre o comportamento motor, emocional e social durante a sessão." },
+  ],
+  "Psicopedagogia": [
+    { id: "queixaPrincipal", label: "Queixa Principal de Aprendizagem", type: "textarea", placeholder: "Descreva as principais dificuldades de aprendizagem (ex: leitura, escrita, matemática, atenção, memória) e o impacto no desempenho escolar/vida diária." },
+    { id: "historicoEscolar", label: "Histórico Escolar", type: "textarea", placeholder: "Trajetória escolar, séries cursadas, retenções, adaptações curriculares, relacionamento com professores e colegas." },
+    { id: "historicoDesenvolvimentoCognitivo", label: "Histórico de Desenvolvimento Cognitivo", type: "textarea", placeholder: "Marcos de desenvolvimento cognitivo, atenção, memória, raciocínio lógico, resolução de problemas." },
+    { id: "ambienteFamiliarAprendizagem", label: "Ambiente Familiar e Aprendizagem", type: "textarea", placeholder: "Dinâmica familiar, apoio familiar nos estudos, expectativas dos pais, histórico de dificuldades de aprendizagem na família." },
+    { id: "ambienteEscolarAprendizagem", label: "Ambiente Escolar e Aprendizagem", type: "textarea", placeholder: "Metodologias de ensino, recursos pedagógicos, relacionamento com a escola, adaptações oferecidas." },
+    { id: "aspectosEmocionaisAprendizagem", label: "Aspectos Emocionais e Aprendizagem", type: "textarea", placeholder: "Autoestima, motivação, ansiedade, frustração, medo de errar relacionados à aprendizagem." },
+    { id: "interessesHabilidades", label: "Interesses e Habilidades", type: "textarea", placeholder: "Quais são os interesses do paciente? Quais habilidades ele demonstra fora do contexto escolar?" },
+    { id: "historicoSaudeGeral", label: "Histórico de Saúde Geral", type: "textarea", placeholder: "Doenças neurológicas, síndromes, problemas de visão/audição, uso de medicamentos que afetam a cognição." },
+    { id: "expectativasTratamento", label: "Expectativas do Tratamento", type: "textarea", placeholder: "O que o paciente/família espera alcançar com a intervenção psicopedagógica?" },
+    { id: "observacoesGerais", label: "Observações Gerais do Terapeuta", type: "textarea", placeholder: "Impressões iniciais, observações sobre o comportamento, engajamento e estratégias de aprendizagem do paciente." },
+  ],
+  "Musicoterapia": [
+    { id: "queixaPrincipal", label: "Queixa Principal", type: "textarea", placeholder: "Descreva a principal queixa ou objetivo terapêutico (ex: comunicação, expressão emocional, socialização, redução de ansiedade) e o impacto na vida diária." },
+    { id: "historicoMusical", label: "Histórico Musical", type: "textarea", placeholder: "Experiências musicais prévias (aulas, instrumentos, canto), preferências musicais, relação com a música na infância/vida adulta." },
+    { id: "respostaMusica", label: "Resposta à Música", type: "textarea", placeholder: "Como o paciente reage a diferentes tipos de música? Efeitos emocionais, físicos, cognitivos." },
+    { id: "comunicacaoExpressao", label: "Comunicação e Expressão", type: "textarea", placeholder: "Como o paciente se comunica verbalmente e não verbalmente? Dificuldades de expressão emocional, criatividade." },
+    { id: "interacaoSocial", label: "Interação Social", type: "textarea", placeholder: "Habilidades sociais, dificuldades em grupos, isolamento, como a música pode facilitar a conexão." },
+    { id: "aspectosCognitivos", label: "Aspectos Cognitivos", type: "textarea", placeholder: "Atenção, memória, concentração, organização, como a música pode influenciar essas funções." },
+    { id: "aspectosMotores", label: "Aspectos Motores", type: "textarea", placeholder: "Coordenação motora, ritmo, movimento, como a música pode auxiliar na reabilitação ou desenvolvimento motor." },
+    { id: "historicoSaudeGeral", label: "Histórico de Saúde Geral", type: "textarea", placeholder: "Condições médicas, neurológicas, psiquiátricas que possam influenciar a musicoterapia." },
+    { id: "expectativasTratamento", label: "Expectativas do Tratamento", type: "textarea", placeholder: "O que o paciente/família espera alcançar com a musicoterapia? Quais são os objetivos musicais e não musicais?" },
+    { id: "observacoesGerais", label: "Observações Gerais do Terapeuta", type: "textarea", placeholder: "Impressões iniciais, observações sobre o engajamento musical, comportamento e respostas do paciente durante a sessão." },
+  ],
+  "Fisioterapia": [
+    { id: "queixaPrincipal", label: "Queixa Principal", type: "textarea", placeholder: "Descreva a principal queixa física (ex: dor, limitação de movimento, fraqueza, dificuldade de marcha) e o impacto nas atividades diárias." },
+    { id: "historicoDoencaAtual", label: "Histórico da Doença Atual (HDA)", type: "textarea", placeholder: "Quando começou, como evoluiu, fatores que melhoram/pioram, tratamentos prévios." },
+    { id: "historicoMedicoPregresso", label: "Histórico Médico Pregresso (HMP)", type: "textarea", placeholder: "Doenças crônicas, cirurgias, traumas, alergias, uso de medicamentos." },
+    { id: "examesComplementares", label: "Exames Complementares", type: "textarea", placeholder: "Resultados de exames de imagem (Raio-X, Ressonância), laudos médicos relevantes." },
+    { id: "nivelDor", label: "Nível de Dor (Escala 0-10)", type: "number", placeholder: "0 = sem dor, 10 = pior dor imaginável" },
+    { id: "localizacaoDor", label: "Localização da Dor", type: "text", placeholder: "Onde a dor se manifesta?" },
+    { id: "caracteristicaDor", label: "Característica da Dor", type: "textarea", placeholder: "Queimação, pontada, latejante, formigamento, etc." },
+    { id: "limitacoesFuncionais", label: "Limitações Funcionais", type: "textarea", placeholder: "Dificuldades em realizar atividades como andar, levantar, vestir-se, pegar objetos." },
+    { id: "historicoSocialProfissional", label: "Histórico Social e Profissional", type: "textarea", placeholder: "Tipo de trabalho, atividades de lazer, ambiente domiciliar, apoio familiar." },
+    { id: "expectativasTratamento", label: "Expectativas do Tratamento", type: "textarea", placeholder: "O que o paciente espera alcançar com a fisioterapia? Quais são seus objetivos de reabilitação?" },
+    { id: "observacoesGerais", label: "Observações Gerais do Fisioterapeuta", type: "textarea", placeholder: "Impressões iniciais, observações sobre a postura, marcha, amplitude de movimento, força muscular durante a avaliação." },
+  ],
+  "Nutrição": [
+    { id: "queixaPrincipal", label: "Queixa Principal Nutricional", type: "textarea", placeholder: "Descreva a principal queixa ou objetivo (ex: perda/ganho de peso, controle de doenças, melhora da alimentação, desempenho esportivo)." },
+    { id: "historicoSaudeNutricional", label: "Histórico de Saúde e Nutrição", type: "textarea", placeholder: "Doenças preexistentes (diabetes, hipertensão), alergias/intolerâncias alimentares, cirurgias gastrointestinais, uso de medicamentos/suplementos." },
+    { id: "historicoFamiliarNutricional", label: "Histórico Familiar Nutricional", type: "textarea", placeholder: "Doenças crônicas na família, histórico de obesidade, diabetes, etc." },
+    { id: "rotinaAlimentar", label: "Rotina Alimentar Atual", type: "textarea", placeholder: "Descreva um dia típico de alimentação (refeições, horários, tipos de alimentos, quantidades)." },
+    { id: "preferenciasAversoes", label: "Preferências e Aversões Alimentares", type: "textarea", placeholder: "Alimentos que gosta/não gosta, restrições culturais ou religiosas." },
+    { id: "habitosIntestinais", label: "Hábitos Intestinais", type: "textarea", placeholder: "Frequência, consistência, dificuldades (constipação, diarreia)." },
+    { id: "consumoAgua", label: "Consumo de Água (Litros/dia)", type: "number", placeholder: "Quantos litros de água você bebe por dia?" },
+    { id: "atividadeFisica", label: "Atividade Física", type: "textarea", placeholder: "Tipo, frequência e duração da atividade física." },
+    { id: "aspectosEmocionaisAlimentacao", label: "Aspectos Emocionais da Alimentação", type: "textarea", placeholder: "Relação com a comida, compulsão, ansiedade, estresse." },
+    { id: "expectativasTratamento", label: "Expectativas do Tratamento", type: "textarea", placeholder: "O que o paciente espera alcançar com o acompanhamento nutricional?" },
+    { id: "observacoesGerais", label: "Observações Gerais do Nutricionista", type: "textarea", placeholder: "Impressões iniciais, observações sobre o estado nutricional, comportamento alimentar e motivação do paciente." },
+  ],
   "Padrão": [ // Modelo padrão caso a especialidade não seja encontrada
     { id: "queixaPrincipal", label: "Queixa Principal", type: "textarea", placeholder: "Descreva a principal queixa do paciente." },
     { id: "historicoSaudeGeral", label: "Histórico de Saúde Geral", type: "textarea", placeholder: "Doenças preexistentes, cirurgias, medicamentos em uso." },
@@ -99,7 +162,7 @@ export const AnamneseForm = ({ specialty }: AnamneseFormProps) => {
       if (field.type === "text" || field.type === "textarea" || field.type === "select") {
         fieldSchema = z.string().optional();
       } else if (field.type === "number") {
-        fieldSchema = z.number().optional();
+        fieldSchema = z.number().optional().or(z.literal("")); // Permite string vazia para input number
       } else if (field.type === "checkbox") {
         fieldSchema = z.boolean().optional();
       } else {
