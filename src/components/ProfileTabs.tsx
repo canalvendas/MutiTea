@@ -1,11 +1,66 @@
+"use client";
+
+import { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+import { toast } from "sonner";
+import { AnamneseForm } from "./AnamneseForm"; // Importa o novo componente
+
+// Esquema de validação para os dados cadastrais
+const profileFormSchema = z.object({
+  name: z.string().min(2, { message: "O nome deve ter pelo menos 2 caracteres." }),
+  email: z.string().email({ message: "Email inválido." }),
+  phone: z.string().optional(),
+  address: z.string().optional(),
+  specialty: z.string().min(1, { message: "Selecione uma especialidade." }),
+  crp: z.string().optional(),
+});
+
+type ProfileFormValues = z.infer<typeof profileFormSchema>;
 
 export const ProfileTabs = () => {
+  const form = useForm<ProfileFormValues>({
+    resolver: zodResolver(profileFormSchema),
+    defaultValues: {
+      name: "Dra. Marina Silva",
+      email: "marina.silva@multitea.com",
+      phone: "(XX) XXXXX-XXXX",
+      address: "Rua Exemplo, 123 - Cidade, Estado",
+      specialty: "Psicologia Clínica", // Valor inicial da especialidade
+      crp: "CRP 00/12345",
+    },
+  });
+
+  const currentSpecialty = form.watch("specialty"); // Observa a especialidade selecionada
+
+  const onSubmitProfile = (data: ProfileFormValues) => {
+    console.log("Dados Cadastrais submitted:", data);
+    toast.success("Dados cadastrais atualizados com sucesso!");
+    // Aqui você enviaria os dados para um backend
+  };
+
   return (
     <Tabs defaultValue="dados-cadastrais" className="w-full">
       <TabsList className="grid w-full grid-cols-2 md:grid-cols-5 h-auto">
@@ -23,37 +78,105 @@ export const ProfileTabs = () => {
             <CardDescription>Gerencie suas informações pessoais e profissionais.</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label htmlFor="name">Nome Completo</Label>
-                <Input id="name" defaultValue="Dra. Marina Silva" />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="email">Email</Label>
-                <Input id="email" type="email" defaultValue="marina.silva@multitea.com" />
-              </div>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label htmlFor="phone">Telefone</Label>
-                <Input id="phone" defaultValue="(XX) XXXXX-XXXX" />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="address">Endereço</Label>
-                <Input id="address" defaultValue="Rua Exemplo, 123 - Cidade, Estado" />
-              </div>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label htmlFor="specialty">Especialidade</Label>
-                <Input id="specialty" defaultValue="Psicologia Clínica" />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="crp">CRP/CRM</Label>
-                <Input id="crp" defaultValue="CRP 00/12345" />
-              </div>
-            </div>
-            <Button className="mt-4">Salvar Alterações</Button>
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(onSubmitProfile)} className="space-y-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <FormField
+                    control={form.control}
+                    name="name"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Nome Completo</FormLabel>
+                        <FormControl>
+                          <Input {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="email"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Email</FormLabel>
+                        <FormControl>
+                          <Input type="email" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <FormField
+                    control={form.control}
+                    name="phone"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Telefone</FormLabel>
+                        <FormControl>
+                          <Input {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="address"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Endereço</FormLabel>
+                        <FormControl>
+                          <Input {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <FormField
+                    control={form.control}
+                    name="specialty"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Especialidade</FormLabel>
+                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                          <FormControl>
+                            <SelectTrigger>
+                              <SelectValue placeholder="Selecione sua especialidade" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            <SelectItem value="Psicologia Clínica">Psicologia Clínica</SelectItem>
+                            <SelectItem value="Fonoaudiologia">Fonoaudiologia</SelectItem>
+                            <SelectItem value="Terapia Ocupacional">Terapia Ocupacional</SelectItem>
+                            <SelectItem value="Padrão">Outra / Padrão</SelectItem>
+                          </SelectContent>
+                        </Select>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="crp"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>CRP/CRM</FormLabel>
+                        <FormControl>
+                          <Input {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+                <Button type="submit" className="mt-4">Salvar Alterações</Button>
+              </form>
+            </Form>
           </CardContent>
         </Card>
       </TabsContent>
@@ -62,11 +185,10 @@ export const ProfileTabs = () => {
         <Card>
           <CardHeader>
             <CardTitle>Anamnese</CardTitle>
-            <CardDescription>Histórico detalhado do paciente.</CardDescription>
+            <CardDescription>Preencha o histórico detalhado do paciente de acordo com sua especialidade.</CardDescription>
           </CardHeader>
           <CardContent>
-            <Textarea placeholder="Nenhuma anamnese registrada ainda." rows={10} />
-            <Button className="mt-4">Adicionar Anamnese</Button>
+            <AnamneseForm specialty={currentSpecialty} />
           </CardContent>
         </Card>
       </TabsContent>
