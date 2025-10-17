@@ -1,0 +1,127 @@
+import { Bell, User, CalendarDays, Plus } from "lucide-react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { MadeWithDyad } from "@/components/made-with-dyad";
+
+const Dashboard = () => {
+  // Mock data for demonstration
+  const nextAppointments = [
+    {
+      id: "1",
+      name: "João Pedro Santos",
+      specialty: "Psicologia",
+      time: "09:00 - 10:00",
+      avatar: "/public/placeholder.svg", // Replace with actual image path
+    },
+    {
+      id: "2",
+      name: "Ana Clara Oliveira",
+      specialty: "Fonoaudiologia",
+      time: "10:30 - 11:30",
+      avatar: "/public/placeholder.svg", // Replace with actual image path
+    },
+    {
+      id: "3",
+      name: "Lucas Ferreira",
+      specialty: "Terapia Ocupacional",
+      time: "14:00 - 15:00",
+      avatar: "/public/placeholder.svg", // Replace with actual image path
+    },
+  ];
+
+  return (
+    <div className="min-h-screen bg-gray-50 pb-20 md:pb-0"> {/* Added padding-bottom for mobile nav */}
+      {/* Header */}
+      <header className="flex items-center justify-between p-4 bg-white border-b border-gray-200">
+        <div className="flex items-center space-x-2">
+          <img src="/public/images/terapiapp-logo.png" alt="TerapiaApp Logo" className="h-8" />
+          <div className="flex flex-col">
+            <span className="font-semibold text-lg">TerapiaApp</span>
+            <span className="text-xs text-gray-500">Dra. Marina Silva</span>
+          </div>
+        </div>
+        <div className="flex items-center space-x-4">
+          <Bell className="h-5 w-5 text-gray-600" />
+          <Avatar>
+            <AvatarImage src="/public/placeholder.svg" alt="Therapist Profile" /> {/* Replace with actual image path */}
+            <AvatarFallback>MS</AvatarFallback>
+          </Avatar>
+        </div>
+      </header>
+
+      <main className="p-4 space-y-6">
+        <h1 className="text-2xl font-bold">Dashboard</h1>
+
+        {/* Metric Cards */}
+        <div className="grid grid-cols-2 gap-4">
+          <Card className="bg-white shadow-sm">
+            <CardContent className="p-4 flex flex-col items-start">
+              <User className="h-6 w-6 text-blue-600 mb-2" />
+              <span className="text-3xl font-bold">47</span>
+              <p className="text-sm text-gray-500">Pacientes Ativos</p>
+            </CardContent>
+          </Card>
+          <Card className="bg-white shadow-sm">
+            <CardContent className="p-4 flex flex-col items-start">
+              <CalendarDays className="h-6 w-6 text-green-600 mb-2" />
+              <span className="text-3xl font-bold">12</span>
+              <p className="text-sm text-gray-500">Hoje</p>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Próximos Atendimentos */}
+        <section>
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-xl font-semibold">Próximos Atendimentos</h2>
+            <Button variant="link" className="text-blue-600 p-0 h-auto">
+              Ver todos
+            </Button>
+          </div>
+          <div className="space-y-3">
+            {nextAppointments.map((appointment) => (
+              <Card key={appointment.id} className="bg-white shadow-sm">
+                <CardContent className="p-3 flex items-center justify-between">
+                  <div className="flex items-center space-x-3">
+                    <Avatar className="h-10 w-10">
+                      <AvatarImage src={appointment.avatar} alt={appointment.name} />
+                      <AvatarFallback>{appointment.name.charAt(0)}</AvatarFallback>
+                    </Avatar>
+                    <div>
+                      <p className="font-medium">{appointment.name}</p>
+                      <p className="text-sm text-gray-500">
+                        {appointment.specialty} • {appointment.time}
+                      </p>
+                    </div>
+                  </div>
+                  <Button variant="ghost" size="icon">
+                    <Plus className="h-4 w-4 rotate-45 text-gray-400" /> {/* Using plus icon rotated for arrow */}
+                  </Button>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </section>
+
+        {/* Acesso Rápido */}
+        <section className="relative">
+          <h2 className="text-xl font-semibold mb-4">Acesso Rápido</h2>
+          {/* Placeholder for quick access items */}
+          <div className="h-24 bg-gray-100 rounded-lg flex items-center justify-center text-gray-400 text-sm">
+            Itens de acesso rápido aqui
+          </div>
+          <Button
+            size="icon"
+            className="absolute bottom-4 right-4 h-14 w-14 rounded-full shadow-lg bg-blue-600 hover:bg-blue-700"
+          >
+            <Plus className="h-6 w-6" />
+          </Button>
+        </section>
+      </main>
+      <MadeWithDyad />
+    </div>
+  );
+};
+
+export default Dashboard;
