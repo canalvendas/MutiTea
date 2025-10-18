@@ -30,6 +30,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { patientsData } from "@/data/patients";
 
 // Definição de tipos para os campos do formulário
 type AnamneseField = {
@@ -370,9 +371,20 @@ export const AnamneseForm = ({ specialty }: AnamneseFormProps) => {
           render={({ field }) => (
             <FormItem>
               <FormLabel className="font-bold text-lg">Nome do Paciente</FormLabel>
-              <FormControl>
-                <Input placeholder="Digite o nome completo do paciente" {...field} />
-              </FormControl>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Selecione um paciente" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  {patientsData.map((patient) => (
+                    <SelectItem key={patient.id} value={patient.name}>
+                      {patient.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
               <FormMessage />
             </FormItem>
           )}

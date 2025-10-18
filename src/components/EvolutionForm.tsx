@@ -22,6 +22,14 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { patientsData } from "@/data/patients";
 
 type EvolutionField = {
   id: string;
@@ -207,9 +215,20 @@ export const EvolutionForm = ({ specialty }: EvolutionFormProps) => {
           render={({ field }) => (
             <FormItem>
               <FormLabel className="font-bold text-lg">Nome do Paciente</FormLabel>
-              <FormControl>
-                <Input placeholder="Digite o nome completo do paciente" {...field} />
-              </FormControl>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Selecione um paciente" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  {patientsData.map((patient) => (
+                    <SelectItem key={patient.id} value={patient.name}>
+                      {patient.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
               <FormMessage />
             </FormItem>
           )}

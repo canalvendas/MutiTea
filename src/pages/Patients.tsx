@@ -6,41 +6,11 @@ import { Search, Plus } from "lucide-react";
 import { PatientsList } from "@/components/PatientsList";
 import { AddPatientDialog } from "@/components/AddPatientDialog";
 import { toast } from "sonner";
+import { patientsData } from "@/data/patients";
 
 const Patients = () => {
   const [isAddPatientDialogOpen, setIsAddPatientDialogOpen] = useState(false);
-  const [patients, setPatients] = useState([
-    {
-      id: "1",
-      name: "João Pedro Santos",
-      specialty: "Psicologia",
-      avatarUrl: "/public/placeholder.svg",
-    },
-    {
-      id: "2",
-      name: "Ana Clara Oliveira",
-      specialty: "Fonoaudiologia",
-      avatarUrl: "/public/placeholder.svg",
-    },
-    {
-      id: "3",
-      name: "Lucas Ferreira",
-      specialty: "Terapia Ocupacional",
-      avatarUrl: "/public/placeholder.svg",
-    },
-    {
-      id: "4",
-      name: "Mariana Costa",
-      specialty: "Psicologia",
-      avatarUrl: "/public/placeholder.svg",
-    },
-    {
-      id: "5",
-      name: "Pedro Henrique",
-      specialty: "Fonoaudiologia",
-      avatarUrl: "/public/placeholder.svg",
-    },
-  ]);
+  const [patients, setPatients] = useState(patientsData);
 
   const handleAddPatient = (name: string, specialty: string) => {
     const newPatient = {
