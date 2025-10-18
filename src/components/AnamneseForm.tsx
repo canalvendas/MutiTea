@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { toast } from "sonner";
@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -18,7 +19,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Label } from "@/components/ui/label";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import {
   Select,
   SelectContent,
@@ -28,105 +29,87 @@ import {
 } from "@/components/ui/select";
 
 // Definição de tipos para os campos do formulário
-interface AnamneseField {
+type AnamneseField = {
   id: string;
   label: string;
-  type: "text" | "textarea" | "checkbox" | "select" | "number";
+  description?: string;
+  type: "textarea" | "checkbox-group" | "radio-group" | "select" | "section-header";
   placeholder?: string;
   options?: { value: string; label: string }[];
   defaultValue?: any;
-}
+};
 
-// Modelos de Anamnese por especialidade com foco em TEA
+// --- Modelos de Anamnese por especialidade com foco em TEA ---
 const anamneseModels: Record<string, AnamneseField[]> = {
   "Psicologia": [
-    { id: "queixaPrincipal", label: "Queixa Principal / Motivo da Avaliação", type: "textarea", placeholder: "Descreva a principal queixa da família/paciente, preocupações com o desenvolvimento, comportamento, interação social, comunicação, etc." },
-    { id: "historicoDesenvolvimentoNeuropsicomotor", label: "Histórico do Desenvolvimento Neuropsicomotor", type: "textarea", placeholder: "Marcos do desenvolvimento: sorriso social, contato visual, balbucio, engatinhar, andar. Houve alguma regressão de habilidades (fala, social)?" },
-    { id: "desenvolvimentoSocialComunicacao", label: "Desenvolvimento Social e Comunicação", type: "textarea", placeholder: "Como é a interação com pares e adultos? Busca/aceita colo? Aponta para pedir/mostrar? Atende pelo nome? Uso de gestos? Contato visual é sustentado?" },
-    { id: "comportamentosInteresses", label: "Comportamentos, Interesses e Atividades", type: "textarea", placeholder: "Presença de movimentos repetitivos (flapping, balançar o corpo)? Interesses restritos e intensos? Apego a objetos inusitados? Brincar é simbólico ou repetitivo?" },
-    { id: "processamentoSensorial", label: "Processamento Sensorial", type: "textarea", placeholder: "Hipersensibilidade ou hipossensibilidade a sons, luzes, texturas, cheiros, sabores? Busca por estímulos vestibulares (girar) ou proprioceptivos (aperto)?" },
-    { id: "flexibilidadeComportamental", label: "Flexibilidade Comportamental e Rotina", type: "textarea", placeholder: "Como lida com mudanças na rotina? Presença de rituais? Dificuldade em transições? Rigidez de pensamento?" },
-    { id: "historicoFamiliar", label: "Histórico Familiar", type: "textarea", placeholder: "Casos de TEA, TDAH, ou outros transtornos do neurodesenvolvimento na família?" },
-    { id: "avaliacoesAnteriores", label: "Avaliações e Intervenções Anteriores", type: "textarea", placeholder: "Já realizou avaliações (neurológica, genética, fonoaudiológica)? Já fez ou faz alguma terapia?" },
-    { id: "expectativasTerapia", label: "Expectativas com a Terapia", type: "textarea", placeholder: "Quais são os principais objetivos da família com a avaliação/intervenção psicológica?" },
+    { id: "queixaPrincipal", label: "Queixa Principal / Motivo da Avaliação", type: "textarea", placeholder: "Descreva a principal queixa da família/paciente..." },
+    { id: "headerDesenvolvimento", label: "Histórico do Desenvolvimento", type: "section-header" },
+    { id: "marcosMotores", label: "Marcos Motores (Sustentou cabeça, sentou, engatinhou, andou)", type: "radio-group", options: [{ value: "esperado", label: "Dentro do esperado" }, { value: "atraso", label: "Atraso observado" }, { value: "nao_observado", label: "Não observado/Não sabe" }] },
+    { id: "marcosFala", label: "Marcos da Fala (Balbucio, primeiras palavras, frases)", type: "radio-group", options: [{ value: "esperado", label: "Dentro do esperado" }, { value: "atraso", label: "Atraso observado" }, { value: "regressao", label: "Houve regressão da fala" }] },
+    { id: "desfralde", label: "Desfralde", type: "radio-group", options: [{ value: "completo", label: "Completo" }, { value: "em_processo", label: "Em processo" }, { value: "nao_iniciado", label: "Não iniciado" }, { value: "dificuldades", label: "Apresenta dificuldades significativas" }] },
+    { id: "headerSocial", label: "Comunicação e Interação Social", type: "section-header" },
+    { id: "contatoVisual", label: "Contato Visual", type: "radio-group", options: [{ value: "bom", label: "Bom e sustentado" }, { value: "fugaz", label: "Fugaz/Inconsistente" }, { value: "raro", label: "Raro ou ausente" }] },
+    { id: "atendePeloNome", label: "Atende pelo nome", type: "radio-group", options: [{ value: "sempre", label: "Sim, consistentemente" }, { value: "as_vezes", label: "Às vezes/Inconsistente" }, { value: "raramente", label: "Raramente ou não" }] },
+    { id: "atencaoCompartilhada", label: "Atenção Compartilhada (Apontar, mostrar, seguir o olhar)", type: "checkbox-group", options: [{ value: "aponta_pedir", label: "Aponta para pedir" }, { value: "aponta_mostrar", label: "Aponta para mostrar interesse" }, { value: "segue_gestos", label: "Segue gestos/apontar do outro" }, { value: "dificuldade", label: "Apresenta dificuldade" }] },
+    { id: "interacaoPares", label: "Interação com Pares", type: "radio-group", options: [{ value: "inicia", label: "Inicia interação" }, { value: "responde", label: "Responde, mas não inicia" }, { value: "ignora", label: "Prefere isolar-se/Ignora" }] },
+    { id: "headerComportamento", label: "Comportamentos, Interesses e Atividades (CIRs)", type: "section-header" },
+    { id: "estereotipiasMotoras", label: "Estereotipias Motoras", type: "checkbox-group", options: [{ value: "flapping", label: "Flapping (mãos)" }, { value: "balancar_corpo", label: "Balançar o corpo" }, { value: "andar_ponta_pes", label: "Andar na ponta dos pés" }, { value: "correr_sem_objetivo", label: "Correr sem objetivo aparente" }, { value: "outros", label: "Outros" }] },
+    { id: "interesses", label: "Interesses", type: "radio-group", options: [{ value: "restritos", label: "Restritos e intensos (hiperfoco)" }, { value: "incomuns", label: "Incomuns para a idade" }, { value: "variados", label: "Variados e típicos" }] },
+    { id: "brincar", label: "Padrão de Brincar", type: "radio-group", options: [{ value: "simbolico", label: "Simbólico/Faz de conta" }, { value: "funcional", label: "Funcional (usa brinquedo para sua função)" }, { value: "repetitivo", label: "Repetitivo/Não funcional (enfileirar, girar)" }] },
+    { id: "flexibilidade", label: "Flexibilidade e Rotina", type: "checkbox-group", options: [{ value: "resistencia_mudanca", label: "Resistência a mudanças" }, { value: "necessidade_rotina", label: "Forte necessidade de rotina" }, { value: "rituais", label: "Presença de rituais" }, { value: "rigidez_pensamento", label: "Rigidez de pensamento" }] },
+    { id: "headerSensorial", label: "Processamento Sensorial", type: "section-header" },
+    { id: "sensorialAuditivo", label: "Auditivo (sons altos, ambientes ruidosos)", type: "radio-group", options: [{ value: "hiper", label: "Hipersensível (cobre os ouvidos, se incomoda)" }, { value: "hipo", label: "Hipossensível (parece não ouvir, busca sons)" }, { value: "tipico", label: "Típico" }] },
+    { id: "sensorialTatil", label: "Tátil (toque, texturas de roupas, mãos sujas)", type: "radio-group", options: [{ value: "hiper", label: "Hipersensível (evita toque, seletividade com roupas)" }, { value: "hipo", label: "Hipossensível (busca toque, não percebe dor/sujeira)" }, { value: "tipico", label: "Típico" }] },
+    { id: "sensorialVisual", label: "Visual (luzes fortes, muitos estímulos)", type: "radio-group", options: [{ value: "hiper", label: "Hipersensível (cobre os olhos, se incomoda com luz)" }, { value: "hipo", label: "Hipossensível (fascínio por luzes, objetos que giram)" }, { value: "tipico", label: "Típico" }] },
+    { id: "sensorialAlimentar", label: "Alimentar (seletividade por textura, cor, cheiro)", type: "checkbox-group", options: [{ value: "seletividade_alta", label: "Seletividade alimentar significativa" }, { value: "restricao_textura", label: "Restrição por textura" }, { value: "restricao_cor", label: "Restrição por cor/grupo alimentar" }] },
+    { id: "observacoesGerais", label: "Observações Gerais e Histórico Familiar", type: "textarea", placeholder: "Adicione aqui informações sobre histórico familiar de TEA/outros transtornos, avaliações anteriores, e outras observações pertinentes." },
   ],
   "Fonoaudiologia": [
-    { id: "queixaPrincipal", label: "Queixa Principal Fonoaudiológica", type: "textarea", placeholder: "Atraso ou ausência de fala? Dificuldades na comunicação social? Ecopraxia/Ecolalia? Seletividade alimentar?" },
-    { id: "desenvolvimentoLinguagemPreLinguistica", label: "Desenvolvimento da Linguagem (Pré-Linguística)", type: "textarea", placeholder: "Balbucio (quando começou, era variado)? Contato visual? Sorriso social? Atenção compartilhada (olhar para onde apontam)? Uso de gestos para comunicar?" },
-    { id: "desenvolvimentoLinguagemVerbal", label: "Desenvolvimento da Linguagem (Verbal)", type: "textarea", placeholder: "Primeiras palavras (com qual idade)? Formação de frases? Houve perda/regressão da fala? Presença de ecolalia (imediata/tardia)? Fala na 3ª pessoa?" },
-    { id: "pragmaticaComunicacaoSocial", label: "Pragmática e Comunicação Social", type: "textarea", placeholder: "Inicia interação? Mantém um tópico de conversa? Compreende ironias, metáforas? A prosódia (entonação) é atípica?" },
-    { id: "alimentacaoDegluticao", label: "Alimentação e Deglutição", type: "textarea", placeholder: "Seletividade alimentar (textura, cor, cheiro)? Dificuldades na mastigação? Engasgos frequentes? Uso de mamadeira/chupeta?" },
-    { id: "historicoAuditivo", label: "Histórico Auditivo", type: "textarea", placeholder: "Resultados de exames auditivos (ex: BERA). Histórico de otites. Reage a sons de forma exagerada ou parece não ouvir?" },
-    { id: "comunicacaoAlternativa", label: "Comunicação Aumentativa e Alternativa (CAA)", type: "textarea", placeholder: "Faz uso de algum sistema de CAA (PECS, pranchas de comunicação, aplicativos)?" },
-    { id: "observacoesGerais", label: "Observações Gerais do Fonoaudiólogo", type: "textarea", placeholder: "Impressões sobre a intenção comunicativa, compreensão, e aspectos orofaciais." },
+    { id: "queixaPrincipal", label: "Queixa Principal Fonoaudiológica", type: "textarea", placeholder: "Atraso ou ausência de fala? Dificuldades na comunicação social? Ecolalia? Seletividade alimentar?" },
+    { id: "headerLinguagem", label: "Desenvolvimento da Linguagem e Comunicação", type: "section-header" },
+    { id: "comunicacaoPreVerbal", label: "Comunicação Pré-Verbal", type: "checkbox-group", options: [{ value: "contato_visual", label: "Contato Visual Presente" }, { value: "atencao_compartilhada", label: "Atenção Compartilhada" }, { value: "gestos_comunicativos", label: "Uso de Gestos Comunicativos (apontar, dar tchau)" }, { value: "balbucio", label: "Balbucio (presente/ausente, variado/restrito)" }] },
+    { id: "compreensao", label: "Compreensão da Linguagem", type: "radio-group", options: [{ value: "comandos_simples", label: "Compreende comandos simples" }, { value: "comandos_complexos", label: "Compreende comandos complexos" }, { value: "contextual", label: "Compreensão depende de pistas contextuais" }, { value: "dificuldade", label: "Dificuldade significativa de compreensão" }] },
+    { id: "expressaoVerbal", label: "Expressão Verbal", type: "checkbox-group", options: [{ value: "nao_verbal", label: "Não-verbal" }, { value: "palavras_soltas", label: "Fala palavras soltas" }, { value: "frases_simples", label: "Forma frases simples (2-3 palavras)" }, { value: "frases_complexas", label: "Forma frases complexas" }] },
+    { id: "caracteristicasFala", label: "Características da Fala", type: "checkbox-group", options: [{ value: "ecolalia_imediata", label: "Ecolalia Imediata" }, { value: "ecolalia_tardia", label: "Ecolalia Tardia" }, { value: "fala_terceira_pessoa", label: "Fala em 3ª pessoa" }, { value: "prosodia_atipica", label: "Prosódia atípica (monótona, cantada)" }, { value: "inversoes_pronominais", label: "Inversões pronominais" }] },
+    { id: "pragmatica", label: "Uso Social da Linguagem (Pragmática)", type: "checkbox-group", options: [{ value: "inicia_comunicacao", label: "Inicia comunicação" }, { value: "mantem_dialogo", label: "Mantém diálogo" }, { value: "respeita_turnos", label: "Respeita turnos na conversa" }, { value: "dificuldade_topico", label: "Dificuldade em manter-se no tópico" }] },
+    { id: "headerAlimentacao", label: "Alimentação e Sistema Sensório-Motor-Oral", type: "section-header" },
+    { id: "seletividadeAlimentar", label: "Seletividade Alimentar", type: "checkbox-group", options: [{ value: "recusa_novos", label: "Recusa alimentos novos" }, { value: "restricao_textura", label: "Restrição por textura" }, { value: "restricao_cor", label: "Restrição por cor/cheiro" }, { value: "dificuldade_mastigacao", label: "Dificuldade na mastigação" }] },
+    { id: "historicoAuditivo", label: "Histórico Auditivo", type: "radio-group", options: [{ value: "exames_ok", label: "Exames auditivos normais" }, { value: "otites_recorrentes", label: "Histórico de otites de repetição" }, { value: "hiperacusia", label: "Hipersensibilidade a sons" }] },
+    { id: "observacoesFono", label: "Observações Adicionais", type: "textarea", placeholder: "Uso de CAA, resultados de avaliações anteriores, etc." },
   ],
   "Terapia Ocupacional": [
-    { id: "queixaPrincipal", label: "Queixa Principal / Demanda para TO", type: "textarea", placeholder: "Dificuldades nas AVDs (alimentação, vestuário, higiene)? Desregulação sensorial? Dificuldades motoras ou no brincar?" },
-    { id: "processamentoSensorial", label: "Perfil de Processamento Sensorial", type: "textarea", placeholder: "Descrever reações aos estímulos: Tátil (roupas, toque), Vestibular (balanços, altura), Proprioceptivo (força, pressão), Auditivo, Visual, Olfativo, Gustativo. Busca ou evita sensações?" },
-    { id: "avds", label: "Desempenho nas Atividades de Vida Diária (AVDs)", type: "textarea", placeholder: "Nível de independência em: alimentação (uso de talheres, seletividade), vestuário (vestir/despir, botões, zíperes), higiene (banho, escovar dentes, desfralde)." },
-    { id: "habilidadesMotoras", label: "Habilidades Motoras (Fina e Grossa)", type: "textarea", placeholder: "Coordenação motora fina (pegar objetos pequenos, desenhar, escrever). Coordenação motora grossa (correr, pular, equilíbrio). Presença de estereotipias motoras?" },
-    { id: "praxis", label: "Praxis (Planejamento Motor)", type: "textarea", placeholder: "Dificuldade em aprender novas tarefas motoras? Parece desajeitado? Dificuldade em imitar gestos ou sequências de movimentos?" },
-    { id: "brincar", label: "Brincar e Lazer", type: "textarea", placeholder: "Como é o brincar (exploratório, funcional, simbólico)? Brinca de forma repetitiva? Interage com outras crianças no brincar? Interesses lúdicos." },
-    { id: "desempenhoEscolar", label: "Desempenho Escolar", type: "textarea", placeholder: "Dificuldades com caligrafia, organização na mesa, atenção, permanência na cadeira, interação com colegas?" },
-    { id: "ambienteAdaptacoes", label: "Ambiente e Adaptações", type: "textarea", placeholder: "Quais adaptações já existem em casa/escola para auxiliar nas dificuldades sensoriais ou motoras?" },
+    { id: "queixaPrincipal", label: "Queixa Principal / Demanda para TO", type: "textarea", placeholder: "Dificuldades nas AVDs? Desregulação sensorial? Dificuldades motoras ou no brincar?" },
+    { id: "headerAVDS", label: "Atividades de Vida Diária (AVDs)", type: "section-header" },
+    { id: "avdAlimentacao", label: "Alimentação (uso de talheres, autonomia)", type: "radio-group", options: [{ value: "independente", label: "Independente" }, { value: "ajuda_parcial", label: "Necessita de ajuda parcial/supervisão" }, { value: "dependente", label: "Dependente" }] },
+    { id: "avdVestuario", label: "Vestuário (vestir/despir, zíperes, botões)", type: "radio-group", options: [{ value: "independente", label: "Independente" }, { value: "ajuda_parcial", label: "Necessita de ajuda parcial/supervisão" }, { value: "dependente", label: "Dependente" }] },
+    { id: "avdHigiene", label: "Higiene (banho, escovar dentes, uso do banheiro)", type: "radio-group", options: [{ value: "independente", label: "Independente" }, { value: "ajuda_parcial", label: "Necessita de ajuda parcial/supervisão" }, { value: "dependente", label: "Dependente" }] },
+    { id: "headerSensorial", label: "Perfil de Processamento Sensorial", type: "section-header" },
+    { id: "perfilSensorial", label: "Padrão Geral de Reação Sensorial", type: "radio-group", options: [{ value: "busca_sensorial", label: "Busca Sensorial (movimento constante, toca em tudo)" }, { value: "evitacao_sensorial", label: "Evitação Sensorial (resiste a estímulos)" }, { value: "baixa_responsividade", label: "Baixa Responsividade (parece não notar estímulos)" }, { value: "misto", label: "Padrão Misto" }] },
+    { id: "sistemasSensoriais", label: "Sistemas Sensoriais com Maior Disfunção", type: "checkbox-group", options: [{ value: "tatil", label: "Tátil" }, { value: "vestibular", label: "Vestibular (movimento e equilíbrio)" }, { value: "proprioceptivo", label: "Proprioceptivo (consciência corporal)" }, { value: "auditivo", label: "Auditivo" }, { value: "visual", label: "Visual" }, { value: "oral", label: "Oral/Gustativo" }] },
+    { id: "headerMotor", label: "Habilidades Motoras e Praxis", type: "section-header" },
+    { id: "coordMotoraFina", label: "Coordenação Motora Fina", type: "checkbox-group", options: [{ value: "dificuldade_lapis", label: "Dificuldade na preensão do lápis" }, { value: "dificuldade_tesoura", label: "Dificuldade com tesoura" }, { value: "dificuldade_manipulacao", label: "Dificuldade em manipular objetos pequenos" }] },
+    { id: "coordMotoraGrossa", label: "Coordenação Motora Grossa", type: "checkbox-group", options: [{ value: "desajeitado", label: "Parece 'desajeitado'" }, { value: "dificuldade_esportes", label: "Dificuldade em esportes/atividades motoras" }, { value: "equilibrio_pobre", label: "Equilíbrio pobre" }] },
+    { id: "praxis", label: "Praxis (Planejamento Motor)", type: "radio-group", options: [{ value: "bom", label: "Bom planejamento motor" }, { value: "dificuldade_ideacao", label: "Dificuldade na ideação (saber o que fazer)" }, { value: "dificuldade_execucao", label: "Dificuldade na execução (como fazer)" }] },
+    { id: "headerBrincar", label: "Brincar e Desempenho Escolar", type: "section-header" },
+    { id: "tipoBrincar", label: "Tipo de Brincar Predominante", type: "radio-group", options: [{ value: "simbolico", label: "Simbólico" }, { value: "exploratorio", label: "Exploratório" }, { value: "repetitivo", label: "Repetitivo/Restrito" }] },
+    { id: "desempenhoEscolar", label: "Principais Desafios Escolares", type: "checkbox-group", options: [{ value: "caligrafia", label: "Caligrafia" }, { value: "organizacao", label: "Organização (material, mesa)" }, { value: "atencao", label: "Atenção e permanência na tarefa" }, { value: "interacao_social", label: "Interação social com colegas" }] },
+    { id: "observacoesTO", label: "Observações Adicionais", type: "textarea", placeholder: "Adaptações já utilizadas, interesses da criança, etc." },
   ],
-  "Psicomotricidade": [
-    { id: "queixaPrincipal", label: "Queixa Principal Psicomotora", type: "textarea", placeholder: "Inquietação, agitação, falta de coordenação, 'criança desajeitada', dificuldades de equilíbrio, tônus muscular alterado (muito 'molinho' ou 'durinho')." },
-    { id: "desenvolvimentoMotor", label: "Histórico de Desenvolvimento Motor", type: "textarea", placeholder: "Marcos motores (sustentar cabeça, rolar, sentar, engatinhar, andar). Qualidade do movimento. Presença de estereotipias motoras (flapping, pular, etc.)." },
-    { id: "tonusMuscularPostura", label: "Tônus Muscular e Postura", type: "textarea", placeholder: "Apresenta hipotonia (flacidez) ou hipertonia (rigidez)? Como é a postura habitual (sentado, em pé)?" },
-    { id: "equilibrioCoordenacao", label: "Equilíbrio e Coordenação (Global e Fina)", type: "textarea", placeholder: "Cai com frequência? Dificuldade em pular, correr, andar de bicicleta? Dificuldade em manusear objetos, recortar, amarrar cadarços?" },
-    { id: "esquemaCorporalLateralidade", label: "Esquema Corporal e Lateralidade", type: "textarea", placeholder: "Reconhece partes do corpo? Dificuldade em imitar posturas? Lateralidade definida (destro/canhoto)? Confunde direita/esquerda?" },
-    { id: "organizacaoEspacoTemporal", label: "Organização Espaço-Temporal", type: "textarea", placeholder: "Parece perdido no espaço? Dificuldade com noções de antes/depois, perto/longe, dentro/fora? Dificuldade em seguir sequências rítmicas?" },
-    { id: "relacaoCorpoOutro", label: "Relação do Corpo com o Outro e com Objetos", type: "textarea", placeholder: "Como usa o corpo para se comunicar? Respeita o espaço do outro? Explora objetos de forma funcional ou sensorial?" },
-    { id: "observacoesGerais", label: "Observações Gerais do Psicomotricista", type: "textarea", placeholder: "Impressões sobre a regulação tônica, expressividade motora e a relação afetivo-emocional através do corpo." },
-  ],
-  "Psicopedagogia": [
-    { id: "queixaPrincipal", label: "Queixa Principal de Aprendizagem", type: "textarea", placeholder: "Dificuldades específicas (alfabetização, matemática, interpretação)? Desatenção? Falta de interesse? Dificuldade em generalizar o aprendizado?" },
-    { id: "historicoEscolar", label: "Histórico Escolar", type: "textarea", placeholder: "Adaptação à escola, relação com professores/colegas, necessidade de mediador, existência de um Plano de Ensino Individualizado (PEI)." },
-    { id: "funcoesExecutivas", label: "Funções Executivas", type: "textarea", placeholder: "Dificuldades de planejamento, organização (material, tarefas), memória de trabalho, flexibilidade cognitiva (dificuldade em mudar de estratégia), controle inibitório." },
-    { id: "processosCognitivos", label: "Processos Cognitivos", type: "textarea", placeholder: "Nível de atenção (sustentada, seletiva), memória, raciocínio lógico. Compreende o abstrato ou necessita de suportes concretos/visuais?" },
-    { id: "habilidadesAcademicas", label: "Habilidades Acadêmicas", type: "textarea", placeholder: "Como está o processo de leitura e escrita (hiperlexia?)? Compreensão de texto? Raciocínio matemático? Como os interesses restritos se manifestam academicamente?" },
-    { id: "aspectosComportamentaisAprendizagem", label: "Aspectos Comportamentais e Aprendizagem", type: "textarea", placeholder: "Como o perfil sensorial e a rigidez cognitiva impactam a sala de aula? Como lida com frustrações? Necessita de previsibilidade?" },
-    { id: "vinculoAprendizagem", label: "Vínculo com a Aprendizagem", type: "textarea", placeholder: "Demonstra interesse por aprender? Quais são seus hiperfocos e como podem ser usados na aprendizagem?" },
-    { id: "intervencoesAnteriores", label: "Intervenções Psicopedagógicas Anteriores", type: "textarea", placeholder: "Já teve acompanhamento psicopedagógico? Quais estratégias foram utilizadas?" },
-  ],
-  "Musicoterapia": [
-    { id: "queixaPrincipal", label: "Demanda para Musicoterapia", type: "textarea", placeholder: "Objetivos: ampliar canais de comunicação, promover interação social, regulação emocional, integração sensorial, etc." },
-    { id: "historicoMusicalSonoro", label: "Histórico Musical e Sonoro", type: "textarea", placeholder: "Preferências musicais/sonoras? Aversão a certos sons (hiperacusia)? Fascinação por objetos que produzem som? Já teve experiência musical formal?" },
-    { id: "respostasMusica", label: "Respostas à Música e ao Som", type: "textarea", placeholder: "A música acalma ou agita? Demonstra reações corporais (balançar, bater palmas)? Tenta cantar ou vocalizar junto?" },
-    { id: "comunicacaoMusical", label: "Comunicação Musical", type: "textarea", placeholder: "Usa sons ou instrumentos para se expressar? Existe diálogo sonoro (imitação, troca de turnos)? Responde a mudanças de ritmo, intensidade?" },
-    { id: "interacaoSocialMusical", label: "Interação Social no Contexto Musical", type: "textarea", placeholder: "Consegue compartilhar um instrumento? Participa de atividades musicais em grupo? Busca o terapeuta através da música?" },
-    { id: "aspectosCognitivosMusicais", label: "Aspectos Cognitivos Musicais", type: "textarea", placeholder: "A música ajuda na atenção e concentração? Consegue imitar padrões rítmicos ou melódicos?" },
-    { id: "aspectosMotoresMusicais", label: "Aspectos Motores Musicais", type: "textarea", placeholder: "Como é a coordenação ao tocar um instrumento? O ritmo influencia o movimento corporal?" },
-    { id: "expectativasMusicoterapia", label: "Expectativas com a Musicoterapia", type: "textarea", placeholder: "O que a família/paciente espera alcançar através das experiências musicais terapêuticas?" },
-  ],
-  "Fisioterapia": [
-    { id: "queixaPrincipal", label: "Queixa Principal Fisioterapêutica", type: "textarea", placeholder: "Hipotonia, marcha atípica (ponta dos pés), dificuldade de coordenação motora, baixa resistência, postura inadequada." },
-    { id: "historicoDesenvolvimentoMotor", label: "Histórico do Desenvolvimento Motor", type: "textarea", placeholder: "Atraso nos marcos motores (rolar, sentar, engatinhar, andar)? Qualidade dos movimentos era atípica?" },
-    { id: "padraoMarcha", label: "Padrão da Marcha", type: "textarea", placeholder: "Marcha em ponta de pés (idiopática)? Base alargada? Corridas desajeitadas? Quedas frequentes?" },
-    { id: "tonusMuscularForca", label: "Tônus Muscular e Força", type: "textarea", placeholder: "Presença de hipotonia geral? Dificuldade em sustentar posturas? Cansa-se facilmente em atividades físicas?" },
-    { id: "coordenacaoEquilibrioPraxis", label: "Coordenação, Equilíbrio e Praxis", type: "textarea", placeholder: "Dificuldade em atividades como pular, chutar uma bola, andar de bicicleta? Dificuldade em planejar e executar movimentos novos?" },
-    { id: "sistemaSensorialMotor", label: "Relação Sistema Sensorial e Motor", type: "textarea", placeholder: "Busca por movimentos como pular, girar, balançar para se regular? Dificuldades motoras relacionadas à sobrecarga sensorial?" },
-    { id: "historicoRespiratorio", label: "Histórico Respiratório", type: "textarea", placeholder: "Respiração oral? Histórico de doenças respiratórias de repetição?" },
-    { id: "objetivosFisioterapia", label: "Objetivos da Fisioterapia", type: "textarea", placeholder: "Melhorar a marcha, a postura, a força muscular, a coordenação para atividades funcionais." },
-  ],
-  "Nutrição": [
-    { id: "queixaPrincipal", label: "Queixa Principal Nutricional", type: "textarea", placeholder: "Seletividade alimentar extrema, recusa alimentar, dieta restritiva, problemas gastrointestinais (constipação, diarreia), suspeita de alergias." },
-    { id: "historicoAlimentar", label: "Histórico Alimentar", type: "textarea", placeholder: "Como foi a introdução alimentar? Amamentação? Uso de mamadeiras? Transição para sólidos?" },
-    { id: "padraoAlimentarAtual", label: "Padrão Alimentar Atual (Recordatório)", type: "textarea", placeholder: "Listar TODOS os alimentos e líquidos que o paciente aceita. Detalhar marcas, texturas, cores e formas, se relevante." },
-    { id: "comportamentoAlimentar", label: "Comportamento à Mesa", type: "textarea", placeholder: "Apresenta rituais durante as refeições? Necessita do mesmo prato/talher? Come apenas em um local específico? Tempo de duração das refeições?" },
-    { id: "seletividadeSensorial", label: "Seletividade de Base Sensorial", type: "textarea", placeholder: "Restrições por: Textura (crocante, pastoso), Cor (só come alimentos de uma cor), Cheiro, Temperatura, Aparência (não aceita alimentos misturados)." },
-    { id: "sintomasGastrointestinais", label: "Sintomas Gastrointestinais", type: "textarea", placeholder: "Frequência de constipação, diarreia, dor abdominal, gases, refluxo. Observa-se mudança de comportamento associada a esses sintomas?" },
-    { id: "suplementacao", label: "Uso de Suplementos ou Medicamentos", type: "textarea", placeholder: "Faz uso de alguma vitamina, mineral, ou medicamento que possa interferir na absorção de nutrientes ou apetite?" },
-    { id: "expectativasAcompanhamento", label: "Expectativas com o Acompanhamento Nutricional", type: "textarea", placeholder: "Ampliar o repertório alimentar, melhorar sintomas gastrointestinais, garantir o aporte nutricional adequado." },
-  ],
-  "Padrão": [ // Modelo padrão caso a especialidade não seja encontrada
+  // Modelos para outras especialidades podem ser adicionados aqui seguindo a mesma estrutura.
+  "Padrão": [
     { id: "queixaPrincipal", label: "Queixa Principal", type: "textarea", placeholder: "Descreva a principal queixa do paciente." },
-    { id: "historicoSaudeGeral", label: "Histórico de Saúde Geral", type: "textarea", placeholder: "Doenças preexistentes, cirurgias, medicamentos em uso." },
-    { id: "expectativasTratamento", label: "Expectativas do Tratamento", type: "textarea", placeholder: "O que o paciente espera alcançar com o tratamento?" },
     { id: "observacoesGerais", label: "Observações Gerais", type: "textarea", placeholder: "Nenhuma anamnese específica registrada ainda. Use este campo para observações gerais." },
   ]
 };
+
+// Adiciona os outros modelos que não foram reestruturados para não quebrar a aplicação
+const nonRestructuredSpecialties = ["Psicomotricidade", "Psicopedagogia", "Musicoterapia", "Fisioterapia", "Nutrição"];
+nonRestructuredSpecialties.forEach(specialty => {
+  if (!anamneseModels[specialty]) {
+    anamneseModels[specialty] = anamneseModels["Padrão"];
+  }
+});
+
 
 interface AnamneseFormProps {
   specialty: string;
@@ -135,16 +118,13 @@ interface AnamneseFormProps {
 export const AnamneseForm = ({ specialty }: AnamneseFormProps) => {
   const currentModel = anamneseModels[specialty] || anamneseModels["Padrão"];
 
-  // Cria um schema Zod dinamicamente baseado no modelo atual
   const dynamicSchema = z.object(
     currentModel.reduce((acc, field) => {
       let fieldSchema: z.ZodType<any, any, any>;
-      if (field.type === "text" || field.type === "textarea" || field.type === "select") {
+      if (field.type === "textarea" || field.type === "radio-group" || field.type === "select") {
         fieldSchema = z.string().optional();
-      } else if (field.type === "number") {
-        fieldSchema = z.number().optional().or(z.literal("")); // Permite string vazia para input number
-      } else if (field.type === "checkbox") {
-        fieldSchema = z.boolean().optional();
+      } else if (field.type === "checkbox-group") {
+        fieldSchema = z.array(z.string()).optional();
       } else {
         fieldSchema = z.any().optional();
       }
@@ -157,7 +137,7 @@ export const AnamneseForm = ({ specialty }: AnamneseFormProps) => {
   const form = useForm<AnamneseFormData>({
     resolver: zodResolver(dynamicSchema),
     defaultValues: currentModel.reduce((acc, field) => {
-      acc[field.id as keyof AnamneseFormData] = field.defaultValue !== undefined ? field.defaultValue : "";
+      acc[field.id as keyof AnamneseFormData] = field.defaultValue !== undefined ? field.defaultValue : (field.type === 'checkbox-group' ? [] : "");
       return acc;
     }, {} as AnamneseFormData),
   });
@@ -165,54 +145,86 @@ export const AnamneseForm = ({ specialty }: AnamneseFormProps) => {
   const onSubmit = (data: AnamneseFormData) => {
     console.log("Anamnese submitted:", data);
     toast.success("Anamnese salva com sucesso!");
-    // Aqui você enviaria os dados para um backend
   };
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-        {currentModel.map((field) => (
-          <FormField
-            key={field.id}
-            control={form.control}
-            name={field.id as keyof AnamneseFormData}
-            render={({ field: formField }) => (
-              <FormItem>
-                <FormLabel>{field.label}</FormLabel>
-                <FormControl>
-                  {field.type === "textarea" ? (
-                    <Textarea placeholder={field.placeholder} {...formField} rows={5} />
-                  ) : field.type === "checkbox" ? (
-                    <div className="flex items-center space-x-2">
-                      <Checkbox
-                        checked={formField.value as boolean}
-                        onCheckedChange={formField.onChange}
-                      />
-                      <Label htmlFor={field.id}>{field.label}</Label>
-                    </div>
-                  ) : field.type === "select" ? (
-                    <Select onValueChange={formField.onChange} defaultValue={formField.value as string}>
-                      <SelectTrigger>
-                        <SelectValue placeholder={field.placeholder || `Selecione ${field.label.toLowerCase()}`} />
-                      </SelectTrigger>
-                      <SelectContent>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+        {currentModel.map((field) => {
+          if (field.type === "section-header") {
+            return (
+              <div key={field.id} className="pt-4">
+                <h3 className="text-lg font-semibold text-primary border-b pb-2">{field.label}</h3>
+              </div>
+            );
+          }
+
+          return (
+            <FormField
+              key={field.id}
+              control={form.control}
+              name={field.id as keyof AnamneseFormData}
+              render={({ field: formField }) => (
+                <FormItem>
+                  <FormLabel className="font-bold">{field.label}</FormLabel>
+                  {field.description && <FormDescription>{field.description}</FormDescription>}
+                  <FormControl>
+                    {field.type === "textarea" ? (
+                      <Textarea placeholder={field.placeholder} {...formField} rows={4} />
+                    ) : field.type === "radio-group" ? (
+                      <RadioGroup
+                        onValueChange={formField.onChange}
+                        defaultValue={formField.value as string}
+                        className="flex flex-col space-y-1"
+                      >
                         {field.options?.map((option) => (
-                          <SelectItem key={option.value} value={option.value}>
-                            {option.label}
-                          </SelectItem>
+                          <FormItem key={option.value} className="flex items-center space-x-3 space-y-0">
+                            <FormControl>
+                              <RadioGroupItem value={option.value} />
+                            </FormControl>
+                            <FormLabel className="font-normal">{option.label}</FormLabel>
+                          </FormItem>
                         ))}
-                      </SelectContent>
-                    </Select>
-                  ) : (
-                    <Input type={field.type} placeholder={field.placeholder} {...formField} />
-                  )}
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        ))}
-        <Button type="submit" className="mt-4">Salvar Anamnese</Button>
+                      </RadioGroup>
+                    ) : field.type === "checkbox-group" ? (
+                      <div className="space-y-2">
+                        {field.options?.map((option) => (
+                          <Controller
+                            key={option.value}
+                            name={field.id as keyof AnamneseFormData}
+                            control={form.control}
+                            render={({ field: controllerField }) => {
+                              const fieldValue = (controllerField.value as string[] | undefined) || [];
+                              return (
+                                <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                                  <FormControl>
+                                    <Checkbox
+                                      checked={fieldValue.includes(option.value)}
+                                      onCheckedChange={(checked) => {
+                                        return checked
+                                          ? controllerField.onChange([...fieldValue, option.value])
+                                          : controllerField.onChange(fieldValue.filter((value) => value !== option.value));
+                                      }}
+                                    />
+                                  </FormControl>
+                                  <FormLabel className="font-normal">{option.label}</FormLabel>
+                                </FormItem>
+                              );
+                            }}
+                          />
+                        ))}
+                      </div>
+                    ) : (
+                      <Input placeholder={field.placeholder} {...formField} />
+                    )}
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          );
+        })}
+        <Button type="submit" className="mt-6">Salvar Anamnese</Button>
       </form>
     </Form>
   );
