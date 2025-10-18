@@ -28,6 +28,7 @@ import * as z from "zod";
 import { toast } from "sonner";
 import { AnamneseForm } from "./AnamneseForm";
 import { ProfileData } from "@/pages/Profile";
+import { EvolutionForm } from "./EvolutionForm";
 
 // Esquema de validação para os dados cadastrais
 const profileFormSchema = z.object({
@@ -218,12 +219,11 @@ export const ProfileTabs = ({ isEditing, setIsEditing, profileData, setProfileDa
       <TabsContent value="evolucao" className="mt-4">
         <Card>
           <CardHeader>
-            <CardTitle>Evolução</CardTitle>
-            <CardDescription>Registros de progresso e evolução do tratamento.</CardDescription>
+            <CardTitle>Registro de Evolução</CardTitle>
+            <CardDescription>Documente o progresso da sessão utilizando o modelo SOAP.</CardDescription>
           </CardHeader>
           <CardContent>
-            <p className="text-muted-foreground">Nenhum registro de evolução ainda.</p>
-            <Button className="mt-4">Adicionar Evolução</Button>
+            <EvolutionForm specialty={currentSpecialty} />
           </CardContent>
         </Card>
       </TabsContent>
