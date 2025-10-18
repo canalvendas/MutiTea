@@ -40,7 +40,12 @@ const profileFormSchema = z.object({
 
 type ProfileFormValues = z.infer<typeof profileFormSchema>;
 
-export const ProfileTabs = () => {
+interface ProfileTabsProps {
+  isEditing: boolean;
+  setIsEditing: (isEditing: boolean) => void;
+}
+
+export const ProfileTabs = ({ isEditing, setIsEditing }: ProfileTabsProps) => {
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(profileFormSchema),
     defaultValues: {
@@ -58,7 +63,13 @@ export const ProfileTabs = () => {
   const onSubmitProfile = (data: ProfileFormValues) => {
     console.log("Dados Cadastrais submitted:", data);
     toast.success("Dados cadastrais atualizados com sucesso!");
+    setIsEditing(false);
     // Aqui você enviaria os dados para um backend
+  };
+
+  const handleCancel = () => {
+    form.reset(); // Reseta o formulário para os valores iniciais
+    setIsEditing(false); // Sai do modo de edição
   };
 
   return (
@@ -88,7 +99,7 @@ export const ProfileTabs = () => {
                       <FormItem>
                         <FormLabel>Nome Completo</FormLabel>
                         <FormControl>
-                          <Input {...field} />
+                          <Input {...field} disabled={!isEditing} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -101,7 +112,7 @@ export const ProfileTabs = () => {
                       <FormItem>
                         <FormLabel>Email</FormLabel>
                         <FormControl>
-                          <Input type="email" {...field} />
+                          <Input type="email" {...field} disabled={!isEditing} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -116,7 +127,7 @@ export const ProfileTabs = () => {
                       <FormItem>
                         <FormLabel>Telefone</FormLabel>
                         <FormControl>
-                          <Input {...field} />
+                          <Input {...field} disabled={!isEditing} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -129,7 +140,7 @@ export const ProfileTabs = () => {
                       <FormItem>
                         <FormLabel>Endereço</FormLabel>
                         <FormControl>
-                          <Input {...field} />
+                          <Input {...field} disabled={!isEditing} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -143,7 +154,7 @@ export const ProfileTabs = () => {
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Especialidade</FormLabel>
-                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <Select onValueChange={field.onChange} defaultValue={field.value} disabled={!isEditing}>
                           <FormControl>
                             <SelectTrigger>
                               <SelectValue placeholder="Selecione sua especialidade" />
@@ -172,14 +183,21 @@ export const ProfileTabs = () => {
                       <FormItem>
                         <FormLabel>CRP/CRM</FormLabel>
                         <FormControl>
-                          <Input {...field} />
+                          <Input {...field} disabled={!isEditing} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
                     )}
                   />
                 </div>
-                <Button type="submit" className="mt-4">Salvar Alterações</Button>
+                {isEditing && (
+                  <div className="flex space-x-2 pt-2">
+                    <Button type="submit">Salvar Alterações</Button>
+                    <Button variant="outline" type="button" onClick={handleCancel}>
+                      Cancelar
+                    </Button>
+                  </div>
+                )}
               </form>
             </Form>
           </CardContent>

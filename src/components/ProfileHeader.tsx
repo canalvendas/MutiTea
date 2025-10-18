@@ -6,9 +6,11 @@ interface ProfileHeaderProps {
   name: string;
   specialty: string;
   avatarUrl?: string;
+  isEditing: boolean;
+  setIsEditing: (isEditing: boolean) => void;
 }
 
-export const ProfileHeader = ({ name, specialty, avatarUrl }: ProfileHeaderProps) => {
+export const ProfileHeader = ({ name, specialty, avatarUrl, isEditing, setIsEditing }: ProfileHeaderProps) => {
   return (
     <div className="flex flex-col items-center p-6 bg-white shadow-sm rounded-lg mb-6 md:flex-row md:justify-between md:items-start">
       <div className="flex flex-col items-center md:flex-row md:items-center md:space-x-4">
@@ -22,15 +24,19 @@ export const ProfileHeader = ({ name, specialty, avatarUrl }: ProfileHeaderProps
         </div>
       </div>
       <div className="flex space-x-2 mt-4 md:mt-0">
-        <Button variant="outline" size="sm">
-          <Edit className="h-4 w-4 mr-2" /> Editar
-        </Button>
-        <Button variant="outline" size="sm">
-          <Share2 className="h-4 w-4 mr-2" /> Compartilhar
-        </Button>
-        <Button variant="destructive" size="sm">
-          <Archive className="h-4 w-4 mr-2" /> Arquivar
-        </Button>
+        {!isEditing && (
+          <>
+            <Button variant="outline" size="sm" onClick={() => setIsEditing(true)}>
+              <Edit className="h-4 w-4 mr-2" /> Editar
+            </Button>
+            <Button variant="outline" size="sm">
+              <Share2 className="h-4 w-4 mr-2" /> Compartilhar
+            </Button>
+            <Button variant="destructive" size="sm">
+              <Archive className="h-4 w-4 mr-2" /> Arquivar
+            </Button>
+          </>
+        )}
       </div>
     </div>
   );
