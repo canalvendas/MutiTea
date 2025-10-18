@@ -285,8 +285,9 @@ export const AnamneseForm = ({ specialty }: AnamneseFormProps) => {
   const formRef = useRef<HTMLFormElement>(null);
   const currentModel = anamneseModels[specialty] || anamneseModels["Padrão"];
 
-  const dynamicSchema = z.object(
-    currentModel.reduce((acc, field) => {
+  const dynamicSchema = z.object({
+    patientName: z.string().min(1, { message: "O nome do paciente é obrigatório." }),
+    ...currentModel.reduce((acc, field) => {
       let fieldSchema: z.ZodType<any, any, any>;
       if (field.type === "textarea" || field.type === "radio-group" || field.type === "select") {
         fieldSchema = z.string().optional();
@@ -297,16 +298,19 @@ export const AnamneseForm = ({ specialty }: AnamneseFormProps) => {
       }
       return { ...acc, [field.id]: fieldSchema };
     }, {})
-  );
+  });
 
   type AnamneseFormData = z.infer<typeof dynamicSchema>;
 
   const form = useForm<AnamneseFormData>({
     resolver: zodResolver(dynamicSchema),
-    defaultValues: currentModel.reduce((acc, field) => {
-      acc[field.id as keyof AnamneseFormData] = field.defaultValue !== undefined ? field.defaultValue : (field.type === 'checkbox-group' ? [] : "");
-      return acc;
-    }, {} as AnamneseFormData),
+    defaultValues: {
+      patientName: "",
+      ...currentModel.reduce((acc, field) => {
+        acc[field.id as keyof AnamneseFormData] = field.defaultValue !== undefined ? field.defaultValue : (field.type === 'checkbox-group' ? [] : "");
+        return acc;
+      }, {} as any),
+    }
   });
 
   const onSubmit = (data: AnamneseFormData) => {
@@ -316,6 +320,11 @@ export const AnamneseForm = ({ specialty }: AnamneseFormProps) => {
 
   const handleDownloadPDF = () => {
     if (!formRef.current) return;
+    const patientName = form.getValues("patientName") || "Paciente";
+    if (!patientName.trim()) {
+      toast.error("Por favor, preencha o nome do paciente antes de baixar o PDF.");
+      return;
+    }
     toast.info("Gerando PDF da Anamnese...");
 
     const buttons = formRef.current.querySelector('.form-buttons') as HTMLElement;
@@ -343,7 +352,7 @@ export const AnamneseForm = ({ specialty }: AnamneseFormProps) => {
             pdf.addImage(imgData, 'PNG', 0, position, pdfWidth, height);
             heightLeft -= pdfHeight;
         }
-        pdf.save(`Anamnese_${specialty}.pdf`);
+        pdf.save(`Anamnese_${specialty}_${patientName.replace(/\s+/g, '_')}.pdf`);
         toast.success("PDF da Anamnese gerado com sucesso!");
     }).catch(err => {
         if (buttons) buttons.style.display = 'flex';
@@ -355,6 +364,20 @@ export const AnamneseForm = ({ specialty }: AnamneseFormProps) => {
   return (
     <Form {...form}>
       <form ref={formRef} onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+        <FormField
+          control={form.control}
+          name="patientName"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className="font-bold text-lg">Nome do Paciente</FormLabel>
+              <FormControl>
+                <Input placeholder="Digite o nome completo do paciente" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <hr/>
         {currentModel.map((field) => {
           if (field.type === "section-header") {
             return (

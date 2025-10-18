@@ -118,25 +118,29 @@ export const EvolutionForm = ({ specialty }: EvolutionFormProps) => {
   const formRef = useRef<HTMLFormElement>(null);
   const currentModel = evolutionModels[specialty] || evolutionModels["Padrão"];
 
-  const dynamicSchema = z.object(
-    currentModel.reduce((acc, field) => {
+  const dynamicSchema = z.object({
+    patientName: z.string().min(1, { message: "O nome do paciente é obrigatório." }),
+    ...currentModel.reduce((acc, field) => {
       if (field.type !== "section-header") {
         return { ...acc, [field.id]: z.string().optional() };
       }
       return acc;
     }, {})
-  );
+  });
 
   type EvolutionFormData = z.infer<typeof dynamicSchema>;
 
   const form = useForm<EvolutionFormData>({
     resolver: zodResolver(dynamicSchema),
-    defaultValues: currentModel.reduce((acc, field) => {
-      if (field.type !== "section-header") {
-        acc[field.id as keyof EvolutionFormData] = field.defaultValue || "";
-      }
-      return acc;
-    }, {} as EvolutionFormData),
+    defaultValues: {
+      patientName: "",
+      ...currentModel.reduce((acc, field) => {
+        if (field.type !== "section-header") {
+          acc[field.id as keyof EvolutionFormData] = field.defaultValue || "";
+        }
+        return acc;
+      }, {} as any),
+    }
   });
 
   const handleSuggestionClick = (fieldName: keyof EvolutionFormData, suggestion: string) => {
@@ -152,6 +156,12 @@ export const EvolutionForm = ({ specialty }: EvolutionFormProps) => {
 
   const handleDownloadPDF = () => {
     if (!formRef.current) return;
+    const patientName = form.getValues("patientName") || "Paciente";
+    if (!patientName.trim()) {
+      toast.error("Por favor, preencha o nome do paciente antes de baixar o PDF.");
+      return;
+    }
+    const sessionDate = form.getValues("sessionDate") || new Date().toISOString().split('T')[0];
     toast.info("Gerando PDF da Evolução...");
     
     const buttons = formRef.current.querySelector('.form-buttons') as HTMLElement;
@@ -179,7 +189,7 @@ export const EvolutionForm = ({ specialty }: EvolutionFormProps) => {
             pdf.addImage(imgData, 'PNG', 0, position, pdfWidth, height);
             heightLeft -= pdfHeight;
         }
-        pdf.save(`Evolucao_${specialty}.pdf`);
+        pdf.save(`Evolucao_${specialty}_${patientName.replace(/\s+/g, '_')}_${sessionDate}.pdf`);
         toast.success("PDF da Evolução gerado com sucesso!");
     }).catch(err => {
         if (buttons) buttons.style.display = 'flex';
@@ -191,6 +201,20 @@ export const EvolutionForm = ({ specialty }: EvolutionFormProps) => {
   return (
     <Form {...form}>
       <form ref={formRef} onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+        <FormField
+          control={form.control}
+          name="patientName"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className="font-bold text-lg">Nome do Paciente</FormLabel>
+              <FormControl>
+                <Input placeholder="Digite o nome completo do paciente" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <hr/>
         {currentModel.map((field) => {
           if (field.type === "section-header") {
             return (
