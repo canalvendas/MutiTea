@@ -3,9 +3,6 @@
 import { useState, useEffect } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import {
   Select,
@@ -29,6 +26,8 @@ import { toast } from "sonner";
 import { AnamneseForm } from "./AnamneseForm";
 import { ProfileData } from "@/pages/Profile";
 import { EvolutionForm } from "./EvolutionForm";
+import { TherapeuticPlanForm } from "./TherapeuticPlanForm";
+import { Input } from "@/components/ui/input";
 
 // Esquema de validação para os dados cadastrais
 const profileFormSchema = z.object({
@@ -248,8 +247,7 @@ export const ProfileTabs = ({ isEditing, setIsEditing, profileData, setProfileDa
             <CardDescription>Defina e acompanhe o plano de tratamento.</CardDescription>
           </CardHeader>
           <CardContent>
-            <Textarea placeholder="Nenhum plano terapêutico definido ainda." rows={10} />
-            <Button className="mt-4">Salvar Plano</Button>
+            <TherapeuticPlanForm specialty={currentSpecialty} />
           </CardContent>
         </Card>
       </TabsContent>
