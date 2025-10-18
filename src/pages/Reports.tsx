@@ -38,25 +38,25 @@ const Reports = () => {
   });
 
   return (
-    <div className="min-h-screen bg-gray-50 p-4 pb-20 md:pb-0 flex-1">
-      <h1 className="text-3xl font-bold mb-6">Relatórios</h1>
+    <div className="min-h-screen bg-background p-6 pb-20 md:pb-0 flex-1">
+      <h1 className="text-3xl font-bold mb-8">Relatórios</h1>
 
-      <div className="flex flex-col md:flex-row items-center justify-between mb-6 space-y-4 md:space-y-0 md:space-x-4">
+      <div className="flex flex-col md:flex-row items-center justify-between mb-8 space-y-4 md:space-y-0 md:space-x-4">
         <DateRangePicker date={dateRange} setDate={setDateRange} />
         {/* Adicionar botões de filtro ou exportação aqui, se necessário */}
       </div>
 
       {/* Metric Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-        <Card className="bg-white shadow-sm hover:shadow-md transition-shadow duration-200">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <Card className="bg-card shadow-sm hover:shadow-lg transition-shadow duration-300">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">
               Total de Atendimentos
             </CardTitle>
-            <CalendarDays className="h-4 w-4 text-muted-foreground" />
+            <CalendarDays className="h-5 w-5 text-primary" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">
+            <div className="text-3xl font-bold">
               {mockReportData.totalAppointments}
             </div>
             <p className="text-xs text-muted-foreground">
@@ -65,15 +65,15 @@ const Reports = () => {
           </CardContent>
         </Card>
 
-        <Card className="bg-white shadow-sm hover:shadow-md transition-shadow duration-200">
+        <Card className="bg-card shadow-sm hover:shadow-lg transition-shadow duration-300">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">
               Pacientes Ativos
             </CardTitle>
-            <Users className="h-4 w-4 text-muted-foreground" />
+            <Users className="h-5 w-5 text-primary" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">
+            <div className="text-3xl font-bold">
               {mockReportData.activePatients}
             </div>
             <p className="text-xs text-muted-foreground">
@@ -82,15 +82,15 @@ const Reports = () => {
           </CardContent>
         </Card>
 
-        <Card className="bg-white shadow-sm hover:shadow-md transition-shadow duration-200">
+        <Card className="bg-card shadow-sm hover:shadow-lg transition-shadow duration-300">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">
               Receita Estimada
             </CardTitle>
-            <DollarSign className="h-4 w-4 text-muted-foreground" />
+            <DollarSign className="h-5 w-5 text-primary" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">
+            <div className="text-3xl font-bold">
               R$ {mockReportData.estimatedRevenue.toFixed(2)}
             </div>
             <p className="text-xs text-muted-foreground">
@@ -101,19 +101,24 @@ const Reports = () => {
       </div>
 
       {/* Appointments by Month Chart */}
-      <Card className="bg-white shadow-sm hover:shadow-md transition-shadow duration-200">
+      <Card className="bg-card shadow-sm hover:shadow-lg transition-shadow duration-300">
         <CardHeader>
           <CardTitle>Atendimentos por Mês</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="h-[300px]">
+          <div className="h-[350px] w-full">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={mockReportData.appointmentsByMonth}>
-                <CartesianGrid strokeDasharray="3 3" />
+                <CartesianGrid strokeDasharray="3 3" vertical={false} />
                 <XAxis dataKey="name" />
                 <YAxis />
-                <Tooltip />
-                <Bar dataKey="atendimentos" fill="#8884d8" />
+                <Tooltip
+                  contentStyle={{
+                    borderRadius: "0.5rem",
+                    border: "1px solid hsl(var(--border))",
+                  }}
+                />
+                <Bar dataKey="atendimentos" fill="hsl(var(--primary))" radius={[4, 4, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </div>

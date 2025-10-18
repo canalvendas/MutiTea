@@ -18,20 +18,20 @@ export const PatientsList = ({ patients }: PatientsListProps) => {
   return (
     <div className="space-y-4">
       {patients.map((patient) => (
-        <Card key={patient.id} className="bg-white shadow-sm hover:shadow-md transition-shadow duration-200 cursor-pointer">
+        <Card key={patient.id} className="bg-card shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 cursor-pointer">
           <CardContent className="p-4 flex items-center justify-between">
             <div className="flex items-center space-x-4">
-              <Avatar className="h-12 w-12">
+              <Avatar className="h-14 w-14">
                 <AvatarImage src={patient.avatarUrl || "/placeholder.svg"} alt={patient.name} />
                 <AvatarFallback>{patient.name.charAt(0)}</AvatarFallback>
               </Avatar>
               <div>
-                <p className="font-medium text-lg">{patient.name}</p>
-                <p className="text-sm text-gray-500">{patient.specialty}</p>
+                <p className="font-semibold text-lg">{patient.name}</p>
+                <p className="text-sm text-muted-foreground">{patient.specialty}</p>
               </div>
             </div>
-            <Button variant="ghost" size="icon">
-              <MoreVertical className="h-5 w-5 text-gray-500" />
+            <Button variant="ghost" size="icon" className="rounded-full">
+              <MoreVertical className="h-5 w-5 text-muted-foreground" />
             </Button>
           </CardContent>
         </Card>
