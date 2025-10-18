@@ -46,7 +46,7 @@ export const Logo = ({ className, size = 'md' }: LogoProps) => {
           isSmall ? 'text-xl' : 'text-2xl'
         )}
       >
-        Terapiapp
+        MultiTea
       </span>
     </div>
   );
