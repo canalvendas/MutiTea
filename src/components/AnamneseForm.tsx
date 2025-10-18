@@ -95,20 +95,73 @@ const anamneseModels: Record<string, AnamneseField[]> = {
     { id: "desempenhoEscolar", label: "Principais Desafios Escolares", type: "checkbox-group", options: [{ value: "caligrafia", label: "Caligrafia" }, { value: "organizacao", label: "Organização (material, mesa)" }, { value: "atencao", label: "Atenção e permanência na tarefa" }, { value: "interacao_social", label: "Interação social com colegas" }] },
     { id: "observacoesTO", label: "Observações Adicionais", type: "textarea", placeholder: "Adaptações já utilizadas, interesses da criança, etc." },
   ],
-  // Modelos para outras especialidades podem ser adicionados aqui seguindo a mesma estrutura.
+  "Psicomotricidade": [
+    { id: "queixaPrincipal", label: "Queixa Principal Psicomotora", type: "textarea", placeholder: "Inquietação, agitação, falta de coordenação, dificuldades de equilíbrio, tônus muscular alterado..." },
+    { id: "headerDesenvolvimentoMotor", label: "Desenvolvimento Motor", type: "section-header" },
+    { id: "marcosMotores", label: "Marcos Motores", type: "radio-group", options: [{ value: "atraso", label: "Atraso observado" }, { value: "esperado", label: "Dentro do esperado" }] },
+    { id: "estereotipiasMotoras", label: "Estereotipias Motoras Observadas", type: "checkbox-group", options: [{ value: "flapping", label: "Flapping" }, { value: "balancar_corpo", label: "Balançar corpo" }, { value: "ponta_pes", label: "Andar na ponta dos pés" }, { value: "correr_sem_objetivo", label: "Correr sem objetivo" }] },
+    { id: "headerTonusPostura", label: "Tônus e Postura", type: "section-header" },
+    { id: "tonusMuscular", label: "Tônus Muscular", type: "radio-group", options: [{ value: "hipotonia", label: "Hipotonia" }, { value: "hipertonia", label: "Hipertonia" }, { value: "normotonia", label: "Normotonia" }, { value: "flutuante", label: "Flutuante" }] },
+    { id: "postura", label: "Postura", type: "checkbox-group", options: [{ value: "curvada", label: "Curvada" }, { value: "instavel", label: "Instável" }, { value: "rigida", label: "Rígida" }] },
+    { id: "headerCoordenacaoEquilibrio", label: "Coordenação e Equilíbrio", type: "section-header" },
+    { id: "coordenacaoGrossa", label: "Coordenação Grossa", type: "checkbox-group", options: [{ value: "desajeitado", label: "Desajeitado" }, { value: "quedas_frequentes", label: "Quedas frequentes" }, { value: "dificuldade_esportes", label: "Dificuldade em esportes" }] },
+    { id: "equilibrio", label: "Equilíbrio", type: "radio-group", options: [{ value: "bom", label: "Bom" }, { value: "regular", label: "Regular" }, { value: "pobre", label: "Pobre" }] },
+    { id: "headerEsquemaCorporal", label: "Esquema Corporal e Lateralidade", type: "section-header" },
+    { id: "conscienciaCorporal", label: "Consciência Corporal", type: "radio-group", options: [{ value: "boa", label: "Boa" }, { value: "dificuldade_nomear", label: "Dificuldade em nomear/localizar partes" }, { value: "dificuldade_imitar", label: "Dificuldade em imitar" }] },
+    { id: "lateralidade", label: "Lateralidade", type: "radio-group", options: [{ value: "destro", label: "Definida (Destro)" }, { value: "canhoto", label: "Definida (Canhoto)" }, { value: "cruzada", label: "Cruzada" }, { value: "nao_definida", label: "Não definida" }] },
+    { id: "observacoesPsicomotricidade", label: "Observações Adicionais", type: "textarea", placeholder: "Outras observações pertinentes..." },
+  ],
+  "Psicopedagogia": [
+    { id: "queixaPrincipal", label: "Queixa Principal de Aprendizagem", type: "textarea", placeholder: "Dificuldades específicas (alfabetização, matemática), desatenção, falta de interesse..." },
+    { id: "headerHistoricoEscolar", label: "Histórico Escolar", type: "section-header" },
+    { id: "adaptacaoEscolar", label: "Adaptação Escolar", type: "radio-group", options: [{ value: "boa", label: "Boa" }, { value: "dificuldades_iniciais", label: "Com dificuldades iniciais" }, { value: "dificil_resistente", label: "Difícil/Resistente" }] },
+    { id: "suporteEscolar", label: "Suporte Escolar Recebido", type: "checkbox-group", options: [{ value: "mediador", label: "Mediador em sala" }, { value: "pei", label: "PEI (Plano de Ensino Individualizado)" }, { value: "adaptacoes", label: "Adaptações curriculares" }] },
+    { id: "headerFuncoesExecutivas", label: "Funções Executivas", type: "section-header" },
+    { id: "dificuldadesExecutivas", label: "Dificuldades Observadas", type: "checkbox-group", options: [{ value: "planejamento", label: "Planejamento" }, { value: "organizacao", label: "Organização" }, { value: "iniciar_finalizar_tarefas", label: "Iniciar/Finalizar tarefas" }, { value: "flexibilidade_cognitiva", label: "Flexibilidade cognitiva" }, { value: "controle_inibitorio", label: "Controle inibitório" }] },
+    { id: "headerHabilidadesAcademicas", label: "Habilidades Acadêmicas", type: "section-header" },
+    { id: "leituraEscrita", label: "Leitura e Escrita", type: "checkbox-group", options: [{ value: "dificuldade_alfabetizacao", label: "Dificuldade na alfabetização" }, { value: "hiperlexia", label: "Leitura não compreensiva (Hiperlexia)" }, { value: "dificuldade_caligrafia", label: "Dificuldade na caligrafia" }] },
+    { id: "matematica", label: "Matemática", type: "checkbox-group", options: [{ value: "conceitos_numericos", label: "Dificuldade com conceitos numéricos" }, { value: "calculo", label: "Dificuldade em cálculo" }, { value: "resolucao_problemas", label: "Dificuldade em resolução de problemas" }] },
+    { id: "observacoesPsicopedagogia", label: "Observações Adicionais", type: "textarea", placeholder: "Outras observações pertinentes..." },
+  ],
+  "Musicoterapia": [
+    { id: "demandaMusicoterapia", label: "Demanda para Musicoterapia", type: "textarea", placeholder: "Objetivos: ampliar comunicação, promover interação, regulação emocional..." },
+    { id: "headerPerfilSonoro", label: "Perfil Sonoro-Musical", type: "section-header" },
+    { id: "sensibilidadeAuditiva", label: "Sensibilidade Auditiva", type: "radio-group", options: [{ value: "hipersensivel", label: "Hipersensível" }, { value: "hipossensivel", label: "Hipossensível" }, { value: "tipica", label: "Típica" }] },
+    { id: "preferenciasSonoras", label: "Preferências Sonoras", type: "checkbox-group", options: [{ value: "musicas_calmas", label: "Músicas calmas" }, { value: "musicas_agitadas", label: "Músicas agitadas" }, { value: "sons_natureza", label: "Sons da natureza" }, { value: "sons_objetos", label: "Sons de objetos" }, { value: "silencio", label: "Silêncio" }] },
+    { id: "headerRespostasMusica", label: "Respostas à Música", type: "section-header" },
+    { id: "reacoesObservadas", label: "Reações Observadas", type: "checkbox-group", options: [{ value: "acalma", label: "Acalma-se" }, { value: "agita", label: "Agita-se" }, { value: "vocaliza", label: "Vocaliza/Canta junto" }, { value: "movimenta_corpo", label: "Movimenta o corpo" }, { value: "demonstra_emocoes", label: "Demonstra emoções" }] },
+    { id: "interacaoMusical", label: "Interação Musical", type: "checkbox-group", options: [{ value: "explora_instrumentos", label: "Explora instrumentos" }, { value: "imita_ritmos", label: "Imita ritmos/sons" }, { value: "inicia_interacao", label: "Inicia interação sonora" }, { value: "compartilha_instrumentos", label: "Compartilha instrumentos" }] },
+    { id: "observacoesMusicoterapia", label: "Observações Adicionais", type: "textarea", placeholder: "Outras observações pertinentes..." },
+  ],
+  "Fisioterapia": [
+    { id: "queixaFisioterapeutica", label: "Queixa Principal Fisioterapêutica", type: "textarea", placeholder: "Hipotonia, marcha atípica, dificuldade de coordenação, baixa resistência..." },
+    { id: "headerDesenvolvimentoMotor", label: "Desenvolvimento Motor", type: "section-header" },
+    { id: "marcosMotores", label: "Marcos Motores", type: "radio-group", options: [{ value: "atraso", label: "Atraso observado" }, { value: "esperado", label: "Dentro do esperado" }] },
+    { id: "headerPadraoMarcha", label: "Padrão de Marcha", type: "section-header" },
+    { id: "caracteristicasMarcha", label: "Características da Marcha", type: "checkbox-group", options: [{ value: "ponta_pes", label: "Marcha na ponta dos pés" }, { value: "base_alargada", label: "Base alargada" }, { value: "instavel_quedas", label: "Instável/Quedas frequentes" }, { value: "corridas_desajeitadas", label: "Corridas desajeitadas" }] },
+    { id: "headerTonusForca", label: "Tônus e Força Muscular", type: "section-header" },
+    { id: "tonusMuscular", label: "Tônus Muscular", type: "radio-group", options: [{ value: "hipotonia", label: "Hipotonia" }, { value: "hipertonia", label: "Hipertonia" }, { value: "normotonia", label: "Normotonia" }] },
+    { id: "forcaMuscular", label: "Força Muscular", type: "radio-group", options: [{ value: "preservada", label: "Preservada" }, { value: "reduzida_geral", label: "Reduzida (geral)" }, { value: "reduzida_segmentar", label: "Reduzida (segmentar)" }] },
+    { id: "headerCoordenacaoEquilibrio", label: "Coordenação e Equilíbrio", type: "section-header" },
+    { id: "dificuldadesMotoras", label: "Dificuldades Motoras", type: "checkbox-group", options: [{ value: "pular", label: "Pular" }, { value: "chutar_bola", label: "Chutar bola" }, { value: "subir_escadas", label: "Subir/descer escadas" }, { value: "andar_bicicleta", label: "Andar de bicicleta" }] },
+    { id: "observacoesFisioterapia", label: "Observações Adicionais", type: "textarea", placeholder: "Outras observações pertinentes..." },
+  ],
+  "Nutrição": [
+    { id: "queixaNutricional", label: "Queixa Principal Nutricional", type: "textarea", placeholder: "Seletividade alimentar extrema, recusa alimentar, problemas gastrointestinais..." },
+    { id: "headerComportamentoAlimentar", label: "Comportamento Alimentar", type: "section-header" },
+    { id: "padraoAlimentar", label: "Padrão", type: "checkbox-group", options: [{ value: "seletividade_extrema", label: "Seletividade extrema" }, { value: "recusa_alimentar", label: "Recusa alimentar" }, { value: "rituais_mesa", label: "Rituais à mesa" }, { value: "come_rapido_lento", label: "Come muito rápido/lento" }, { value: "dificuldade_permanecer_sentado", label: "Dificuldade em permanecer sentado" }] },
+    { id: "headerPerfilSensorial", label: "Perfil Sensorial Alimentar", type: "section-header" },
+    { id: "restricoesTextura", label: "Restrições por Textura", type: "checkbox-group", options: [{ value: "pastosos", label: "Pastosos" }, { value: "crocantes", label: "Crocantes" }, { value: "liquidos", label: "Líquidos" }, { value: "solidos", label: "Sólidos" }, { value: "misturados", label: "Misturados" }] },
+    { id: "outrasRestricoes", label: "Outras Restrições", type: "checkbox-group", options: [{ value: "cor", label: "Cor" }, { value: "cheiro", label: "Cheiro" }, { value: "temperatura", label: "Temperatura" }, { value: "marca_especifica", label: "Marca específica" }] },
+    { id: "headerSintomasGastrointestinais", label: "Sintomas Gastrointestinais", type: "section-header" },
+    { id: "sintomasFrequentes", label: "Frequência", type: "checkbox-group", options: [{ value: "constipacao", label: "Constipação" }, { value: "diarreia", label: "Diarreia" }, { value: "dor_abdominal", label: "Dor abdominal" }, { value: "refluxo", label: "Refluxo" }, { value: "gases", label: "Gases" }] },
+    { id: "observacoesNutricao", label: "Alimentos Aceitos e Outras Observações", type: "textarea", placeholder: "Liste os alimentos que o paciente aceita e outras observações pertinentes..." },
+  ],
   "Padrão": [
     { id: "queixaPrincipal", label: "Queixa Principal", type: "textarea", placeholder: "Descreva a principal queixa do paciente." },
     { id: "observacoesGerais", label: "Observações Gerais", type: "textarea", placeholder: "Nenhuma anamnese específica registrada ainda. Use este campo para observações gerais." },
   ]
 };
-
-// Adiciona os outros modelos que não foram reestruturados para não quebrar a aplicação
-const nonRestructuredSpecialties = ["Psicomotricidade", "Psicopedagogia", "Musicoterapia", "Fisioterapia", "Nutrição"];
-nonRestructuredSpecialties.forEach(specialty => {
-  if (!anamneseModels[specialty]) {
-    anamneseModels[specialty] = anamneseModels["Padrão"];
-  }
-});
 
 
 interface AnamneseFormProps {
