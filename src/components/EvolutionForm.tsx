@@ -31,223 +31,70 @@ type EvolutionField = {
 };
 
 const evolutionModels: Record<string, EvolutionField[]> = {
+  "Musicoterapia": [
+    { id: "sessionDate", label: "Data da Sessão", type: "date", defaultValue: new Date().toISOString().split('T')[0] },
+    { id: "chegadaPaciente", label: "Como o paciente chegou?", type: "textarea", placeholder: "Estado de humor, relato do cuidador...", suggestions: ["Chegou tranquilo e cooperativo.", "Apresentou-se agitado, com estereotipias motoras.", "Cuidador relatou uma noite de sono ruim.", "Verbalizou estar feliz para a sessão."] },
+    { id: "recursosDinamicas", label: "Recursos e Dinâmicas Utilizadas", type: "textarea", placeholder: "Instrumentos, canções, atividades...", suggestions: ["Instrumentos de percussão (tambor, chocalho).", "Violão e canções de boas-vindas.", "Improvisação musical livre.", "Composição conjunta de uma pequena canção.", "Jogos musicais de imitação rítmica."] },
+    { id: "planoTerapeuticoSessao", label: "Plano Terapêutico em Foco", type: "textarea", placeholder: "Objetivos da sessão...", suggestions: ["Fomentar a intenção comunicativa.", "Trabalhar a troca de turnos e a reciprocidade.", "Promover a regulação emocional através da música.", "Estimular a consciência corporal e o planejamento motor."] },
+    { id: "respostasMusicais", label: "Respostas ao Ritmo, Melodia e Harmonia", type: "textarea", placeholder: "Sincronia, reações afetivas...", suggestions: ["Demonstrou sincronia rítmica com o corpo.", "Acompanhou a linha melódica com vocalizações.", "Reagiu a mudanças harmônicas (maior/menor) com alterações no afeto.", "Apresentou hiperfoco em um padrão rítmico específico.", "Mostrou-se sensível a frequências [agudas/graves]."] },
+    { id: "participacaoAtiva", label: "Participação Ativa", type: "textarea", placeholder: "Uso de instrumentos, canto, movimento...", suggestions: ["Explorou os instrumentos de forma funcional.", "Iniciou o canto de músicas conhecidas.", "Utilizou o movimento corporal para expressar a música.", "Manteve-se engajado na atividade musical por [tempo]."] },
+    { id: "evolucaoComunicacao", label: "Evolução na Comunicação", type: "textarea", placeholder: "Comunicação verbal e não-verbal...", suggestions: ["Utilizou o olhar para solicitar um instrumento.", "Fez contato visual durante as trocas musicais.", "Aumentou o repertório de vocalizações.", "Respondeu a perguntas simples dentro do contexto musical."] },
+    { id: "respostasEmocionais", label: "Respostas Emocionais", type: "textarea", placeholder: "Expressão de emoções...", suggestions: ["Demonstrou alegria através de sorrisos e movimentos.", "A música pareceu ter um efeito calmante.", "Expressou frustração de forma adequada quando desafiado.", "Compartilhou afeto através da interação musical."] },
+    { id: "ajustesSessao", label: "Ajustes Feitos na Sessão", type: "textarea", placeholder: "Adaptações para maximizar benefícios...", suggestions: ["Reduziu-se a complexidade rítmica para facilitar o acompanhamento.", "Aumentou-se o tempo de uma atividade de preferência.", "Introduziu-se um instrumento novo para estimular a exploração.", "Utilizou-se uma canção para facilitar a transição entre atividades."] },
+    { id: "saidaPaciente", label: "Como o paciente saiu?", type: "textarea", placeholder: "Estado de humor, comportamentos...", suggestions: ["Saiu calmo e regulado.", "Mostrou-se satisfeito, despedindo-se com um gesto.", "Apresentou-se mais verbal e interativo que na chegada.", "Precisou de ajuda na transição para o final da sessão."] },
+  ],
   "Psicologia": [
     { id: "sessionDate", label: "Data da Sessão", type: "date", defaultValue: new Date().toISOString().split('T')[0] },
-    { id: "headerSubjective", label: "S (Subjetivo)", type: "section-header" },
-    { id: "relatoCuidador", label: "Relato do Cuidador/Paciente", type: "textarea", placeholder: "Descreva o relato da família ou clique nas sugestões abaixo...", suggestions: [
-        "Família reporta dados sobre a frequência/intensidade de comportamentos-alvo.",
-        "Relato de um antecedente específico que eliciou comportamento desafiador.",
-        "Cuidador descreve tentativa de generalização de [habilidade] em ambiente [doméstico/escolar].",
-        "Paciente comunicou verbalmente/não-verbalmente sobre [evento/sentimento].",
-      ] 
-    },
-    { id: "headerObjective", label: "O (Objetivo)", type: "section-header" },
-    { id: "observacaoComportamental", label: "Observação Comportamental e Dados da Sessão", type: "textarea", placeholder: "Descreva o comportamento do paciente na sessão...", suggestions: [
-        "Latência de resposta para instruções foi de [tempo].",
-        "Apresentou [n] episódios de [comportamento] com duração média de [tempo].",
-        "Necessitou de [tipo de dica: física, verbal, gestual, visual] para completar a tarefa.",
-        "Engajou em [n] trocas de turno durante atividade de brincar compartilhado.",
-      ] 
-    },
-    { id: "atividadesRealizadas", label: "Atividades e Objetivos Trabalhados", type: "textarea", placeholder: "Descreva as atividades e objetivos da sessão...", suggestions: [
-        "Sessão estruturada com foco em treino de habilidades de Teoria da Mente.",
-        "Realizado treino de habilidades sociais em contexto de [role-playing/jogo de regras].",
-        "Trabalhou-se regulação emocional utilizando a escala de [ex: Zonas de Regulação, Termômetro das Emoções].",
-        "Utilizado o interesse focado em [tema] para trabalhar flexibilidade cognitiva.",
-      ] 
-    },
-    { id: "headerAssessment", label: "A (Avaliação/Análise)", type: "section-header" },
-    { id: "analiseSessao", label: "Análise Funcional e Progresso", type: "textarea", placeholder: "Analise o desempenho e progresso do paciente...", suggestions: [
-        "A análise funcional sugere que o comportamento [comportamento] tem função de [atenção/fuga/sensorial/acesso a tangíveis].",
-        "Paciente demonstrou progresso em relação à linha de base na habilidade de [habilidade].",
-        "Observa-se dificuldade na generalização de [habilidade] para outros contextos/pessoas.",
-        "Respondeu positivamente a estratégias de reforçamento [contínuo/intermitente] com [reforçador].",
-      ] 
-    },
-    { id: "headerPlan", label: "P (Plano)", type: "section-header" },
-    { id: "planoProximaSessao", label: "Plano para Próxima Sessão", type: "textarea", placeholder: "Defina o plano para a próxima sessão...", suggestions: [
-        "Manter o foco no desenvolvimento de [habilidade], aumentando o critério para [novo critério].",
-        "Introduzir treino de [nova habilidade] através de [estratégia, ex: DTT, NET].",
-        "Coletar dados sobre a latência para seguir instruções de [tipo de instrução].",
-      ] 
-    },
-    { id: "orientacaoFamilia", label: "Orientação para Família/Escola", type: "textarea", placeholder: "Descreva as orientações para cuidadores...", suggestions: [
-        "Orientado aos pais que utilizem [estratégia de antecedente, ex: timer, quadro de rotina] para [situação].",
-        "Modelado para a família como aplicar o procedimento de [procedimento, ex: extinção, reforçamento diferencial].",
-        "Sugerido à escola o uso de [suporte visual] para facilitar a compreensão de [demanda].",
-      ] 
-    },
+    { id: "chegadaPaciente", label: "Como o paciente chegou?", type: "textarea", placeholder: "Estado de humor, relato do cuidador...", suggestions: ["Chegou regulado, comunicando-se sobre seu dia.", "Apresentou-se ansioso devido a uma mudança na rotina.", "Cuidador relatou um bom desempenho escolar na semana.", "Demonstrou baixa tolerância à frustração na sala de espera."] },
+    { id: "recursosAtividades", label: "Recursos e Atividades Utilizadas", type: "textarea", placeholder: "Jogos, livros, técnicas...", suggestions: ["Jogo de regras para trabalhar troca de turnos e flexibilidade.", "Uso de histórias sociais para abordar [tema].", "Técnicas de role-playing para treino de habilidades sociais.", "Atividade de desenho para expressão de sentimentos.", "Termômetro das emoções para psicoeducação."] },
+    { id: "planoTerapeuticoSessao", label: "Plano Terapêutico em Foco", type: "textarea", placeholder: "Objetivos da sessão...", suggestions: ["Desenvolver habilidades de Teoria da Mente.", "Aumentar a flexibilidade cognitiva.", "Treinar a identificação e nomeação de emoções.", "Promover a resolução de problemas sociais."] },
+    { id: "comportamentosObservados", label: "Comportamentos e Interações Observadas", type: "textarea", placeholder: "Interação, comunicação, rigidez...", suggestions: ["Iniciou interações sociais com o terapeuta [n] vezes.", "Demonstrou rigidez de pensamento ao [situação].", "Utilizou o interesse focado em [tema] para se comunicar.", "Apresentou [n] episódios de comportamento disruptivo com função de [função]."] },
+    { id: "habilidadesCognitivas", label: "Habilidades Cognitivas e de Regulação", type: "textarea", placeholder: "Atenção, funções executivas, regulação...", suggestions: ["Manteve a atenção sustentada por [tempo] na tarefa.", "Demonstrou dificuldade no planejamento e execução de [atividade].", "Utilizou [estratégia de regulação] com sucesso após mediação.", "Mostrou dificuldade em compreender a perspectiva do outro no jogo."] },
+    { id: "evolucaoComunicacao", label: "Evolução na Comunicação", type: "textarea", placeholder: "Pragmática, compreensão...", suggestions: ["Respeitou os turnos conversacionais.", "Fez comentários pertinentes ao tópico da conversa.", "Compreendeu linguagem não-literal (ironia, metáfora) com ajuda.", "Apresentou ecolalia [imediata/tardia] com função [comunicativa/auto-regulatória]."] },
+    { id: "ajustesSessao", label: "Ajustes Feitos na Sessão", type: "textarea", placeholder: "Adaptações para maximizar benefícios...", suggestions: ["A atividade foi simplificada para garantir o sucesso e aumentar a motivação.", "Fornecido suporte visual para explicar as regras do jogo.", "Utilizado reforço positivo para comportamentos-alvo.", "A sessão foi encurtada devido à desregulação do paciente."] },
+    { id: "orientacoes", label: "Orientações para Família/Escola", type: "textarea", placeholder: "Recomendações e estratégias...", suggestions: ["Orientado aos pais que usem [estratégia] para lidar com [comportamento].", "Sugerido à escola a implementação de [adaptação] em sala de aula.", "Modelado para o cuidador como mediar uma situação de conflito.", "Enviado material sobre [tema] para a família."] },
+    { id: "saidaPaciente", label: "Como o paciente saiu?", type: "textarea", placeholder: "Estado de humor, comportamentos...", suggestions: ["Saiu tranquilo, verbalizando o que gostou na sessão.", "Apresentou-se satisfeito com seu desempenho.", "Mostrou-se cansado, mas regulado.", "Precisou de previsibilidade sobre a próxima sessão para sair bem."] },
   ],
   "Fonoaudiologia": [
     { id: "sessionDate", label: "Data da Sessão", type: "date", defaultValue: new Date().toISOString().split('T')[0] },
-    { id: "headerSubjective", label: "S (Subjetivo)", type: "section-header" },
-    { id: "relatoCuidadorFono", label: "Relato do Cuidador", type: "textarea", placeholder: "Descreva o relato da família...", suggestions: [
-        "Família relata uso de ecolalia [imediata/tardia] em contexto [funcional/não-funcional].",
-        "Paciente utilizou o sistema de CAA para [função comunicativa, ex: solicitar, comentar, protestar].",
-        "Relato de seletividade alimentar com recusa de alimentos de textura [textura].",
-      ] 
-    },
-    { id: "headerObjective", label: "O (Objetivo)", type: "section-header" },
-    { id: "observacaoFono", label: "Observação Clínica", type: "textarea", placeholder: "Descreva as observações clínicas...", suggestions: [
-        "Amostra de fala evidencia prosódia [monótona/cantada/fraseada].",
-        "Inteligibilidade de fala estimada em [porcentagem] para ouvintes não familiares.",
-        "Demonstrou compreensão de [tipo de pergunta, ex: 'o que', 'onde', 'por que'].",
-        "Apresentou [n] atos comunicativos por minuto durante a atividade.",
-      ] 
-    },
-    { id: "atividadesFono", label: "Atividades e Objetivos Trabalhados", type: "textarea", placeholder: "Descreva as atividades e objetivos...", suggestions: [
-        "Terapia focada em expandir o CCE (Comprimento e Complexidade do Enunciado).",
-        "Trabalhou-se a compreensão de inferências e linguagem figurada através de [material].",
-        "Estimuladas habilidades pragmáticas de manutenção de tópico conversacional.",
-        "Realizada dessensibilização oral para texturas [ásperas/pastosas].",
-      ] 
-    },
-    { id: "headerAssessment", label: "A (Avaliação/Análise)", type: "section-header" },
-    { id: "analiseFono", label: "Análise da Sessão", type: "textarea", placeholder: "Analise o desempenho do paciente...", suggestions: [
-        "Observou-se melhora na articulação do fonema-alvo [fonema] em nível de [palavra/frase].",
-        "O uso de modelagem e pistas fonéticas foi eficaz para a produção de [alvo].",
-        "Paciente demonstrou maior autonomia na navegação do sistema de CAA.",
-        "Ainda apresenta rigidez na interpretação literal de enunciados.",
-      ] 
-    },
-    { id: "headerPlan", label: "P (Plano)", type: "section-header" },
-    { id: "planoFono", label: "Plano para Próxima Sessão", type: "textarea", placeholder: "Defina o plano para a próxima sessão...", suggestions: [
-        "Continuar com atividades para expansão do léxico e da morfossintaxe.",
-        "Introduzir atividades que exijam a tomada de perspectiva do outro.",
-        "Avançar na hierarquia de exposição a novos alimentos.",
-      ] 
-    },
-    { id: "orientacaoFono", label: "Orientação para Família/Escola", type: "textarea", placeholder: "Descreva as orientações...", suggestions: [
-        "Orientar a família a usar a estratégia de 'escolha guiada' para estimular a comunicação.",
-        "Sugerir à escola que forneça tempo de espera adicional para o processamento de informações verbais.",
-      ] 
-    },
+    { id: "chegadaPaciente", label: "Como o paciente chegou?", type: "textarea", placeholder: "Estado de humor, relato do cuidador...", suggestions: ["Chegou comunicativo, usando frases curtas.", "Cuidador relatou que experimentou um novo alimento.", "Apresentou-se quieto e pouco interativo.", "Usou o CAA para cumprimentar."] },
+    { id: "recursosAtividades", label: "Recursos e Atividades Utilizadas", type: "textarea", placeholder: "Jogos, livros, CAA...", suggestions: ["Livro de figuras para expansão de vocabulário.", "Jogos de tabuleiro para trabalhar pragmática.", "Software de Comunicação Alternativa (CAA).", "Atividades de sopro e sucção.", "Espelho para feedback visual na articulação."] },
+    { id: "planoTerapeuticoSessao", label: "Plano Terapêutico em Foco", type: "textarea", placeholder: "Objetivos da sessão...", suggestions: ["Aumentar o Comprimento Médio do Enunciado (CME).", "Trabalhar a articulação do fonema-alvo [fonema].", "Estimular a compreensão de inferências.", "Promover o uso funcional da CAA.", "Dessensibilização oral para novas texturas."] },
+    { id: "desempenhoComunicativo", label: "Desempenho Comunicativo (Receptivo e Expressivo)", type: "textarea", placeholder: "Compreensão, fala, intenção...", suggestions: ["Compreendeu comandos de [n] etapas com [suporte].", "Produziu frases de [n] palavras de forma espontânea.", "Demonstrou intenção comunicativa para [função, ex: pedir, comentar].", "A inteligibilidade da fala foi de aproximadamente [porcentagem]."] },
+    { id: "habilidadesPragmaticas", label: "Habilidades Pragmáticas", type: "textarea", placeholder: "Uso social da linguagem...", suggestions: ["Manteve o contato visual durante a conversação.", "Respeitou a troca de turnos em [n] oportunidades.", "Teve dificuldade em manter o tópico conversacional.", "Iniciou a comunicação [n] vezes."] },
+    { id: "aspectosMotoresFala", label: "Aspectos Motores da Fala e Alimentação", type: "textarea", placeholder: "Articulação, mastigação...", suggestions: ["A produção do fonema [fonema] foi correta em [nível, ex: sílabas, palavras].", "Apresentou vedamento labial adequado.", "Mostrou-se mais tolerante à textura [textura].", "A mastigação foi [bilateral/unilateral]."] },
+    { id: "ajustesSessao", label: "Ajustes Feitos na Sessão", type: "textarea", placeholder: "Adaptações para maximizar benefícios...", suggestions: ["Fornecida pista fonética para a produção do som-alvo.", "A atividade foi dividida em etapas menores.", "Utilizado um item de alto interesse para aumentar o engajamento.", "Simplificada a linguagem para garantir a compreensão."] },
+    { id: "orientacoes", label: "Orientações para Família/Escola", type: "textarea", placeholder: "Recomendações e estratégias...", suggestions: ["Orientado à família que modele frases completas.", "Sugerido o uso de pausas para incentivar a comunicação.", "Enviado para casa atividade de [habilidade].", "Recomendado à escola que incentive o uso do CAA."] },
+    { id: "saidaPaciente", label: "Como o paciente saiu?", type: "textarea", placeholder: "Estado de humor, comportamentos...", suggestions: ["Saiu mais falante e interativo.", "Demonstrou orgulho de suas produções.", "Comunicou-se para se despedir.", "Mostrou-se cansado após o esforço comunicativo."] },
   ],
   "Terapia Ocupacional": [
     { id: "sessionDate", label: "Data da Sessão", type: "date", defaultValue: new Date().toISOString().split('T')[0] },
-    { id: "headerSubjective", label: "S (Subjetivo)", type: "section-header" },
-    { id: "relatoCuidadorTO", label: "Relato do Cuidador", type: "textarea", placeholder: "Descreva o relato da família...", suggestions: [
-        "Família relata que o paciente participou da AVD de [vestuário/alimentação/higiene] com [nível de independência].",
-        "Apresentou comportamento de [busca/evitação] sensorial em [contexto, ex: supermercado, parquinho].",
-        "Relato de dificuldade com a caligrafia e organização do material escolar.",
-      ] 
-    },
-    { id: "headerObjective", label: "O (Objetivo)", type: "section-header" },
-    { id: "observacaoTO", label: "Observação Clínica", type: "textarea", placeholder: "Descreva as observações clínicas...", suggestions: [
-        "Nível de alerta [hipo/hiper-responsivo], necessitando de estratégias de modulação.",
-        "Demonstrou dificuldades de práxis (planejamento motor) para [tarefa nova].",
-        "Apresentou preensão de lápis [tipo de preensão] e pressão [forte/fraca] sobre o papel.",
-        "Tolerou [n] minutos de estimulação [vestibular/tátil] antes de precisar de uma pausa.",
-      ] 
-    },
-    { id: "atividadesTO", label: "Atividades e Objetivos Trabalhados", type: "textarea", placeholder: "Descreva as atividades e objetivos...", suggestions: [
-        "Sessão focada em integração sensorial com oferta de estímulos proprioceptivos e vestibulares para regulação.",
-        "Trabalhou-se o sequenciamento de [n] etapas para a AVD de [escovar os dentes].",
-        "Realizadas atividades de integração viso-motora com foco em [recorte/desenho].",
-        "Utilizada a abordagem de 'alerta' para promover a autorregulação.",
-      ] 
-    },
-    { id: "headerAssessment", label: "A (Avaliação/Análise)", type: "section-header" },
-    { id: "analiseTO", label: "Análise da Sessão", type: "textarea", placeholder: "Analise o desempenho do paciente...", suggestions: [
-        "Paciente demonstrou melhora na modulação de respostas a estímulos sensoriais.",
-        "A qualidade do planejamento motor foi superior com o uso de pistas visuais.",
-        "Ainda apresenta dificuldades na dissociação de movimentos e coordenação bilateral.",
-        "O uso de [adaptação, ex: assento sensorial] melhorou a permanência na tarefa.",
-      ] 
-    },
-    { id: "headerPlan", label: "P (Plano)", type: "section-header" },
-    { id: "planoTO", label: "Plano para Próxima Sessão", type: "textarea", placeholder: "Defina o plano para a próxima sessão...", suggestions: [
-        "Graduar o desafio motor no circuito, aumentando a complexidade da sequência.",
-        "Focar no refinamento da preensão e manipulação de pequenos objetos.",
-        "Introduzir a AVD de [amarrar os sapatos] usando a técnica de [encadeamento para trás].",
-      ] 
-    },
-    { id: "orientacaoTO", label: "Orientação para Família/Escola", type: "textarea", placeholder: "Descreva as orientações...", suggestions: [
-        "Recomendar a implementação de uma 'dieta sensorial' com atividades de [pressão profunda/movimento] antes de tarefas que exigem atenção.",
-        "Sugerir adaptações como [engrossador de lápis, tesoura adaptada] para a escola.",
-      ] 
-    },
-  ],
-  "Psicopedagogia": [
-    { id: "sessionDate", label: "Data da Sessão", type: "date", defaultValue: new Date().toISOString().split('T')[0] },
-    { id: "headerSubjective", label: "S (Subjetivo)", type: "section-header" },
-    { id: "relatoPp", label: "Relato da Família/Escola", type: "textarea", placeholder: "Descreva o relato...", suggestions: [
-        "Escola relata dificuldade do aluno em [habilidade, ex: iniciar tarefas, seguir instruções múltiplas].",
-        "Família descreve desafios na organização da rotina de estudos e lição de casa.",
-        "Aluno expressa [interesse/frustração] em relação a [disciplina/conteúdo].",
-      ] 
-    },
-    { id: "headerObjective", label: "O (Objetivo)", type: "section-header" },
-    { id: "observacaoPp", label: "Observação e Atividades Realizadas", type: "textarea", placeholder: "Descreva as observações...", suggestions: [
-        "Apresentou dificuldade de coerência central, focando em detalhes irrelevantes do texto.",
-        "Demonstrou rigidez cognitiva ao tentar resolver um problema de uma única maneira.",
-        "Utilizou [estratégia de função executiva, ex: auto-instrução, planejamento em etapas] com sucesso.",
-        "Atividades focadas em [habilidade, ex: consciência fonológica, compreensão leitora, cálculo mental].",
-      ] 
-    },
-    { id: "headerAssessment", label: "A (Avaliação/Análise)", type: "section-header" },
-    { id: "analisePp", label: "Análise Psicopedagógica", type: "textarea", placeholder: "Analise o desempenho...", suggestions: [
-        "A análise indica que a dificuldade de aprendizagem está relacionada a déficits em [função executiva, ex: memória de trabalho, controle inibitório].",
-        "Paciente se beneficia de apoios visuais e da fragmentação de tarefas.",
-        "Apresenta bom desempenho em decodificação (hiperlexia), mas com baixo desempenho em compreensão.",
-      ] 
-    },
-    { id: "headerPlan", label: "P (Plano)", type: "section-header" },
-    { id: "planoPp", label: "Plano de Intervenção", type: "textarea", placeholder: "Defina o plano...", suggestions: [
-        "Focar no desenvolvimento de estratégias de organização e planejamento.",
-        "Introduzir o uso de [ferramenta, ex: mapas mentais, checklists] para apoiar a aprendizagem.",
-        "Orientar a escola sobre adaptações curriculares e de avaliação.",
-      ] 
-    },
-  ],
-  "Fisioterapia": [
-    { id: "sessionDate", label: "Data da Sessão", type: "date", defaultValue: new Date().toISOString().split('T')[0] },
-    { id: "headerSubjective", label: "S (Subjetivo)", type: "section-header" },
-    { id: "relatoFisio", label: "Relato do Cuidador", type: "textarea", placeholder: "Descreva o relato...", suggestions: [
-        "Família relata frequência de quedas em [contexto].",
-        "Paciente queixa-se de fadiga durante atividades motoras prolongadas.",
-        "Observada persistência da marcha na ponta dos pés em [situações].",
-      ] 
-    },
-    { id: "headerObjective", label: "O (Objetivo)", type: "section-header" },
-    { id: "observacaoFisio", label: "Avaliação e Atividades Realizadas", type: "textarea", placeholder: "Descreva as observações...", suggestions: [
-        "Avaliação postural evidencia [ex: anteriorização da cabeça, hiperlordose lombar].",
-        "Observada hipotonia axial e tônus flutuante em membros.",
-        "Realizados exercícios de fortalecimento do core e estabilização pélvica.",
-        "Treino de equilíbrio [estático/dinâmico] em [superfície instável/base reduzida].",
-      ] 
-    },
-    { id: "headerAssessment", label: "A (Avaliação/Análise)", type: "section-header" },
-    { id: "analiseFisio", label: "Análise Fisioterapêutica", type: "textarea", placeholder: "Analise o desempenho...", suggestions: [
-        "Paciente demonstrou melhora no controle de tronco durante as atividades.",
-        "A marcha apresenta maior dissociação de cinturas, mas o contato do calcâneo ainda é inconsistente.",
-        "A resistência muscular à fadiga aumentou em [x] minutos.",
-      ] 
-    },
-    { id: "headerPlan", label: "P (Plano)", type: "section-header" },
-    { id: "planoFisio", label: "Plano Terapêutico", type: "textarea", placeholder: "Defina o plano...", suggestions: [
-        "Progredir com exercícios de fortalecimento, aumentando a carga/repetições.",
-        "Introduzir treino de marcha com pistas visuais/auditivas para estimular o contato do calcâneo.",
-        "Orientar a família sobre alongamentos para [músculos encurtados, ex: gastrocnêmios].",
-      ] 
-    },
+    { id: "chegadaPaciente", label: "Como o paciente chegou?", type: "textarea", placeholder: "Nível de alerta, relato do cuidador...", suggestions: ["Chegou com nível de alerta baixo (hiporresponsivo).", "Apresentou-se hiperalerta e buscando movimento.", "Cuidador relatou sucesso na AVD de [AVD].", "Mostrou-se resistente a tirar o casaco (defensividade tátil)."] },
+    { id: "recursosAtividades", label: "Recursos e Atividades Utilizadas", type: "textarea", placeholder: "Equipamentos, materiais...", suggestions: ["Circuito motor com equipamentos suspensos (balanço, trapézio).", "Caixa de texturas para estimulação tátil.", "Atividades de motricidade fina (massinha, pinça, tesoura).", "Treino de Atividade de Vida Diária (AVD) de [AVD].", "Uso de colete ponderado para feedback proprioceptivo."] },
+    { id: "planoTerapeuticoSessao", label: "Plano Terapêutico em Foco", type: "textarea", placeholder: "Objetivos da sessão...", suggestions: ["Promover a modulação sensorial.", "Melhorar o planejamento motor (práxis).", "Aumentar a independência na AVD de [AVD].", "Desenvolver a coordenação motora fina e a integração viso-motora."] },
+    { id: "processamentoSensorial", label: "Processamento Sensorial e Respostas", type: "textarea", placeholder: "Modulação, discriminação...", suggestions: ["Buscou ativamente estímulos [proprioceptivos/vestibulares] para se organizar.", "Apresentou defensividade tátil ao contato com [material].", "Nível de alerta modulado com sucesso através de [estratégia].", "Demonstrou hiporresponsividade a estímulos auditivos.", "Utilizou a pressão profunda como estratégia de autorregulação."] },
+    { id: "desempenhoMotor", label: "Desempenho Motor (Práxis, Coordenação)", type: "textarea", placeholder: "Planejamento, execução...", suggestions: ["Demonstrou bom planejamento motor para transpor o circuito.", "Apresentou dificuldade na ideação (saber o que fazer) da tarefa.", "A preensão do lápis foi [tipo de preensão].", "Mostrou melhora na coordenação bilateral durante [atividade]."] },
+    { id: "desempenhoOcupacional", label: "Desempenho Ocupacional (AVDs, Brincar)", type: "textarea", placeholder: "Independência, engajamento...", suggestions: ["Realizou [n] etapas da AVD de forma independente.", "O brincar foi [simbólico/funcional/exploratório].", "Manteve-se engajado na atividade de mesa por [tempo].", "Demonstrou iniciativa na escolha do brincar."] },
+    { id: "ajustesSessao", label: "Ajustes Feitos na Sessão", type: "textarea", placeholder: "Adaptações para maximizar benefícios...", suggestions: ["O desafio da atividade foi graduado (aumentado/diminuído).", "Fornecido suporte físico para a execução do movimento.", "O ambiente foi modificado para reduzir estímulos distratores.", "A atividade foi alterada para uma de preferência do paciente."] },
+    { id: "orientacoes", label: "Orientações para Família/Escola", type: "textarea", placeholder: "Recomendações e estratégias...", suggestions: ["Recomendada a implementação de uma 'dieta sensorial' em casa.", "Sugerido o uso de [adaptação, ex: assento de disco] na escola.", "Orientado sobre como preparar o ambiente para a AVD de [AVD].", "Enviado para casa um jogo para estimular a motricidade fina."] },
+    { id: "saidaPaciente", label: "Como o paciente saiu?", type: "textarea", placeholder: "Nível de alerta, comportamentos...", suggestions: ["Saiu calmo e organizado.", "Mostrou-se orgulhoso da sua 'obra de arte'.", "Apresentou-se cansado, mas regulado.", "Verbalizou que gostou do balanço."] },
   ],
   "Padrão": [
     { id: "sessionDate", label: "Data da Sessão", type: "date", defaultValue: new Date().toISOString().split('T')[0] },
-    { id: "headerSubjective", label: "S (Subjetivo)", type: "section-header" },
-    { id: "relatoCuidadorPadrao", label: "Relato do Cuidador/Paciente", type: "textarea", placeholder: "Descreva o relato da família ou do paciente...", suggestions: ["Família relata semana sem intercorrências.", "Paciente reporta melhora em [aspecto].", "Cuidador expressa preocupação com [comportamento]."] },
-    { id: "headerObjective", label: "O (Objetivo)", type: "section-header" },
-    { id: "observacaoPadrao", label: "Observação Clínica e Atividades Realizadas", type: "textarea", placeholder: "Descreva o comportamento e as atividades...", suggestions: ["Paciente demonstrou bom engajamento.", "Foram realizadas atividades com foco em [objetivo].", "Apresentou-se [cooperativo/resistente] durante a sessão."] },
-    { id: "headerAssessment", label: "A (Avaliação/Análise)", type: "section-header" },
-    { id: "analisePadrao", label: "Análise Profissional da Sessão", type: "textarea", placeholder: "Analise o desempenho do paciente...", suggestions: ["Observa-se progresso em relação a [objetivo].", "Paciente atingiu o critério para [meta].", "Ainda necessita de suporte para [habilidade]."] },
-    { id: "headerPlan", label: "P (Plano)", type: "section-header" },
-    { id: "planoPadrao", label: "Plano Terapêutico e Orientações", type: "textarea", placeholder: "Defina os próximos passos...", suggestions: ["Manter objetivos atuais para a próxima sessão.", "Reavaliar [aspecto] na próxima semana.", "Orientado à família que [orientação]."] },
+    { id: "chegadaPaciente", label: "Como o paciente chegou?", type: "textarea", placeholder: "Estado de humor, relato do cuidador...", suggestions: ["Chegou tranquilo e cooperativo.", "Apresentou-se agitado.", "Cuidador relatou uma boa semana."] },
+    { id: "recursosAtividades", label: "Recursos e Atividades Utilizadas", type: "textarea", placeholder: "Materiais, jogos, técnicas...", suggestions: ["Utilizado [recurso 1].", "Realizada [atividade 1]."] },
+    { id: "planoTerapeuticoSessao", label: "Plano Terapêutico em Foco", type: "textarea", placeholder: "Objetivos da sessão...", suggestions: ["Foco em [objetivo 1].", "Trabalhar [habilidade 1]."] },
+    { id: "desempenhoObservado", label: "Desempenho e Comportamentos Observados", type: "textarea", placeholder: "Como o paciente respondeu...", suggestions: ["Demonstrou bom engajamento.", "Apresentou dificuldade em [tarefa].", "Mostrou progresso em [habilidade]."] },
+    { id: "ajustesSessao", label: "Ajustes Feitos na Sessão", type: "textarea", placeholder: "Adaptações realizadas...", suggestions: ["A atividade foi simplificada.", "Foi oferecido um reforçador de preferência."] },
+    { id: "orientacoes", label: "Orientações", type: "textarea", placeholder: "Recomendações para casa/escola...", suggestions: ["Orientado à família que [orientação].", "Sugerido à escola que [sugestão]."] },
+    { id: "saidaPaciente", label: "Como o paciente saiu?", type: "textarea", placeholder: "Estado de humor, comportamentos...", suggestions: ["Saiu calmo e regulado.", "Mostrou-se satisfeito."] },
   ],
 };
 
 evolutionModels["Psicomotricidade"] = evolutionModels["Terapia Ocupacional"];
-evolutionModels["Musicoterapia"] = evolutionModels["Padrão"]; // Placeholder, can be detailed later
-evolutionModels["Nutrição"] = evolutionModels["Padrão"]; // Placeholder, can be detailed later
+evolutionModels["Psicopedagogia"] = evolutionModels["Psicologia"];
+evolutionModels["Fisioterapia"] = evolutionModels["Terapia Ocupacional"];
+evolutionModels["Nutrição"] = evolutionModels["Padrão"];
 
 
 interface EvolutionFormProps {
