@@ -1,10 +1,13 @@
 "use client";
 
-import React from "react";
+import React, { useRef } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { toast } from "sonner";
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
+import { Download } from 'lucide-react';
 
 import { Button } from "@/components/ui/button";
 import {
@@ -279,6 +282,7 @@ interface AnamneseFormProps {
 }
 
 export const AnamneseForm = ({ specialty }: AnamneseFormProps) => {
+  const formRef = useRef<HTMLFormElement>(null);
   const currentModel = anamneseModels[specialty] || anamneseModels["Padrão"];
 
   const dynamicSchema = z.object(
@@ -310,9 +314,47 @@ export const AnamneseForm = ({ specialty }: AnamneseFormProps) => {
     toast.success("Anamnese salva com sucesso!");
   };
 
+  const handleDownloadPDF = () => {
+    if (!formRef.current) return;
+    toast.info("Gerando PDF da Anamnese...");
+
+    const buttons = formRef.current.querySelector('.form-buttons') as HTMLElement;
+    if (buttons) buttons.style.display = 'none';
+
+    html2canvas(formRef.current, { scale: 2 }).then((canvas) => {
+        if (buttons) buttons.style.display = 'flex';
+
+        const imgData = canvas.toDataURL('image/png');
+        const pdf = new jsPDF('p', 'mm', 'a4');
+        const pdfWidth = pdf.internal.pageSize.getWidth();
+        const pdfHeight = pdf.internal.pageSize.getHeight();
+        const imgWidth = canvas.width;
+        const imgHeight = canvas.height;
+        const ratio = imgWidth / imgHeight;
+        const height = pdfWidth / ratio;
+        let position = 0;
+
+        pdf.addImage(imgData, 'PNG', 0, position, pdfWidth, height);
+        let heightLeft = height - pdfHeight;
+
+        while (heightLeft >= 0) {
+            position = heightLeft - height;
+            pdf.addPage();
+            pdf.addImage(imgData, 'PNG', 0, position, pdfWidth, height);
+            heightLeft -= pdfHeight;
+        }
+        pdf.save(`Anamnese_${specialty}.pdf`);
+        toast.success("PDF da Anamnese gerado com sucesso!");
+    }).catch(err => {
+        if (buttons) buttons.style.display = 'flex';
+        console.error("Erro ao gerar PDF:", err);
+        toast.error("Ocorreu um erro ao gerar o PDF.");
+    });
+  };
+
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+      <form ref={formRef} onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
         {currentModel.map((field) => {
           if (field.type === "section-header") {
             return (
@@ -387,7 +429,13 @@ export const AnamneseForm = ({ specialty }: AnamneseFormProps) => {
             />
           );
         })}
-        <Button type="submit" className="mt-6">Salvar Anamnese</Button>
+        <div className="flex space-x-2 pt-2 form-buttons">
+          <Button type="submit">Salvar Anamnese</Button>
+          <Button type="button" variant="outline" onClick={handleDownloadPDF}>
+            <Download className="mr-2 h-4 w-4" />
+            Baixar PDF
+          </Button>
+        </div>
       </form>
     </Form>
   );
