@@ -7,6 +7,15 @@ import html2canvas from 'html2canvas';
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Download, Sparkles } from "lucide-react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Label } from "@/components/ui/label";
+import { patientsData } from "@/data/patients";
 
 // Data structure for plan templates
 const therapeuticPlanModels: Record<string, string> = {
@@ -192,17 +201,27 @@ interface TherapeuticPlanFormProps {
 
 export const TherapeuticPlanForm = ({ specialty }: TherapeuticPlanFormProps) => {
   const [planContent, setPlanContent] = useState("");
+  const [selectedPatient, setSelectedPatient] = useState("");
   const planRef = useRef<HTMLDivElement>(null);
 
   const generatePlan = () => {
+    if (!selectedPatient) {
+      toast.error("Por favor, selecione um paciente primeiro.");
+      return;
+    }
     const template = therapeuticPlanModels[specialty] || therapeuticPlanModels["Padrão"];
-    setPlanContent(template.trim());
+    const personalizedTemplate = template.replace(/\[NOME DO PACIENTE\]/g, selectedPatient);
+    setPlanContent(personalizedTemplate.trim());
     toast.success("Modelo de Plano Terapêutico gerado!");
   };
 
   const handleDownloadPDF = () => {
     if (!planRef.current || !planContent) {
       toast.error("Gere ou preencha o plano antes de baixar o PDF.");
+      return;
+    }
+    if (!selectedPatient) {
+      toast.error("Por favor, selecione um paciente para nomear o arquivo PDF.");
       return;
     }
     toast.info("Gerando PDF do Plano Terapêutico...");
@@ -248,7 +267,7 @@ export const TherapeuticPlanForm = ({ specialty }: TherapeuticPlanFormProps) => 
         heightLeft -= pdf.internal.pageSize.getHeight();
       }
       
-      pdf.save(`Plano_Terapeutico_${specialty}.pdf`);
+      pdf.save(`Plano_Terapeutico_${specialty}_${selectedPatient.replace(/\s+/g, '_')}.pdf`);
       toast.success("PDF gerado com sucesso!");
     }).catch(err => {
       planRef.current?.classList.remove('pdf-render');
@@ -258,28 +277,45 @@ export const TherapeuticPlanForm = ({ specialty }: TherapeuticPlanFormProps) => 
   };
 
   return (
-    <div className="space-y-4">
-      <div className="flex flex-col sm:flex-row gap-2">
-        <Button onClick={generatePlan} className="w-full sm:w-auto">
-          <Sparkles className="mr-2 h-4 w-4" />
-          Gerar Modelo de Plano
-        </Button>
-        <Button variant="outline" onClick={handleDownloadPDF} className="w-full sm:w-auto">
-          <Download className="mr-2 h-4 w-4" />
-          Baixar PDF
-        </Button>
-        <Button className="w-full sm:w-auto" onClick={() => toast.success("Plano salvo com sucesso!")}>
-          Salvar Plano
-        </Button>
+    <div className="space-y-6">
+      <div className="space-y-2">
+        <Label className="font-bold text-lg">Nome do Paciente</Label>
+        <Select onValueChange={setSelectedPatient} value={selectedPatient}>
+          <SelectTrigger>
+            <SelectValue placeholder="Selecione um paciente" />
+          </SelectTrigger>
+          <SelectContent>
+            {patientsData.map((patient) => (
+              <SelectItem key={patient.id} value={patient.name}>
+                {patient.name}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
       </div>
-      <div ref={planRef}>
-        <Textarea
-          placeholder="Clique em 'Gerar Modelo de Plano' para começar ou digite seu plano aqui."
-          value={planContent}
-          onChange={(e) => setPlanContent(e.target.value)}
-          rows={25}
-          className="font-mono text-sm"
-        />
+      <div className="space-y-4">
+        <div className="flex flex-col sm:flex-row gap-2">
+          <Button onClick={generatePlan} className="w-full sm:w-auto">
+            <Sparkles className="mr-2 h-4 w-4" />
+            Gerar Modelo de Plano
+          </Button>
+          <Button variant="outline" onClick={handleDownloadPDF} className="w-full sm:w-auto">
+            <Download className="mr-2 h-4 w-4" />
+            Baixar PDF
+          </Button>
+          <Button className="w-full sm:w-auto" onClick={() => toast.success("Plano salvo com sucesso!")}>
+            Salvar Plano
+          </Button>
+        </div>
+        <div ref={planRef}>
+          <Textarea
+            placeholder="Selecione um paciente e clique em 'Gerar Modelo de Plano' para começar."
+            value={planContent}
+            onChange={(e) => setPlanContent(e.target.value)}
+            rows={25}
+            className="font-mono text-sm"
+          />
+        </div>
       </div>
     </div>
   );
