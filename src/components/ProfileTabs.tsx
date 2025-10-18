@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
@@ -26,7 +26,8 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { toast } from "sonner";
-import { AnamneseForm } from "./AnamneseForm"; // Importa o novo componente
+import { AnamneseForm } from "./AnamneseForm";
+import { ProfileData } from "@/pages/Profile";
 
 // Esquema de validação para os dados cadastrais
 const profileFormSchema = z.object({
@@ -43,32 +44,30 @@ type ProfileFormValues = z.infer<typeof profileFormSchema>;
 interface ProfileTabsProps {
   isEditing: boolean;
   setIsEditing: (isEditing: boolean) => void;
+  profileData: ProfileData;
+  setProfileData: (data: ProfileData) => void;
 }
 
-export const ProfileTabs = ({ isEditing, setIsEditing }: ProfileTabsProps) => {
+export const ProfileTabs = ({ isEditing, setIsEditing, profileData, setProfileData }: ProfileTabsProps) => {
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(profileFormSchema),
-    defaultValues: {
-      name: "Dra. Marina Silva",
-      email: "marina.silva@multitea.com",
-      phone: "(XX) XXXXX-XXXX",
-      address: "Rua Exemplo, 123 - Cidade, Estado",
-      specialty: "Psicologia", // Valor inicial da especialidade
-      crp: "CRP 00/12345",
-    },
+    defaultValues: profileData,
   });
 
-  const currentSpecialty = form.watch("specialty"); // Observa a especialidade selecionada
+  useEffect(() => {
+    form.reset(profileData);
+  }, [profileData, form]);
+
+  const currentSpecialty = form.watch("specialty");
 
   const onSubmitProfile = (data: ProfileFormValues) => {
-    console.log("Dados Cadastrais submitted:", data);
+    setProfileData(data);
     toast.success("Dados cadastrais atualizados com sucesso!");
     setIsEditing(false);
-    // Aqui você enviaria os dados para um backend
   };
 
   const handleCancel = () => {
-    form.reset(); // Reseta o formulário para os valores iniciais
+    form.reset(profileData); // Reseta o formulário para os valores originais
     setIsEditing(false); // Sai do modo de edição
   };
 
