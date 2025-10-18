@@ -2,13 +2,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { MoreVertical } from "lucide-react";
-
-interface Patient {
-  id: string;
-  name: string;
-  specialty: string;
-  avatarUrl?: string;
-}
+import { Patient } from "@/data/patients";
 
 interface PatientsListProps {
   patients: Patient[];
@@ -27,7 +21,7 @@ export const PatientsList = ({ patients }: PatientsListProps) => {
               </Avatar>
               <div>
                 <p className="font-semibold text-lg">{patient.name}</p>
-                <p className="text-sm text-muted-foreground">{patient.specialty}</p>
+                <p className="text-sm text-muted-foreground">{patient.diagnosis}</p>
               </div>
             </div>
             <Button variant="ghost" size="icon" className="rounded-full">
