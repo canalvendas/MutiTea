@@ -79,6 +79,17 @@ const evolutionModels: Record<string, EvolutionField[]> = {
     { id: "orientacoes", label: "Orientações para Família/Escola", type: "textarea", placeholder: "Recomendações e estratégias...", suggestions: ["Recomendada a implementação de uma 'dieta sensorial' em casa.", "Sugerido o uso de [adaptação, ex: assento de disco] na escola.", "Orientado sobre como preparar o ambiente para a AVD de [AVD].", "Enviado para casa um jogo para estimular a motricidade fina."] },
     { id: "saidaPaciente", label: "Como o paciente saiu?", type: "textarea", placeholder: "Nível de alerta, comportamentos...", suggestions: ["Saiu calmo e organizado.", "Mostrou-se orgulhoso da sua 'obra de arte'.", "Apresentou-se cansado, mas regulado.", "Verbalizou que gostou do balanço."] },
   ],
+  "Nutrição": [
+    { id: "sessionDate", label: "Data da Sessão", type: "date", defaultValue: new Date().toISOString().split('T')[0] },
+    { id: "chegadaPaciente", label: "Como o paciente chegou? / Relato do cuidador", type: "textarea", placeholder: "Relato da semana alimentar, queixas...", suggestions: ["Família relata sucesso na introdução de [alimento].", "Paciente apresentou recusa alimentar significativa nas refeições principais.", "Cuidador reporta queixas gastrointestinais (constipação/diarreia).", "Houve boa aceitação dos suplementos prescritos."] },
+    { id: "recursosDinamicas", label: "Recursos e Dinâmicas Utilizadas", type: "textarea", placeholder: "Estratégias, materiais...", suggestions: ["Utilizada a estratégia de 'food chaining' a partir de [alimento aceito].", "Realizada atividade de exploração sensorial com [alimento-alvo].", "Uso de pratos lúdicos e cortadores para melhorar a apresentação.", "Sessão de culinária terapêutica para [preparação]."] },
+    { id: "planoTerapeuticoSessao", label: "Plano Terapêutico em Foco", type: "textarea", placeholder: "Objetivos da sessão...", suggestions: ["Aumentar o repertório alimentar com foco em [grupo alimentar].", "Trabalhar a dessensibilização oral para texturas [crocantes/pastosas].", "Avançar na hierarquia de exposição ao [alimento-alvo].", "Manejo de sintomas gastrointestinais."] },
+    { id: "respostasAlimentaresSensoriais", label: "Respostas Alimentares e Sensoriais", type: "textarea", placeholder: "Reações, comportamentos...", suggestions: ["Paciente tolerou o [alimento] no prato por [tempo].", "Apresentou reflexo de gag ao [cheirar/tocar] o alimento.", "Demonstrou rigidez, aceitando o alimento apenas em [formato/marca específica].", "Explorou o alimento com as mãos, mas não levou à boca."] },
+    { id: "evolucaoAceitacao", label: "Evolução na Aceitação e Comportamento", type: "textarea", placeholder: "Progresso, novas aceitações...", suggestions: ["Paciente avançou na etapa de [tocar/cheirar/lamber/provar] o alimento.", "Aceitou experimentar [novo alimento] após observá-lo em [n] sessões.", "Houve redução dos comportamentos de fuga durante as refeições.", "Generalizou a aceitação de [alimento] para o ambiente doméstico."] },
+    { id: "ajustesSessao", label: "Ajustes Feitos na Sessão", type: "textarea", placeholder: "Adaptações para maximizar benefícios...", suggestions: ["A demanda foi reduzida, focando apenas em tolerar o alimento no ambiente.", "A apresentação do alimento foi modificada para [descrição].", "Utilizado um alimento de alta preferência como reforçador positivo.", "A sessão foi focada em brincadeiras não relacionadas à comida para diminuir a ansiedade."] },
+    { id: "orientacoes", label: "Orientações para Família", type: "textarea", placeholder: "Recomendações para casa...", suggestions: ["Orientado à família que continue a exposição passiva de [alimento] nas refeições.", "Sugerido envolver a criança no preparo de [receita simples].", "Reforçada a importância de não pressionar e manter um ambiente de refeição neutro.", "Ajustada a prescrição de [suplemento]."] },
+    { id: "saidaPaciente", label: "Como o paciente saiu?", type: "textarea", placeholder: "Estado de humor, comportamentos...", suggestions: ["Saiu tranquilo, apesar da exposição a novos alimentos.", "Mostrou-se orgulhoso por ter conseguido [interagir com o alimento].", "Apresentou-se mais regulado que na chegada.", "Verbalizou sobre o que gostou ou não na sessão."] },
+  ],
   "Padrão": [
     { id: "sessionDate", label: "Data da Sessão", type: "date", defaultValue: new Date().toISOString().split('T')[0] },
     { id: "chegadaPaciente", label: "Como o paciente chegou?", type: "textarea", placeholder: "Estado de humor, relato do cuidador...", suggestions: ["Chegou tranquilo e cooperativo.", "Apresentou-se agitado.", "Cuidador relatou uma boa semana."] },
@@ -94,7 +105,6 @@ const evolutionModels: Record<string, EvolutionField[]> = {
 evolutionModels["Psicomotricidade"] = evolutionModels["Terapia Ocupacional"];
 evolutionModels["Psicopedagogia"] = evolutionModels["Psicologia"];
 evolutionModels["Fisioterapia"] = evolutionModels["Terapia Ocupacional"];
-evolutionModels["Nutrição"] = evolutionModels["Padrão"];
 
 
 interface EvolutionFormProps {
