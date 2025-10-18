@@ -10,6 +10,7 @@ export interface ProfileData {
   address?: string;
   specialty: string;
   crp?: string;
+  avatarUrl?: string;
 }
 
 const Profile = () => {
@@ -21,7 +22,22 @@ const Profile = () => {
     address: "Rua Exemplo, 123 - Cidade, Estado",
     specialty: "Psicologia",
     crp: "CRP 00/12345",
+    avatarUrl: "/placeholder.svg",
   });
+
+  const handleAvatarChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files[0]) {
+      const file = event.target.files[0];
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setProfileData(prevData => ({
+          ...prevData,
+          avatarUrl: reader.result as string,
+        }));
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-background p-6 pb-20 md:pb-0 flex-1">
@@ -29,9 +45,10 @@ const Profile = () => {
       <ProfileHeader
         name={profileData.name}
         specialty={profileData.specialty}
-        avatarUrl="/placeholder.svg"
+        avatarUrl={profileData.avatarUrl}
         isEditing={isEditing}
         setIsEditing={setIsEditing}
+        onAvatarChange={handleAvatarChange}
       />
       <ProfileTabs
         isEditing={isEditing}
