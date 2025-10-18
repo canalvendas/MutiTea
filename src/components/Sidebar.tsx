@@ -1,6 +1,7 @@
 import { NavLink } from "react-router-dom";
 import { Home, Users, Calendar, FileText, User } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Logo } from "./Logo";
 
 const navItems = [
   { name: "Início", icon: Home, path: "/" },
@@ -14,8 +15,8 @@ export const Sidebar = () => {
   return (
     <aside className="hidden md:flex flex-col w-64 border-r bg-sidebar-background text-sidebar-foreground p-4">
       {/* Logo Section */}
-      <div className="flex items-center justify-center h-20 mb-4">
-        <img src="/images/terapiapp-logo.png" alt="Multi Tea Logo" className="h-12" />
+      <div className="flex items-center h-20 mb-4 px-2">
+        <Logo />
       </div>
 
       {/* Navigation Links */}

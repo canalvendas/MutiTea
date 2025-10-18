@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { MadeWithDyad } from "@/components/made-with-dyad";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { Logo } from "@/components/Logo";
 
 const Dashboard = () => {
   const isMobile = useIsMobile();
@@ -37,13 +38,7 @@ const Dashboard = () => {
       {/* Header */}
       <header className="flex items-center justify-between p-4 bg-background border-b">
         {isMobile && (
-          <div className="flex items-center space-x-2">
-            <img src="/images/terapiapp-logo.png" alt="Multi Tea Logo" className="h-8" />
-            <div className="flex flex-col">
-              <span className="font-semibold text-lg">Multi Tea</span>
-              <span className="text-xs text-gray-500">Dra. Marina Silva</span>
-            </div>
-          </div>
+          <Logo size="sm" />
         )}
         {!isMobile && <div className="w-8"></div>}
         <div className="flex items-center space-x-4 ml-auto">
