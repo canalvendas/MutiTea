@@ -23,7 +23,7 @@ const Patients = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background p-6 pb-20 md:pb-0 flex-1">
+    <div className="p-6">
       <h1 className="text-3xl font-bold mb-8">Pacientes</h1>
 
       {/* Search and Add Patient Section */}

@@ -38,7 +38,7 @@ const Reports = () => {
   });
 
   return (
-    <div className="min-h-screen bg-background p-6 pb-20 md:pb-0 flex-1">
+    <div className="p-6">
       <h1 className="text-3xl font-bold mb-8">Relatórios</h1>
 
       <div className="flex flex-col md:flex-row items-center justify-between mb-8 space-y-4 md:space-y-0 md:space-x-4">
