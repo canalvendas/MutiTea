@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef } from "react";
+import React, { useRef, useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -298,17 +298,20 @@ const dynamicSchema = z.object(dynamicSchemaDef);
 export type AnamneseFormData = z.infer<typeof dynamicSchema>;
 
 interface AnamneseFormProps {
+  id?: string;
   specialty: string;
   onSave: (data: AnamneseFormData) => void;
+  initialData?: AnamneseFormData | null;
+  hideButtons?: boolean;
 }
 
-export const AnamneseForm = ({ specialty, onSave }: AnamneseFormProps) => {
+export const AnamneseForm = ({ id, specialty, onSave, initialData = null, hideButtons = false }: AnamneseFormProps) => {
   const formRef = useRef<HTMLFormElement>(null);
   const currentModel = anamneseModels[specialty] || anamneseModels["Padrão"];
 
   const form = useForm<AnamneseFormData>({
     resolver: zodResolver(dynamicSchema),
-    defaultValues: {
+    defaultValues: initialData || {
       patientName: "",
       ...currentModel.reduce((acc, field) => {
         acc[field.id as keyof AnamneseFormData] = field.defaultValue !== undefined ? field.defaultValue : (field.type === 'checkbox-group' ? [] : "");
@@ -317,10 +320,18 @@ export const AnamneseForm = ({ specialty, onSave }: AnamneseFormProps) => {
     }
   });
 
+  useEffect(() => {
+    if (initialData) {
+      form.reset(initialData);
+    }
+  }, [initialData, form.reset]);
+
   const onSubmit = (data: AnamneseFormData) => {
     onSave(data);
-    toast.success("Anamnese salva com sucesso!");
-    form.reset({ patientName: "", ...Object.fromEntries(Object.keys(form.getValues()).map(key => [key, ''])) });
+    if (!initialData) {
+      toast.success("Anamnese salva com sucesso!");
+      form.reset({ patientName: "", ...Object.fromEntries(Object.keys(form.getValues()).map(key => [key, ''])) });
+    }
   };
 
   const handleDownloadPDF = () => {
@@ -368,7 +379,7 @@ export const AnamneseForm = ({ specialty, onSave }: AnamneseFormProps) => {
 
   return (
     <Form {...form}>
-      <form ref={formRef} onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+      <form id={id} ref={formRef} onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
         <FormField
           control={form.control}
           name="patientName"
@@ -468,13 +479,15 @@ export const AnamneseForm = ({ specialty, onSave }: AnamneseFormProps) => {
             />
           );
         })}
-        <div className="flex space-x-2 pt-2 form-buttons">
-          <Button type="submit">Salvar Anamnese</Button>
-          <Button type="button" variant="outline" onClick={handleDownloadPDF}>
-            <Download className="mr-2 h-4 w-4" />
-            Baixar PDF
-          </Button>
-        </div>
+        {!hideButtons && (
+          <div className="flex space-x-2 pt-2 form-buttons">
+            <Button type="submit">Salvar Anamnese</Button>
+            <Button type="button" variant="outline" onClick={handleDownloadPDF}>
+              <Download className="mr-2 h-4 w-4" />
+              Baixar PDF
+            </Button>
+          </div>
+        )}
       </form>
     </Form>
   );

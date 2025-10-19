@@ -3,6 +3,8 @@ import { MadeWithDyad } from "@/components/made-with-dyad";
 import { ProfileHeader } from "@/components/ProfileHeader";
 import { ProfileTabs } from "@/components/ProfileTabs";
 import { AnamneseFormData } from "@/components/AnamneseForm";
+import { EditAnamneseDialog } from "@/components/EditAnamneseDialog";
+import { toast } from "sonner";
 
 export interface ProfileData {
   name: string;
@@ -48,15 +50,48 @@ const Profile = () => {
     }
   ]);
 
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+  const [currentAnamnese, setCurrentAnamnese] = useState<SavedAnamnese | null>(null);
+
   const handleSaveAnamnese = (formData: AnamneseFormData) => {
     const newAnamnese: SavedAnamnese = {
       id: new Date().toISOString(),
       patientName: formData.patientName,
-      submissionDate: new Date().toISOString().split('T')[0], // Salva como YYYY-MM-DD
+      submissionDate: new Date().toISOString().split('T')[0],
       specialty: profileData.specialty,
       data: formData,
     };
     setSavedAnamneses(prev => [newAnamnese, ...prev]);
+  };
+
+  const handleEditAnamnese = (id: string) => {
+    const anamneseToEdit = savedAnamneses.find((a) => a.id === id);
+    if (anamneseToEdit) {
+      setCurrentAnamnese(anamneseToEdit);
+      setIsEditDialogOpen(true);
+    }
+  };
+
+  const handleDeleteAnamnese = (id: string) => {
+    if (window.confirm("Tem certeza que deseja excluir esta anamnese? Esta ação não pode ser desfeita.")) {
+      setSavedAnamneses((prev) => prev.filter((a) => a.id !== id));
+      toast.success("Anamnese excluída com sucesso.");
+    }
+  };
+
+  const handleUpdateAnamnese = (updatedData: AnamneseFormData) => {
+    if (!currentAnamnese) return;
+
+    setSavedAnamneses((prev) =>
+      prev.map((a) =>
+        a.id === currentAnamnese.id
+          ? { ...a, data: updatedData, patientName: updatedData.patientName }
+          : a
+      )
+    );
+    toast.success("Anamnese atualizada com sucesso!");
+    setIsEditDialogOpen(false);
+    setCurrentAnamnese(null);
   };
 
   const handleAvatarChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -91,6 +126,14 @@ const Profile = () => {
         setProfileData={setProfileData}
         savedAnamneses={savedAnamneses}
         onSaveAnamnese={handleSaveAnamnese}
+        onEditAnamnese={handleEditAnamnese}
+        onDeleteAnamnese={handleDeleteAnamnese}
+      />
+      <EditAnamneseDialog
+        isOpen={isEditDialogOpen}
+        onClose={() => setIsEditDialogOpen(false)}
+        anamnese={currentAnamnese}
+        onSave={handleUpdateAnamnese}
       />
       <MadeWithDyad />
     </div>

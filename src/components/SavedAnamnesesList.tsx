@@ -6,9 +6,13 @@ import {
 } from "@/components/ui/accordion";
 import { SavedAnamnese } from "@/pages/Profile";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Edit, Trash2 } from "lucide-react";
 
 interface SavedAnamnesesListProps {
   anamneses: SavedAnamnese[];
+  onEdit: (id: string) => void;
+  onDelete: (id: string) => void;
 }
 
 const formatLabel = (key: string) => {
@@ -16,7 +20,7 @@ const formatLabel = (key: string) => {
   return result.charAt(0).toUpperCase() + result.slice(1);
 };
 
-export const SavedAnamnesesList = ({ anamneses }: SavedAnamnesesListProps) => {
+export const SavedAnamnesesList = ({ anamneses, onEdit, onDelete }: SavedAnamnesesListProps) => {
   if (anamneses.length === 0) {
     return <p className="text-muted-foreground text-center py-4">Nenhuma anamnese salva ainda.</p>;
   }
@@ -51,6 +55,16 @@ export const SavedAnamnesesList = ({ anamneses }: SavedAnamnesesListProps) => {
                 </div>
               );
             })}
+            <div className="flex justify-end space-x-2 pt-4 border-t mt-4">
+              <Button variant="outline" size="sm" onClick={() => onEdit(anamnese.id)}>
+                <Edit className="h-4 w-4 mr-2" />
+                Editar
+              </Button>
+              <Button variant="destructive" size="sm" onClick={() => onDelete(anamnese.id)}>
+                <Trash2 className="h-4 w-4 mr-2" />
+                Excluir
+              </Button>
+            </div>
           </AccordionContent>
         </AccordionItem>
       ))}

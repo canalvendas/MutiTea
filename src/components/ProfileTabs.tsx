@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -55,9 +55,11 @@ interface ProfileTabsProps {
   setProfileData: (data: ProfileData) => void;
   savedAnamneses: SavedAnamnese[];
   onSaveAnamnese: (data: AnamneseFormData) => void;
+  onEditAnamnese: (id: string) => void;
+  onDeleteAnamnese: (id: string) => void;
 }
 
-export const ProfileTabs = ({ isEditing, setIsEditing, profileData, setProfileData, savedAnamneses, onSaveAnamnese }: ProfileTabsProps) => {
+export const ProfileTabs = ({ isEditing, setIsEditing, profileData, setProfileData, savedAnamneses, onSaveAnamnese, onEditAnamnese, onDeleteAnamnese }: ProfileTabsProps) => {
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(profileFormSchema),
     defaultValues: profileData,
@@ -216,10 +218,14 @@ export const ProfileTabs = ({ isEditing, setIsEditing, profileData, setProfileDa
         <Card>
           <CardHeader>
             <CardTitle>Anamneses Salvas</CardTitle>
-            <CardDescription>Visualize as anamneses preenchidas anteriormente.</CardDescription>
+            <CardDescription>Visualize, edite ou exclua as anamneses preenchidas.</CardDescription>
           </CardHeader>
           <CardContent>
-            <SavedAnamnesesList anamneses={savedAnamneses} />
+            <SavedAnamnesesList
+              anamneses={savedAnamneses}
+              onEdit={onEditAnamnese}
+              onDelete={onDeleteAnamnese}
+            />
           </CardContent>
         </Card>
 
