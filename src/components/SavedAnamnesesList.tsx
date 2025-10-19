@@ -7,7 +7,7 @@ import {
 import { SavedAnamnese } from "@/pages/Profile";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Edit, Trash2 } from "lucide-react";
+import { Edit, Trash2, Eye } from "lucide-react";
 
 interface SavedAnamnesesListProps {
   anamneses: SavedAnamnese[];
@@ -37,7 +37,13 @@ export const SavedAnamnesesList = ({ anamneses, onEdit, onDelete }: SavedAnamnes
                   Data: {new Date(anamnese.submissionDate).toLocaleDateString('pt-BR')}
                 </p>
               </div>
-              <Badge variant="outline">{anamnese.specialty}</Badge>
+              <div className="flex items-center gap-4">
+                <Badge variant="outline">{anamnese.specialty}</Badge>
+                <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground hidden md:flex">
+                  <Eye className="h-4 w-4 mr-2" />
+                  Visualizar
+                </Button>
+              </div>
             </div>
           </AccordionTrigger>
           <AccordionContent className="space-y-4 pt-2">
@@ -56,11 +62,11 @@ export const SavedAnamnesesList = ({ anamneses, onEdit, onDelete }: SavedAnamnes
               );
             })}
             <div className="flex justify-end space-x-2 pt-4 border-t mt-4">
-              <Button variant="outline" size="sm" onClick={() => onEdit(anamnese.id)}>
+              <Button variant="outline" size="sm" onClick={(e) => { e.stopPropagation(); onEdit(anamnese.id); }}>
                 <Edit className="h-4 w-4 mr-2" />
                 Editar
               </Button>
-              <Button variant="destructive" size="sm" onClick={() => onDelete(anamnese.id)}>
+              <Button variant="destructive" size="sm" onClick={(e) => { e.stopPropagation(); onDelete(anamnese.id); }}>
                 <Trash2 className="h-4 w-4 mr-2" />
                 Excluir
               </Button>
