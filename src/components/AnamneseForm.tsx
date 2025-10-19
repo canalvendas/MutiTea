@@ -277,18 +277,10 @@ const anamneseModels: Record<string, AnamneseField[]> = {
   ]
 };
 
-
-interface AnamneseFormProps {
-  specialty: string;
-}
-
-export const AnamneseForm = ({ specialty }: AnamneseFormProps) => {
-  const formRef = useRef<HTMLFormElement>(null);
-  const currentModel = anamneseModels[specialty] || anamneseModels["Padrão"];
-
-  const dynamicSchema = z.object({
-    patientName: z.string().min(1, { message: "O nome do paciente é obrigatório." }),
-    ...currentModel.reduce((acc, field) => {
+const dynamicSchemaDef = {
+  patientName: z.string().min(1, { message: "O nome do paciente é obrigatório." }),
+  ...Object.values(anamneseModels).flat().reduce((acc, field) => {
+    if (field.type !== "section-header") {
       let fieldSchema: z.ZodType<any, any, any>;
       if (field.type === "textarea" || field.type === "radio-group" || field.type === "select") {
         fieldSchema = z.string().optional();
@@ -298,10 +290,21 @@ export const AnamneseForm = ({ specialty }: AnamneseFormProps) => {
         fieldSchema = z.any().optional();
       }
       return { ...acc, [field.id]: fieldSchema };
-    }, {})
-  });
+    }
+    return acc;
+  }, {})
+};
+const dynamicSchema = z.object(dynamicSchemaDef);
+export type AnamneseFormData = z.infer<typeof dynamicSchema>;
 
-  type AnamneseFormData = z.infer<typeof dynamicSchema>;
+interface AnamneseFormProps {
+  specialty: string;
+  onSave: (data: AnamneseFormData) => void;
+}
+
+export const AnamneseForm = ({ specialty, onSave }: AnamneseFormProps) => {
+  const formRef = useRef<HTMLFormElement>(null);
+  const currentModel = anamneseModels[specialty] || anamneseModels["Padrão"];
 
   const form = useForm<AnamneseFormData>({
     resolver: zodResolver(dynamicSchema),
@@ -315,8 +318,9 @@ export const AnamneseForm = ({ specialty }: AnamneseFormProps) => {
   });
 
   const onSubmit = (data: AnamneseFormData) => {
-    console.log("Anamnese submitted:", data);
+    onSave(data);
     toast.success("Anamnese salva com sucesso!");
+    form.reset({ patientName: "", ...Object.fromEntries(Object.keys(form.getValues()).map(key => [key, ''])) });
   };
 
   const handleDownloadPDF = () => {
@@ -371,7 +375,7 @@ export const AnamneseForm = ({ specialty }: AnamneseFormProps) => {
           render={({ field }) => (
             <FormItem>
               <FormLabel className="font-bold text-lg">Nome do Paciente</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
+              <Select onValueChange={field.onChange} value={field.value || ""}>
                 <FormControl>
                   <SelectTrigger>
                     <SelectValue placeholder="Selecione um paciente" />
@@ -410,11 +414,11 @@ export const AnamneseForm = ({ specialty }: AnamneseFormProps) => {
                   {field.description && <FormDescription>{field.description}</FormDescription>}
                   <FormControl>
                     {field.type === "textarea" ? (
-                      <Textarea placeholder={field.placeholder} {...formField} rows={4} />
+                      <Textarea placeholder={field.placeholder} {...formField} value={formField.value || ''} rows={4} />
                     ) : field.type === "radio-group" ? (
                       <RadioGroup
                         onValueChange={formField.onChange}
-                        defaultValue={formField.value as string}
+                        value={formField.value as string || ""}
                         className="flex flex-col space-y-1"
                       >
                         {field.options?.map((option) => (
@@ -455,7 +459,7 @@ export const AnamneseForm = ({ specialty }: AnamneseFormProps) => {
                         ))}
                       </div>
                     ) : (
-                      <Input placeholder={field.placeholder} {...formField} />
+                      <Input placeholder={field.placeholder} {...formField} value={formField.value || ''} />
                     )}
                   </FormControl>
                   <FormMessage />

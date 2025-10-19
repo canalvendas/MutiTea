@@ -23,11 +23,18 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { toast } from "sonner";
-import { AnamneseForm } from "./AnamneseForm";
-import { ProfileData } from "@/pages/Profile";
+import { AnamneseForm, AnamneseFormData } from "./AnamneseForm";
+import { ProfileData, SavedAnamnese } from "@/pages/Profile";
 import { EvolutionForm } from "./EvolutionForm";
 import { TherapeuticPlanForm } from "./TherapeuticPlanForm";
 import { Input } from "@/components/ui/input";
+import { SavedAnamnesesList } from "./SavedAnamnesesList";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
+import { ChevronsUpDown } from "lucide-react";
 
 // Esquema de validação para os dados cadastrais
 const profileFormSchema = z.object({
@@ -46,9 +53,11 @@ interface ProfileTabsProps {
   setIsEditing: (isEditing: boolean) => void;
   profileData: ProfileData;
   setProfileData: (data: ProfileData) => void;
+  savedAnamneses: SavedAnamnese[];
+  onSaveAnamnese: (data: AnamneseFormData) => void;
 }
 
-export const ProfileTabs = ({ isEditing, setIsEditing, profileData, setProfileData }: ProfileTabsProps) => {
+export const ProfileTabs = ({ isEditing, setIsEditing, profileData, setProfileData, savedAnamneses, onSaveAnamnese }: ProfileTabsProps) => {
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(profileFormSchema),
     defaultValues: profileData,
@@ -203,16 +212,38 @@ export const ProfileTabs = ({ isEditing, setIsEditing, profileData, setProfileDa
         </Card>
       </TabsContent>
 
-      <TabsContent value="anamnese" className="mt-4">
+      <TabsContent value="anamnese" className="mt-4 space-y-6">
         <Card>
           <CardHeader>
-            <CardTitle>Anamnese</CardTitle>
-            <CardDescription>Preencha o histórico detalhado do paciente de acordo com sua especialidade.</CardDescription>
+            <CardTitle>Anamneses Salvas</CardTitle>
+            <CardDescription>Visualize as anamneses preenchidas anteriormente.</CardDescription>
           </CardHeader>
           <CardContent>
-            <AnamneseForm specialty={currentSpecialty} />
+            <SavedAnamnesesList anamneses={savedAnamneses} />
           </CardContent>
         </Card>
+
+        <Collapsible>
+          <Card>
+            <CollapsibleTrigger asChild>
+              <div className="flex w-full cursor-pointer items-center justify-between p-4">
+                <CardHeader className="p-0">
+                  <CardTitle>Criar Nova Anamnese</CardTitle>
+                  <CardDescription>Clique aqui para preencher um novo formulário.</CardDescription>
+                </CardHeader>
+                <Button variant="ghost" size="sm" className="w-9 p-0">
+                  <ChevronsUpDown className="h-4 w-4" />
+                  <span className="sr-only">Toggle</span>
+                </Button>
+              </div>
+            </CollapsibleTrigger>
+            <CollapsibleContent>
+              <CardContent className="pt-4">
+                <AnamneseForm specialty={currentSpecialty} onSave={onSaveAnamnese} />
+              </CardContent>
+            </CollapsibleContent>
+          </Card>
+        </Collapsible>
       </TabsContent>
 
       <TabsContent value="evolucao" className="mt-4">

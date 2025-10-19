@@ -2,6 +2,7 @@ import { useState } from "react";
 import { MadeWithDyad } from "@/components/made-with-dyad";
 import { ProfileHeader } from "@/components/ProfileHeader";
 import { ProfileTabs } from "@/components/ProfileTabs";
+import { AnamneseFormData } from "@/components/AnamneseForm";
 
 export interface ProfileData {
   name: string;
@@ -11,6 +12,14 @@ export interface ProfileData {
   specialty: string;
   crp?: string;
   avatarUrl?: string;
+}
+
+export interface SavedAnamnese {
+  id: string;
+  patientName: string;
+  submissionDate: string;
+  specialty: string;
+  data: AnamneseFormData;
 }
 
 const Profile = () => {
@@ -24,6 +33,31 @@ const Profile = () => {
     crp: "CRP 00/12345",
     avatarUrl: "/placeholder.svg",
   });
+
+  const [savedAnamneses, setSavedAnamneses] = useState<SavedAnamnese[]>([
+    {
+      id: '1',
+      patientName: 'João Pedro Santos',
+      submissionDate: '2024-07-15',
+      specialty: 'Psicologia',
+      data: {
+        patientName: 'João Pedro Santos',
+        queixaPrincipal: 'Dificuldade de interação social na escola.',
+        historicoQueixa: 'Os pais notaram os primeiros sinais por volta dos 3 anos de idade.',
+      } as AnamneseFormData,
+    }
+  ]);
+
+  const handleSaveAnamnese = (formData: AnamneseFormData) => {
+    const newAnamnese: SavedAnamnese = {
+      id: new Date().toISOString(),
+      patientName: formData.patientName,
+      submissionDate: new Date().toISOString().split('T')[0], // Salva como YYYY-MM-DD
+      specialty: profileData.specialty,
+      data: formData,
+    };
+    setSavedAnamneses(prev => [newAnamnese, ...prev]);
+  };
 
   const handleAvatarChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
@@ -55,6 +89,8 @@ const Profile = () => {
         setIsEditing={setIsEditing}
         profileData={profileData}
         setProfileData={setProfileData}
+        savedAnamneses={savedAnamneses}
+        onSaveAnamnese={handleSaveAnamnese}
       />
       <MadeWithDyad />
     </div>
