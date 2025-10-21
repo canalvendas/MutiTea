@@ -60,6 +60,9 @@ const specialtyToCouncil: Record<string, string> = {
   "Terapia Ocupacional": "CREFITO",
 };
 
+// Especialidades que não possuem um conselho federal e não devem exibir o campo de registro
+const specialtiesWithoutCouncil = ["Psicomotricidade", "Psicopedagogia", "Musicoterapia"];
+
 interface ProfileTabsProps {
   isEditing: boolean;
   setIsEditing: (isEditing: boolean) => void;
@@ -94,6 +97,7 @@ export const ProfileTabs = ({
   }, [profileData, form]);
 
   const currentSpecialty = form.watch("specialty");
+  const showCouncilField = !specialtiesWithoutCouncil.includes(currentSpecialty);
 
   const onSubmitProfile = (data: ProfileFormValues) => {
     setProfileData(data);
@@ -210,19 +214,21 @@ export const ProfileTabs = ({
                       </FormItem>
                     )}
                   />
-                  <FormField
-                    control={form.control}
-                    name="crp"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>{specialtyToCouncil[currentSpecialty] || "Registro Profissional"}</FormLabel>
-                        <FormControl>
-                          <Input {...field} disabled={!isEditing} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                  {showCouncilField && (
+                    <FormField
+                      control={form.control}
+                      name="crp"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>{specialtyToCouncil[currentSpecialty] || "Registro Profissional"}</FormLabel>
+                          <FormControl>
+                            <Input {...field} disabled={!isEditing} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  )}
                 </div>
                 {isEditing && (
                   <div className="flex space-x-2 pt-2">
