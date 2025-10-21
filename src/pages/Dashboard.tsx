@@ -30,7 +30,7 @@ const Dashboard = () => {
   ];
 
   return (
-    <div className="p-6 space-y-8">
+    <div className="p-4 md:p-6 space-y-8">
       <h1 className="text-3xl font-bold">Dashboard</h1>
 
       {/* Metric Cards */}

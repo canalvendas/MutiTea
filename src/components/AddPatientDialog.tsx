@@ -52,63 +52,63 @@ export const AddPatientDialog = ({ isOpen, onClose, onAddPatient }: AddPatientDi
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="name" className="text-right">
+          <div className="grid grid-cols-1 sm:grid-cols-4 items-center gap-4">
+            <Label htmlFor="name" className="text-left sm:text-right">
               Nome
             </Label>
             <Input
               id="name"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="col-span-3"
+              className="col-span-full sm:col-span-3"
               placeholder="Nome completo do paciente"
             />
           </div>
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="birthDate" className="text-right">
+          <div className="grid grid-cols-1 sm:grid-cols-4 items-center gap-4">
+            <Label htmlFor="birthDate" className="text-left sm:text-right">
               Nascimento
             </Label>
             <Input
               id="birthDate"
               value={birthDate}
               onChange={(e) => setBirthDate(e.target.value)}
-              className="col-span-3"
+              className="col-span-full sm:col-span-3"
               placeholder="DD/MM/AAAA"
             />
           </div>
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="diagnosis" className="text-right">
+          <div className="grid grid-cols-1 sm:grid-cols-4 items-center gap-4">
+            <Label htmlFor="diagnosis" className="text-left sm:text-right">
               Diagnóstico
             </Label>
             <Input
               id="diagnosis"
               value={diagnosis}
               onChange={(e) => setDiagnosis(e.target.value)}
-              className="col-span-3"
+              className="col-span-full sm:col-span-3"
               placeholder="Ex: TEA, TDAH..."
             />
           </div>
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="motherName" className="text-right">
+          <div className="grid grid-cols-1 sm:grid-cols-4 items-center gap-4">
+            <Label htmlFor="motherName" className="text-left sm:text-right">
               Nome da Mãe
             </Label>
             <Input
               id="motherName"
               value={motherName}
               onChange={(e) => setMotherName(e.target.value)}
-              className="col-span-3"
+              className="col-span-full sm:col-span-3"
               placeholder="Nome completo da mãe"
             />
           </div>
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="phone" className="text-right">
+          <div className="grid grid-cols-1 sm:grid-cols-4 items-center gap-4">
+            <Label htmlFor="phone" className="text-left sm:text-right">
               Telefone
             </Label>
             <Input
               id="phone"
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
-              className="col-span-3"
+              className="col-span-full sm:col-span-3"
               placeholder="(XX) XXXXX-XXXX"
             />
           </div>

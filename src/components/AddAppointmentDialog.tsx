@@ -42,19 +42,19 @@ export const AddAppointmentDialog = ({ isOpen, onClose, onAddAppointment }: AddA
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="patientName" className="text-right">
+          <div className="grid grid-cols-1 sm:grid-cols-4 items-center gap-4">
+            <Label htmlFor="patientName" className="text-left sm:text-right">
               Paciente
             </Label>
             <Input
               id="patientName"
               value={patientName}
               onChange={(e) => setPatientName(e.target.value)}
-              className="col-span-3"
+              className="col-span-full sm:col-span-3"
             />
           </div>
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="time" className="text-right">
+          <div className="grid grid-cols-1 sm:grid-cols-4 items-center gap-4">
+            <Label htmlFor="time" className="text-left sm:text-right">
               Horário
             </Label>
             <Input
@@ -62,18 +62,18 @@ export const AddAppointmentDialog = ({ isOpen, onClose, onAddAppointment }: AddA
               value={time}
               onChange={(e) => setTime(e.target.value)}
               placeholder="Ex: 09:00 - 10:00"
-              className="col-span-3"
+              className="col-span-full sm:col-span-3"
             />
           </div>
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="specialty" className="text-right">
+          <div className="grid grid-cols-1 sm:grid-cols-4 items-center gap-4">
+            <Label htmlFor="specialty" className="text-left sm:text-right">
               Especialidade
             </Label>
             <Input
               id="specialty"
               value={specialty}
               onChange={(e) => setSpecialty(e.target.value)}
-              className="col-span-3"
+              className="col-span-full sm:col-span-3"
             />
           </div>
         </div>
