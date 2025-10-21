@@ -5,7 +5,7 @@ import { toast } from "sonner";
 import jsPDF from 'jspdf';
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { Download, Sparkles, Upload, Save, BrainCircuit, Eye, ArrowLeft, ArrowRight, Trash2 } from "lucide-react";
+import { Download, Upload, Save, BrainCircuit, ArrowLeft, ArrowRight, Trash2 } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -170,7 +170,152 @@ export const ReportWizard = ({ specialty, profileData }: ReportWizardProps) => {
   };
 
   const handleDownloadPDF = () => {
-    // PDF generation logic remains the same as before
+    if (!selectedPatient) {
+      toast.error("Por favor, selecione um paciente para gerar o relatório.");
+      return;
+    }
+    toast.info("Gerando PDF do relatório...");
+
+    const doc = new jsPDF('p', 'mm', 'a4');
+    const pageWidth = doc.internal.pageSize.getWidth();
+    const pageHeight = doc.internal.pageSize.getHeight();
+    const margin = 15;
+    let y = margin;
+
+    // --- Helper function for page breaks ---
+    const checkPageBreak = (heightNeeded: number) => {
+      if (y + heightNeeded > pageHeight - margin) {
+        doc.addPage();
+        y = margin;
+      }
+    };
+
+    // --- Header ---
+    if (logo) {
+      try {
+        const imgProps = doc.getImageProperties(logo);
+        const logoHeight = 20;
+        const logoWidth = (imgProps.width * logoHeight) / imgProps.height;
+        doc.addImage(logo, 'PNG', margin, y, logoWidth, logoHeight);
+      } catch (e) {
+        console.error("Erro ao adicionar logo:", e);
+        toast.error("Ocorreu um erro ao adicionar o logo ao PDF.");
+      }
+    }
+    
+    doc.setFontSize(18);
+    doc.setFont("helvetica", "bold");
+    doc.text("Relatório de Acompanhamento", pageWidth / 2, y + 10, { align: 'center' });
+    y += 30;
+
+    // --- Therapist and Patient Info ---
+    doc.setFontSize(11);
+    doc.setFont("helvetica", "bold");
+    doc.text("Terapeuta:", margin, y);
+    doc.setFont("helvetica", "normal");
+    doc.text(profileData.name, margin + 25, y);
+    y += 6;
+
+    doc.setFont("helvetica", "bold");
+    doc.text("Especialidade:", margin, y);
+    doc.setFont("helvetica", "normal");
+    doc.text(profileData.specialty, margin + 25, y);
+    if (profileData.crp) {
+        doc.text(`${profileData.crp}`, pageWidth - margin, y, { align: 'right' });
+    }
+    y += 10;
+
+    doc.setDrawColor(224, 224, 224);
+    doc.line(margin, y, pageWidth - margin, y);
+    y += 10;
+
+    doc.setFont("helvetica", "bold");
+    doc.text("Paciente:", margin, y);
+    doc.setFont("helvetica", "normal");
+    doc.text(selectedPatient, margin + 20, y);
+    y += 6;
+
+    const period = (startDate && endDate) 
+        ? `${new Date(startDate).toLocaleDateString('pt-BR', { timeZone: 'UTC' })} a ${new Date(endDate).toLocaleDateString('pt-BR', { timeZone: 'UTC' })}`
+        : "Período não especificado";
+    doc.setFont("helvetica", "bold");
+    doc.text("Período:", margin, y);
+    doc.setFont("helvetica", "normal");
+    doc.text(period, margin + 20, y);
+    y += 15;
+
+    // --- Body ---
+    reportSections.forEach(section => {
+      const content = reportContent[section.id];
+      if (content && content.trim()) {
+        const titleLines = doc.splitTextToSize(section.title, pageWidth - margin * 2);
+        const contentLines = doc.splitTextToSize(content, pageWidth - margin * 2);
+        const heightNeeded = (titleLines.length * 7) + (contentLines.length * 5) + 5;
+        
+        checkPageBreak(heightNeeded);
+
+        doc.setFontSize(12);
+        doc.setFont("helvetica", "bold");
+        doc.text(titleLines, margin, y);
+        y += titleLines.length * 7;
+
+        doc.setFontSize(11);
+        doc.setFont("helvetica", "normal");
+        doc.text(contentLines, margin, y);
+        y += contentLines.length * 5 + 10;
+      }
+    });
+
+    // --- Footer (Signature and Stamp) ---
+    const footerHeight = 50;
+    checkPageBreak(footerHeight);
+    y = pageHeight - margin - footerHeight;
+
+    if (signature) {
+        try {
+            const sigProps = doc.getImageProperties(signature);
+            const sigHeight = 20;
+            const sigWidth = (sigProps.width * sigHeight) / sigProps.height;
+            const sigX = (pageWidth / 2) - (sigWidth / 2);
+            doc.addImage(signature, 'PNG', sigX, y, sigWidth, sigHeight);
+        } catch(e) {
+            console.error("Erro ao adicionar assinatura:", e);
+        }
+    }
+
+    doc.setDrawColor(0, 0, 0);
+    doc.line(pageWidth / 2 - 40, y + 22, pageWidth / 2 + 40, y + 22);
+    doc.setFontSize(10);
+    doc.text(profileData.name, pageWidth / 2, y + 28, { align: 'center' });
+    if (profileData.crp) {
+        doc.text(profileData.crp, pageWidth / 2, y + 33, { align: 'center' });
+    }
+
+    if (stamp) {
+        try {
+            const stampProps = doc.getImageProperties(stamp);
+            const stampSize = 25;
+            doc.addImage(stamp, 'PNG', pageWidth - margin - stampSize - 5, y, stampSize, stampSize);
+        } catch(e) {
+            console.error("Erro ao adicionar carimbo:", e);
+        }
+    }
+
+    // --- Page numbers ---
+    const pageCount = doc.getNumberOfPages();
+    for (let i = 1; i <= pageCount; i++) {
+        doc.setPage(i);
+        doc.setFontSize(9);
+        doc.setTextColor(150);
+        doc.text(
+            `Página ${i} de ${pageCount}`,
+            pageWidth - margin,
+            pageHeight - 10,
+            { align: 'right' }
+        );
+    }
+
+    doc.save(`Relatorio_${specialty}_${selectedPatient.replace(/\s+/g, '_')}.pdf`);
     toast.success("PDF gerado com sucesso!");
   };
 
@@ -285,15 +430,15 @@ export const ReportWizard = ({ specialty, profileData }: ReportWizardProps) => {
 
           <div className="space-y-4">
             <Label className="font-medium">Ações Finais</Label>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+            <div className="flex flex-col sm:flex-row sm:justify-end sm:space-x-2 space-y-2 sm:space-y-0">
               <Button variant="outline" onClick={() => toast.info("Funcionalidade 'Organizar com IA' em desenvolvimento.")}>
                 <BrainCircuit className="mr-2 h-4 w-4" /> Organizar com IA
               </Button>
               <Button variant="outline" onClick={() => toast.success("Relatório salvo com sucesso no sistema!")}>
                 <Save className="mr-2 h-4 w-4" /> Salvar Relatório
               </Button>
-              <Button onClick={handleDownloadPDF} className="sm:col-span-2 md:col-span-1">
-                <Eye className="mr-2 h-4 w-4" /> Visualizar Relatório (PDF)
+              <Button onClick={handleDownloadPDF}>
+                <Download className="mr-2 h-4 w-4" /> Gerar PDF
               </Button>
             </div>
           </div>
