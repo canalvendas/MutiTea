@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef } from "react";
+import React, { useRef, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -116,30 +116,34 @@ evolutionModels["Psicomotricidade"] = evolutionModels["Terapia Ocupacional"];
 evolutionModels["Psicopedagogia"] = evolutionModels["Psicologia"];
 evolutionModels["Fisioterapia"] = evolutionModels["Terapia Ocupacional"];
 
+const createEvolutionSchema = (model: EvolutionField[]) => z.object({
+  patientName: z.string().min(1, { message: "O nome do paciente é obrigatório." }),
+  ...model.reduce((acc, field) => {
+    if (field.type !== "section-header") {
+      return { ...acc, [field.id]: z.string().optional() };
+    }
+    return acc;
+  }, {})
+});
+
+export type EvolutionFormData = z.infer<ReturnType<typeof createEvolutionSchema>>;
 
 interface EvolutionFormProps {
+  id?: string;
   specialty: string;
+  onSave: (data: EvolutionFormData) => void;
+  initialData?: EvolutionFormData | null;
+  hideButtons?: boolean;
 }
 
-export const EvolutionForm = ({ specialty }: EvolutionFormProps) => {
+export const EvolutionForm = ({ id, specialty, onSave, initialData = null, hideButtons = false }: EvolutionFormProps) => {
   const formRef = useRef<HTMLFormElement>(null);
   const currentModel = evolutionModels[specialty] || evolutionModels["Padrão"];
-
-  const dynamicSchema = z.object({
-    patientName: z.string().min(1, { message: "O nome do paciente é obrigatório." }),
-    ...currentModel.reduce((acc, field) => {
-      if (field.type !== "section-header") {
-        return { ...acc, [field.id]: z.string().optional() };
-      }
-      return acc;
-    }, {})
-  });
-
-  type EvolutionFormData = z.infer<typeof dynamicSchema>;
+  const evolutionSchema = createEvolutionSchema(currentModel);
 
   const form = useForm<EvolutionFormData>({
-    resolver: zodResolver(dynamicSchema),
-    defaultValues: {
+    resolver: zodResolver(evolutionSchema),
+    defaultValues: initialData || {
       patientName: "",
       ...currentModel.reduce((acc, field) => {
         if (field.type !== "section-header") {
@@ -150,6 +154,12 @@ export const EvolutionForm = ({ specialty }: EvolutionFormProps) => {
     }
   });
 
+  useEffect(() => {
+    if (initialData) {
+      form.reset(initialData);
+    }
+  }, [initialData, form.reset]);
+
   const handleSuggestionClick = (fieldName: keyof EvolutionFormData, suggestion: string) => {
     const currentValue = form.getValues(fieldName) || "";
     const newValue = currentValue ? `${currentValue}\n- ${suggestion}` : `- ${suggestion}`;
@@ -157,8 +167,19 @@ export const EvolutionForm = ({ specialty }: EvolutionFormProps) => {
   };
 
   const onSubmit = (data: EvolutionFormData) => {
-    console.log("Evolution submitted:", data);
-    toast.success("Registro de evolução salvo com sucesso!");
+    onSave(data);
+    if (!initialData) {
+      toast.success("Registro de evolução salvo com sucesso!");
+      form.reset({
+        patientName: "",
+        ...currentModel.reduce((acc, field) => {
+          if (field.type !== "section-header") {
+            acc[field.id as keyof EvolutionFormData] = field.defaultValue || "";
+          }
+          return acc;
+        }, {} as any),
+      });
+    }
   };
 
   const handleDownloadPDF = () => {
@@ -189,7 +210,8 @@ export const EvolutionForm = ({ specialty }: EvolutionFormProps) => {
 
     doc.setFontSize(12);
     doc.setFont("helvetica", "normal");
-    const sessionDate = formData.sessionDate ? new Date(formData.sessionDate).toLocaleDateString('pt-BR') : 'Data não informada';
+    const sessionDateValue = formData.sessionDate || new Date().toISOString().split('T')[0];
+    const sessionDate = new Date(sessionDateValue).toLocaleDateString('pt-BR', { timeZone: 'UTC' });
     doc.text(`Paciente: ${patientName}`, margin, 30);
     doc.text(`Data da Sessão: ${sessionDate}`, margin, 35);
     
@@ -256,14 +278,14 @@ export const EvolutionForm = ({ specialty }: EvolutionFormProps) => {
 
   return (
     <Form {...form}>
-      <form ref={formRef} onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+      <form id={id} ref={formRef} onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
         <FormField
           control={form.control}
           name="patientName"
           render={({ field }) => (
             <FormItem>
               <FormLabel className="font-bold text-lg">Nome do Paciente</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
+              <Select onValueChange={field.onChange} value={field.value || ""}>
                 <FormControl>
                   <SelectTrigger>
                     <SelectValue placeholder="Selecione um paciente" />
@@ -302,9 +324,9 @@ export const EvolutionForm = ({ specialty }: EvolutionFormProps) => {
                   {field.description && <FormDescription>{field.description}</FormDescription>}
                   <FormControl>
                     {field.type === "textarea" ? (
-                      <Textarea placeholder={field.placeholder} {...formField} rows={5} />
+                      <Textarea placeholder={field.placeholder} {...formField} value={formField.value || ''} rows={5} />
                     ) : (
-                      <Input type={field.type} placeholder={field.placeholder} {...formField} />
+                      <Input type={field.type} placeholder={field.placeholder} {...formField} value={formField.value || ''} />
                     )}
                   </FormControl>
                   {field.suggestions && (
@@ -327,13 +349,15 @@ export const EvolutionForm = ({ specialty }: EvolutionFormProps) => {
             />
           );
         })}
-        <div className="flex space-x-2 pt-2 form-buttons">
-          <Button type="submit">Salvar Evolução</Button>
-          <Button type="button" variant="outline" onClick={handleDownloadPDF}>
-            <Download className="mr-2 h-4 w-4" />
-            Baixar PDF
-          </Button>
-        </div>
+        {!hideButtons && (
+          <div className="flex space-x-2 pt-2 form-buttons">
+            <Button type="submit">Salvar Evolução</Button>
+            <Button type="button" variant="outline" onClick={handleDownloadPDF}>
+              <Download className="mr-2 h-4 w-4" />
+              Baixar PDF
+            </Button>
+          </div>
+        )}
       </form>
     </Form>
   );

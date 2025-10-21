@@ -3,7 +3,9 @@ import { MadeWithDyad } from "@/components/made-with-dyad";
 import { ProfileHeader } from "@/components/ProfileHeader";
 import { ProfileTabs } from "@/components/ProfileTabs";
 import { AnamneseFormData } from "@/components/AnamneseForm";
+import { EvolutionFormData } from "@/components/EvolutionForm";
 import { EditAnamneseDialog } from "@/components/EditAnamneseDialog";
+import { EditEvolutionDialog } from "@/components/EditEvolutionDialog";
 import { toast } from "sonner";
 
 export interface ProfileData {
@@ -24,6 +26,14 @@ export interface SavedAnamnese {
   data: AnamneseFormData;
 }
 
+export interface SavedEvolution {
+  id: string;
+  patientName: string;
+  submissionDate: string;
+  specialty: string;
+  data: EvolutionFormData;
+}
+
 const Profile = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [profileData, setProfileData] = useState<ProfileData>({
@@ -36,6 +46,7 @@ const Profile = () => {
     avatarUrl: "/placeholder.svg",
   });
 
+  // Anamnese State
   const [savedAnamneses, setSavedAnamneses] = useState<SavedAnamnese[]>([
     {
       id: '1',
@@ -49,10 +60,28 @@ const Profile = () => {
       } as AnamneseFormData,
     }
   ]);
-
-  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+  const [isEditAnamneseDialogOpen, setIsEditAnamneseDialogOpen] = useState(false);
   const [currentAnamnese, setCurrentAnamnese] = useState<SavedAnamnese | null>(null);
 
+  // Evolution State
+  const [savedEvolutions, setSavedEvolutions] = useState<SavedEvolution[]>([
+    {
+      id: 'evo1',
+      patientName: 'João Pedro Santos',
+      submissionDate: '2024-07-22',
+      specialty: 'Psicologia',
+      data: {
+        patientName: 'João Pedro Santos',
+        sessionDate: '2024-07-22',
+        chegadaPaciente: 'Chegou regulado, comunicando-se sobre seu dia.',
+        recursosAtividades: 'Jogo de regras para trabalhar troca de turnos e flexibilidade.',
+      } as EvolutionFormData,
+    }
+  ]);
+  const [isEditEvolutionDialogOpen, setIsEditEvolutionDialogOpen] = useState(false);
+  const [currentEvolution, setCurrentEvolution] = useState<SavedEvolution | null>(null);
+
+  // Anamnese Handlers
   const handleSaveAnamnese = (formData: AnamneseFormData) => {
     const newAnamnese: SavedAnamnese = {
       id: new Date().toISOString(),
@@ -68,12 +97,12 @@ const Profile = () => {
     const anamneseToEdit = savedAnamneses.find((a) => a.id === id);
     if (anamneseToEdit) {
       setCurrentAnamnese(anamneseToEdit);
-      setIsEditDialogOpen(true);
+      setIsEditAnamneseDialogOpen(true);
     }
   };
 
   const handleDeleteAnamnese = (id: string) => {
-    if (window.confirm("Tem certeza que deseja excluir esta anamnese? Esta ação não pode ser desfeita.")) {
+    if (window.confirm("Tem certeza que deseja excluir esta anamnese?")) {
       setSavedAnamneses((prev) => prev.filter((a) => a.id !== id));
       toast.success("Anamnese excluída com sucesso.");
     }
@@ -81,7 +110,6 @@ const Profile = () => {
 
   const handleUpdateAnamnese = (updatedData: AnamneseFormData) => {
     if (!currentAnamnese) return;
-
     setSavedAnamneses((prev) =>
       prev.map((a) =>
         a.id === currentAnamnese.id
@@ -90,8 +118,49 @@ const Profile = () => {
       )
     );
     toast.success("Anamnese atualizada com sucesso!");
-    setIsEditDialogOpen(false);
+    setIsEditAnamneseDialogOpen(false);
     setCurrentAnamnese(null);
+  };
+
+  // Evolution Handlers
+  const handleSaveEvolution = (formData: EvolutionFormData) => {
+    const newEvolution: SavedEvolution = {
+      id: new Date().toISOString(),
+      patientName: formData.patientName,
+      submissionDate: formData.sessionDate || new Date().toISOString().split('T')[0],
+      specialty: profileData.specialty,
+      data: formData,
+    };
+    setSavedEvolutions(prev => [newEvolution, ...prev]);
+  };
+
+  const handleEditEvolution = (id: string) => {
+    const evolutionToEdit = savedEvolutions.find((e) => e.id === id);
+    if (evolutionToEdit) {
+      setCurrentEvolution(evolutionToEdit);
+      setIsEditEvolutionDialogOpen(true);
+    }
+  };
+
+  const handleDeleteEvolution = (id: string) => {
+    if (window.confirm("Tem certeza que deseja excluir este registro de evolução?")) {
+      setSavedEvolutions((prev) => prev.filter((e) => e.id !== id));
+      toast.success("Registro de evolução excluído com sucesso.");
+    }
+  };
+
+  const handleUpdateEvolution = (updatedData: EvolutionFormData) => {
+    if (!currentEvolution) return;
+    setSavedEvolutions((prev) =>
+      prev.map((e) =>
+        e.id === currentEvolution.id
+          ? { ...e, data: updatedData, patientName: updatedData.patientName }
+          : e
+      )
+    );
+    toast.success("Registro de evolução atualizado com sucesso!");
+    setIsEditEvolutionDialogOpen(false);
+    setCurrentEvolution(null);
   };
 
   const handleAvatarChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -128,12 +197,22 @@ const Profile = () => {
         onSaveAnamnese={handleSaveAnamnese}
         onEditAnamnese={handleEditAnamnese}
         onDeleteAnamnese={handleDeleteAnamnese}
+        savedEvolutions={savedEvolutions}
+        onSaveEvolution={handleSaveEvolution}
+        onEditEvolution={handleEditEvolution}
+        onDeleteEvolution={handleDeleteEvolution}
       />
       <EditAnamneseDialog
-        isOpen={isEditDialogOpen}
-        onClose={() => setIsEditDialogOpen(false)}
+        isOpen={isEditAnamneseDialogOpen}
+        onClose={() => setIsEditAnamneseDialogOpen(false)}
         anamnese={currentAnamnese}
         onSave={handleUpdateAnamnese}
+      />
+      <EditEvolutionDialog
+        isOpen={isEditEvolutionDialogOpen}
+        onClose={() => setIsEditEvolutionDialogOpen(false)}
+        evolution={currentEvolution}
+        onSave={handleUpdateEvolution}
       />
       <MadeWithDyad />
     </div>

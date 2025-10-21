@@ -24,11 +24,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { toast } from "sonner";
 import { AnamneseForm, AnamneseFormData } from "./AnamneseForm";
-import { ProfileData, SavedAnamnese } from "@/pages/Profile";
-import { EvolutionForm } from "./EvolutionForm";
+import { ProfileData, SavedAnamnese, SavedEvolution } from "@/pages/Profile";
+import { EvolutionForm, EvolutionFormData } from "./EvolutionForm";
 import { TherapeuticPlanForm } from "./TherapeuticPlanForm";
 import { Input } from "@/components/ui/input";
 import { SavedAnamnesesList } from "./SavedAnamnesesList";
+import { SavedEvolutionsList } from "./SavedEvolutionsList";
 import {
   Collapsible,
   CollapsibleContent,
@@ -57,9 +58,17 @@ interface ProfileTabsProps {
   onSaveAnamnese: (data: AnamneseFormData) => void;
   onEditAnamnese: (id: string) => void;
   onDeleteAnamnese: (id: string) => void;
+  savedEvolutions: SavedEvolution[];
+  onSaveEvolution: (data: EvolutionFormData) => void;
+  onEditEvolution: (id: string) => void;
+  onDeleteEvolution: (id: string) => void;
 }
 
-export const ProfileTabs = ({ isEditing, setIsEditing, profileData, setProfileData, savedAnamneses, onSaveAnamnese, onEditAnamnese, onDeleteAnamnese }: ProfileTabsProps) => {
+export const ProfileTabs = ({ 
+  isEditing, setIsEditing, profileData, setProfileData, 
+  savedAnamneses, onSaveAnamnese, onEditAnamnese, onDeleteAnamnese,
+  savedEvolutions, onSaveEvolution, onEditEvolution, onDeleteEvolution
+}: ProfileTabsProps) => {
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(profileFormSchema),
     defaultValues: profileData,
@@ -252,16 +261,42 @@ export const ProfileTabs = ({ isEditing, setIsEditing, profileData, setProfileDa
         </Collapsible>
       </TabsContent>
 
-      <TabsContent value="evolucao" className="mt-4">
+      <TabsContent value="evolucao" className="mt-4 space-y-6">
         <Card>
           <CardHeader>
-            <CardTitle>Registro de Evolução</CardTitle>
-            <CardDescription>Documente o progresso da sessão utilizando o modelo SOAP.</CardDescription>
+            <CardTitle>Evoluções Salvas</CardTitle>
+            <CardDescription>Visualize, edite ou exclua os registros de evolução.</CardDescription>
           </CardHeader>
           <CardContent>
-            <EvolutionForm specialty={currentSpecialty} />
+            <SavedEvolutionsList
+              evolutions={savedEvolutions}
+              onEdit={onEditEvolution}
+              onDelete={onDeleteEvolution}
+            />
           </CardContent>
         </Card>
+
+        <Collapsible>
+          <Card>
+            <CollapsibleTrigger asChild>
+              <div className="flex w-full cursor-pointer items-center justify-between p-4">
+                <CardHeader className="p-0">
+                  <CardTitle>Criar Novo Registro de Evolução</CardTitle>
+                  <CardDescription>Clique aqui para preencher um novo registro.</CardDescription>
+                </CardHeader>
+                <Button variant="ghost" size="sm" className="w-9 p-0">
+                  <ChevronsUpDown className="h-4 w-4" />
+                  <span className="sr-only">Toggle</span>
+                </Button>
+              </div>
+            </CollapsibleTrigger>
+            <CollapsibleContent>
+              <CardContent className="pt-4">
+                <EvolutionForm specialty={currentSpecialty} onSave={onSaveEvolution} />
+              </CardContent>
+            </CollapsibleContent>
+          </Card>
+        </Collapsible>
       </TabsContent>
 
       <TabsContent value="documentos" className="mt-4">
