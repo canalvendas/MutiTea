@@ -137,8 +137,8 @@ export const ReportWizard = ({ specialty, profileData }: ReportWizardProps) => {
     reportSections.forEach(section => {
       const answers = quizAnswers[section.id];
       if (answers) {
-        const selectedText = answers.selected.join('\n');
-        const fullText = [selectedText, answers.custom].filter(Boolean).join('\n');
+        const selectedText = answers.selected.map(s => `- ${s}`).join('\n');
+        const fullText = [selectedText, answers.custom].filter(Boolean).join('\n\n');
         newReportContent[section.id] = fullText;
       } else {
         newReportContent[section.id] = "";
@@ -180,7 +180,14 @@ export const ReportWizard = ({ specialty, profileData }: ReportWizardProps) => {
     const pageWidth = doc.internal.pageSize.getWidth();
     const pageHeight = doc.internal.pageSize.getHeight();
     const margin = 15;
-    let y = margin;
+    let y = 0;
+
+    // --- Colors ---
+    const primaryColor = '#17494D'; // Dark Teal
+    const textColor = '#333333';
+    const lightTextColor = '#777777';
+    const sectionBgColor = '#F8F9FA';
+    const headerTextColor = '#FFFFFF';
 
     // --- Helper function for page breaks ---
     const checkPageBreak = (heightNeeded: number) => {
@@ -191,84 +198,83 @@ export const ReportWizard = ({ specialty, profileData }: ReportWizardProps) => {
     };
 
     // --- Header ---
+    doc.setFillColor(primaryColor);
+    doc.rect(0, 0, pageWidth, 30, 'F');
+    y = 10;
+
     if (logo) {
       try {
         const imgProps = doc.getImageProperties(logo);
-        const logoHeight = 20;
+        const logoHeight = 15;
         const logoWidth = (imgProps.width * logoHeight) / imgProps.height;
         doc.addImage(logo, 'PNG', margin, y, logoWidth, logoHeight);
-      } catch (e) {
-        console.error("Erro ao adicionar logo:", e);
-        toast.error("Ocorreu um erro ao adicionar o logo ao PDF.");
-      }
+      } catch (e) { console.error("Erro ao adicionar logo:", e); }
     }
-    
+
+    doc.setFontSize(10);
+    doc.setFont("helvetica", "bold");
+    doc.setTextColor(headerTextColor);
+    doc.text(profileData.name, pageWidth - margin, y + 3, { align: 'right' });
+    doc.setFont("helvetica", "normal");
+    doc.text(profileData.specialty, pageWidth - margin, y + 8, { align: 'right' });
+    if (profileData.crp) {
+      doc.text(profileData.crp, pageWidth - margin, y + 13, { align: 'right' });
+    }
+    y = 40;
+
+    // --- Title ---
     doc.setFontSize(18);
     doc.setFont("helvetica", "bold");
-    doc.text("Relatório de Acompanhamento", pageWidth / 2, y + 10, { align: 'center' });
-    y += 30;
+    doc.setTextColor(textColor);
+    doc.text("Relatório de Acompanhamento", pageWidth / 2, y, { align: 'center' });
+    y += 15;
 
-    // --- Therapist and Patient Info ---
-    doc.setFontSize(11);
+    // --- Patient Info Section ---
+    doc.setFillColor(sectionBgColor);
+    doc.roundedRect(margin, y, pageWidth - (margin * 2), 20, 3, 3, 'F');
+    
+    doc.setFontSize(10);
+    doc.setTextColor(lightTextColor);
+    doc.text("PACIENTE", margin + 5, y + 7);
+    doc.text("PERÍODO", margin + 100, y + 7);
+
+    doc.setFontSize(12);
+    doc.setTextColor(textColor);
     doc.setFont("helvetica", "bold");
-    doc.text("Terapeuta:", margin, y);
-    doc.setFont("helvetica", "normal");
-    doc.text(profileData.name, margin + 25, y);
-    y += 6;
-
-    doc.setFont("helvetica", "bold");
-    doc.text("Especialidade:", margin, y);
-    doc.setFont("helvetica", "normal");
-    doc.text(profileData.specialty, margin + 25, y);
-    if (profileData.crp) {
-        doc.text(`${profileData.crp}`, pageWidth - margin, y, { align: 'right' });
-    }
-    y += 10;
-
-    doc.setDrawColor(224, 224, 224);
-    doc.line(margin, y, pageWidth - margin, y);
-    y += 10;
-
-    doc.setFont("helvetica", "bold");
-    doc.text("Paciente:", margin, y);
-    doc.setFont("helvetica", "normal");
-    doc.text(selectedPatient, margin + 20, y);
-    y += 6;
-
+    doc.text(selectedPatient, margin + 5, y + 14);
     const period = (startDate && endDate) 
         ? `${new Date(startDate).toLocaleDateString('pt-BR', { timeZone: 'UTC' })} a ${new Date(endDate).toLocaleDateString('pt-BR', { timeZone: 'UTC' })}`
-        : "Período não especificado";
-    doc.setFont("helvetica", "bold");
-    doc.text("Período:", margin, y);
-    doc.setFont("helvetica", "normal");
-    doc.text(period, margin + 20, y);
-    y += 15;
+        : "Não especificado";
+    doc.text(period, margin + 100, y + 14);
+    y += 30;
 
     // --- Body ---
     reportSections.forEach(section => {
       const content = reportContent[section.id];
       if (content && content.trim()) {
-        const titleLines = doc.splitTextToSize(section.title, pageWidth - margin * 2);
-        const contentLines = doc.splitTextToSize(content, pageWidth - margin * 2);
-        const heightNeeded = (titleLines.length * 7) + (contentLines.length * 5) + 5;
+        const titleLines = doc.splitTextToSize(section.title.toUpperCase(), pageWidth - margin * 2);
+        const contentLines = doc.splitTextToSize(content, pageWidth - margin * 2 - 5); // Indent content
+        const heightNeeded = (titleLines.length * 8) + (contentLines.length * 5) + 10;
         
         checkPageBreak(heightNeeded);
 
         doc.setFontSize(12);
         doc.setFont("helvetica", "bold");
+        doc.setTextColor(primaryColor);
         doc.text(titleLines, margin, y);
-        y += titleLines.length * 7;
+        y += titleLines.length * 8;
 
         doc.setFontSize(11);
         doc.setFont("helvetica", "normal");
-        doc.text(contentLines, margin, y);
+        doc.setTextColor(textColor);
+        doc.text(contentLines, margin + 5, y);
         y += contentLines.length * 5 + 10;
       }
     });
 
     // --- Footer (Signature and Stamp) ---
     const footerHeight = 50;
-    checkPageBreak(footerHeight);
+    checkPageBreak(footerHeight + 20); // Extra space before footer
     y = pageHeight - margin - footerHeight;
 
     if (signature) {
@@ -278,12 +284,10 @@ export const ReportWizard = ({ specialty, profileData }: ReportWizardProps) => {
             const sigWidth = (sigProps.width * sigHeight) / sigProps.height;
             const sigX = (pageWidth / 2) - (sigWidth / 2);
             doc.addImage(signature, 'PNG', sigX, y, sigWidth, sigHeight);
-        } catch(e) {
-            console.error("Erro ao adicionar assinatura:", e);
-        }
+        } catch(e) { console.error("Erro ao adicionar assinatura:", e); }
     }
 
-    doc.setDrawColor(0, 0, 0);
+    doc.setDrawColor(textColor);
     doc.line(pageWidth / 2 - 40, y + 22, pageWidth / 2 + 40, y + 22);
     doc.setFontSize(10);
     doc.text(profileData.name, pageWidth / 2, y + 28, { align: 'center' });
@@ -296,9 +300,7 @@ export const ReportWizard = ({ specialty, profileData }: ReportWizardProps) => {
             const stampProps = doc.getImageProperties(stamp);
             const stampSize = 25;
             doc.addImage(stamp, 'PNG', pageWidth - margin - stampSize - 5, y, stampSize, stampSize);
-        } catch(e) {
-            console.error("Erro ao adicionar carimbo:", e);
-        }
+        } catch(e) { console.error("Erro ao adicionar carimbo:", e); }
     }
 
     // --- Page numbers ---
@@ -306,12 +308,17 @@ export const ReportWizard = ({ specialty, profileData }: ReportWizardProps) => {
     for (let i = 1; i <= pageCount; i++) {
         doc.setPage(i);
         doc.setFontSize(9);
-        doc.setTextColor(150);
+        doc.setTextColor(lightTextColor);
         doc.text(
             `Página ${i} de ${pageCount}`,
             pageWidth - margin,
             pageHeight - 10,
             { align: 'right' }
+        );
+        doc.text(
+            `Gerado por MultiTea em ${new Date().toLocaleDateString('pt-BR')}`,
+            margin,
+            pageHeight - 10
         );
     }
 
