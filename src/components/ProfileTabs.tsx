@@ -24,7 +24,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { toast } from "sonner";
 import { AnamneseForm, AnamneseFormData } from "./AnamneseForm";
-import { ProfileData, SavedAnamnese, SavedEvolution } from "@/pages/Profile";
+import { ProfileData, SavedAnamnese, SavedEvolution, SavedReport } from "@/pages/Profile";
 import { EvolutionForm, EvolutionFormData } from "./EvolutionForm";
 import { TherapeuticPlanForm } from "./TherapeuticPlanForm";
 import { Input } from "@/components/ui/input";
@@ -36,7 +36,8 @@ import {
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
 import { ChevronsUpDown } from "lucide-react";
-import { ReportWizard } from "./ReportWizard";
+import { ReportWizard, ReportWizardData } from "./ReportWizard";
+import { SavedReportsList } from "./SavedReportsList";
 
 // Esquema de validação para os dados cadastrais
 const profileFormSchema = z.object({
@@ -63,12 +64,16 @@ interface ProfileTabsProps {
   onSaveEvolution: (data: EvolutionFormData) => void;
   onEditEvolution: (id: string) => void;
   onDeleteEvolution: (id: string) => void;
+  savedReports: SavedReport[];
+  onSaveReport: (data: ReportWizardData) => void;
+  onDeleteReport: (id: string) => void;
 }
 
 export const ProfileTabs = ({ 
   isEditing, setIsEditing, profileData, setProfileData, 
   savedAnamneses, onSaveAnamnese, onEditAnamnese, onDeleteAnamnese,
-  savedEvolutions, onSaveEvolution, onEditEvolution, onDeleteEvolution
+  savedEvolutions, onSaveEvolution, onEditEvolution, onDeleteEvolution,
+  savedReports, onSaveReport, onDeleteReport
 }: ProfileTabsProps) => {
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(profileFormSchema),
@@ -300,8 +305,46 @@ export const ProfileTabs = ({
         </Collapsible>
       </TabsContent>
 
-      <TabsContent value="relatorio" className="mt-4">
-        <ReportWizard specialty={currentSpecialty} profileData={profileData} />
+      <TabsContent value="relatorio" className="mt-4 space-y-6">
+        <Card>
+          <CardHeader>
+            <CardTitle>Relatórios Salvos</CardTitle>
+            <CardDescription>Visualize, baixe ou exclua os relatórios gerados.</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <SavedReportsList
+              reports={savedReports}
+              onDelete={onDeleteReport}
+              profileData={profileData}
+            />
+          </CardContent>
+        </Card>
+
+        <Collapsible>
+          <Card>
+            <CollapsibleTrigger asChild>
+              <div className="flex w-full cursor-pointer items-center justify-between p-4">
+                <CardHeader className="p-0">
+                  <CardTitle>Criar Novo Relatório</CardTitle>
+                  <CardDescription>Clique aqui para abrir o assistente de criação.</CardDescription>
+                </CardHeader>
+                <Button variant="ghost" size="sm" className="w-9 p-0">
+                  <ChevronsUpDown className="h-4 w-4" />
+                  <span className="sr-only">Toggle</span>
+                </Button>
+              </div>
+            </CollapsibleTrigger>
+            <CollapsibleContent>
+              <CardContent className="pt-4">
+                <ReportWizard 
+                  specialty={currentSpecialty} 
+                  profileData={profileData} 
+                  onSaveReport={onSaveReport} 
+                />
+              </CardContent>
+            </CollapsibleContent>
+          </Card>
+        </Collapsible>
       </TabsContent>
 
       <TabsContent value="plano-terapeutico" className="mt-4">

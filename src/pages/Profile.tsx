@@ -7,6 +7,7 @@ import { EvolutionFormData } from "@/components/EvolutionForm";
 import { EditAnamneseDialog } from "@/components/EditAnamneseDialog";
 import { EditEvolutionDialog } from "@/components/EditEvolutionDialog";
 import { toast } from "sonner";
+import { ReportWizardData } from "@/components/ReportWizard";
 
 export interface ProfileData {
   name: string;
@@ -32,6 +33,14 @@ export interface SavedEvolution {
   submissionDate: string;
   specialty: string;
   data: EvolutionFormData;
+}
+
+export interface SavedReport {
+  id: string;
+  patientName: string;
+  submissionDate: string;
+  specialty: string;
+  data: ReportWizardData;
 }
 
 const Profile = () => {
@@ -80,6 +89,9 @@ const Profile = () => {
   ]);
   const [isEditEvolutionDialogOpen, setIsEditEvolutionDialogOpen] = useState(false);
   const [currentEvolution, setCurrentEvolution] = useState<SavedEvolution | null>(null);
+
+  // Report State
+  const [savedReports, setSavedReports] = useState<SavedReport[]>([]);
 
   // Anamnese Handlers
   const handleSaveAnamnese = (formData: AnamneseFormData) => {
@@ -163,6 +175,26 @@ const Profile = () => {
     setCurrentEvolution(null);
   };
 
+  // Report Handlers
+  const handleSaveReport = (reportData: ReportWizardData) => {
+    const newReport: SavedReport = {
+      id: new Date().toISOString(),
+      patientName: reportData.patientName,
+      submissionDate: new Date().toISOString().split('T')[0],
+      specialty: profileData.specialty,
+      data: reportData,
+    };
+    setSavedReports(prev => [newReport, ...prev]);
+    toast.success("Relatório salvo com sucesso no sistema!");
+  };
+
+  const handleDeleteReport = (id: string) => {
+    if (window.confirm("Tem certeza que deseja excluir este relatório?")) {
+      setSavedReports((prev) => prev.filter((r) => r.id !== id));
+      toast.success("Relatório excluído com sucesso.");
+    }
+  };
+
   const handleAvatarChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
@@ -201,6 +233,9 @@ const Profile = () => {
         onSaveEvolution={handleSaveEvolution}
         onEditEvolution={handleEditEvolution}
         onDeleteEvolution={handleDeleteEvolution}
+        savedReports={savedReports}
+        onSaveReport={handleSaveReport}
+        onDeleteReport={handleDeleteReport}
       />
       <EditAnamneseDialog
         isOpen={isEditAnamneseDialogOpen}

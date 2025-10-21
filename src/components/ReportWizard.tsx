@@ -625,12 +625,20 @@ const reportSections = [
   { id: "observacoesComplementares", title: "7. Observações Complementares" },
 ];
 
+export interface ReportWizardData {
+  patientName: string;
+  startDate: string;
+  endDate: string;
+  content: Record<string, string>;
+}
+
 interface ReportWizardProps {
   specialty: string;
   profileData: ProfileData;
+  onSaveReport: (data: ReportWizardData) => void;
 }
 
-export const ReportWizard = ({ specialty, profileData }: ReportWizardProps) => {
+export const ReportWizard = ({ specialty, profileData, onSaveReport }: ReportWizardProps) => {
   const [currentStep, setCurrentStep] = useState(0);
   const [logo, setLogo] = useState<string | null>(null);
   const [signature, setSignature] = useState<string | null>(null);
@@ -679,6 +687,19 @@ export const ReportWizard = ({ specialty, profileData }: ReportWizardProps) => {
       reader.onloadend = () => setter(reader.result as string);
       reader.readAsDataURL(file);
     }
+  };
+
+  const handleSave = () => {
+    if (!selectedPatient) {
+      toast.error("Por favor, selecione um paciente para salvar o relatório.");
+      return;
+    }
+    onSaveReport({
+      patientName: selectedPatient,
+      startDate: startDate,
+      endDate: endDate,
+      content: reportContent,
+    });
   };
 
   const handleDownloadPDF = () => {
@@ -953,7 +974,7 @@ export const ReportWizard = ({ specialty, profileData }: ReportWizardProps) => {
               <Button variant="outline" onClick={() => toast.info("Funcionalidade 'Organizar com IA' em desenvolvimento.")}>
                 <BrainCircuit className="mr-2 h-4 w-4" /> Organizar com IA
               </Button>
-              <Button variant="outline" onClick={() => toast.success("Relatório salvo com sucesso no sistema!")}>
+              <Button variant="outline" onClick={handleSave}>
                 <Save className="mr-2 h-4 w-4" /> Salvar Relatório
               </Button>
               <Button onClick={handleDownloadPDF}>
