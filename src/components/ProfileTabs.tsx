@@ -36,7 +36,7 @@ import {
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
 import { ChevronsUpDown } from "lucide-react";
-import { ReportForm } from "./ReportForm";
+import { ReportWizard } from "./ReportWizard";
 
 // Esquema de validação para os dados cadastrais
 const profileFormSchema = z.object({
@@ -301,7 +301,7 @@ export const ProfileTabs = ({
       </TabsContent>
 
       <TabsContent value="relatorio" className="mt-4">
-        <ReportForm specialty={currentSpecialty} profileData={profileData} />
+        <ReportWizard specialty={currentSpecialty} profileData={profileData} />
       </TabsContent>
 
       <TabsContent value="plano-terapeutico" className="mt-4">
