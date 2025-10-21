@@ -6,7 +6,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { toast } from "sonner";
 import jsPDF from 'jspdf';
-import html2canvas from 'html2canvas';
 import { Download } from 'lucide-react';
 
 import { Button } from "@/components/ui/button";
@@ -163,47 +162,96 @@ export const EvolutionForm = ({ specialty }: EvolutionFormProps) => {
   };
 
   const handleDownloadPDF = () => {
-    if (!formRef.current) return;
-    const patientName = form.getValues("patientName") || "Paciente";
-    if (!patientName.trim()) {
-      toast.error("Por favor, preencha o nome do paciente antes de baixar o PDF.");
+    const formData = form.getValues();
+    const patientName = formData.patientName;
+
+    if (!patientName || !patientName.trim()) {
+      toast.error("Por favor, selecione um paciente antes de baixar o PDF.");
       return;
     }
-    const sessionDate = form.getValues("sessionDate") || new Date().toISOString().split('T')[0];
+
     toast.info("Gerando PDF da Evolução...");
+
+    const doc = new jsPDF('p', 'mm', 'a4');
+    const pageWidth = doc.internal.pageSize.getWidth();
+    const pageHeight = doc.internal.pageSize.getHeight();
+    const margin = 15;
+    let y = 20;
+
+    // --- Header ---
+    doc.setFillColor(23, 73, 77); // Dark Teal
+    doc.rect(0, 0, pageWidth, 40, 'F');
     
-    const buttons = formRef.current.querySelector('.form-buttons') as HTMLElement;
-    if (buttons) buttons.style.display = 'none';
+    doc.setFontSize(22);
+    doc.setFont("helvetica", "bold");
+    doc.setTextColor(255, 255, 255);
+    doc.text("Relatório de Evolução", pageWidth / 2, 18, { align: 'center' });
 
-    html2canvas(formRef.current, { scale: 2 }).then((canvas) => {
-        if (buttons) buttons.style.display = 'flex';
+    doc.setFontSize(12);
+    doc.setFont("helvetica", "normal");
+    const sessionDate = formData.sessionDate ? new Date(formData.sessionDate).toLocaleDateString('pt-BR') : 'Data não informada';
+    doc.text(`Paciente: ${patientName}`, margin, 30);
+    doc.text(`Data da Sessão: ${sessionDate}`, margin, 35);
+    
+    y = 55;
 
-        const imgData = canvas.toDataURL('image/png');
-        const pdf = new jsPDF('p', 'mm', 'a4');
-        const pdfWidth = pdf.internal.pageSize.getWidth();
-        const pdfHeight = pdf.internal.pageSize.getHeight();
-        const imgWidth = canvas.width;
-        const imgHeight = canvas.height;
-        const ratio = imgWidth / imgHeight;
-        const height = pdfWidth / ratio;
-        let position = 0;
+    // --- Body ---
+    doc.setTextColor(28, 25, 23);
 
-        pdf.addImage(imgData, 'PNG', 0, position, pdfWidth, height);
-        let heightLeft = height - pdfHeight;
+    currentModel.forEach(field => {
+      if (field.type === 'section-header' || field.id === 'patientName' || field.id === 'sessionDate') {
+        return;
+      }
 
-        while (heightLeft >= 0) {
-            position = heightLeft - height;
-            pdf.addPage();
-            pdf.addImage(imgData, 'PNG', 0, position, pdfWidth, height);
-            heightLeft -= pdfHeight;
+      const value = formData[field.id as keyof EvolutionFormData];
+      if (value && typeof value === 'string' && value.trim()) {
+        const valueLines = doc.splitTextToSize(value, pageWidth - margin * 2);
+        const valueHeight = valueLines.length * 5;
+        const labelHeight = 6;
+        
+        if (y + labelHeight + valueHeight > pageHeight - margin) {
+          doc.addPage();
+          y = margin;
         }
-        pdf.save(`Evolucao_${specialty}_${patientName.replace(/\s+/g, '_')}_${sessionDate}.pdf`);
-        toast.success("PDF da Evolução gerado com sucesso!");
-    }).catch(err => {
-        if (buttons) buttons.style.display = 'flex';
-        console.error("Erro ao gerar PDF:", err);
-        toast.error("Ocorreu um erro ao gerar o PDF.");
+
+        doc.setFontSize(12);
+        doc.setFont("helvetica", "bold");
+        doc.text(field.label, margin, y);
+        y += labelHeight;
+
+        doc.setFontSize(11);
+        doc.setFont("helvetica", "normal");
+        doc.text(valueLines, margin, y);
+        y += valueHeight + 5;
+        
+        doc.setDrawColor(224, 224, 224);
+        doc.line(margin, y, pageWidth - margin, y);
+        y += 5;
+      }
     });
+
+    // --- Footer ---
+    const pageCount = doc.getNumberOfPages();
+    for (let i = 1; i <= pageCount; i++) {
+        doc.setPage(i);
+        doc.setFontSize(9);
+        doc.setTextColor(150);
+        doc.text(
+            `Página ${i} de ${pageCount}`,
+            pageWidth - margin,
+            pageHeight - 10,
+            { align: 'right' }
+        );
+        doc.text(
+            `Gerado por MultiTea`,
+            margin,
+            pageHeight - 10
+        );
+    }
+
+    const dateForFile = formData.sessionDate || new Date().toISOString().split('T')[0];
+    doc.save(`Evolucao_${specialty}_${patientName.replace(/\s+/g, '_')}_${dateForFile}.pdf`);
+    toast.success("PDF da Evolução gerado com sucesso!");
   };
 
   return (
