@@ -5,7 +5,7 @@ import { toast } from "sonner";
 import jsPDF from 'jspdf';
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { Download, Sparkles, Upload, Save, BrainCircuit, Eye, ArrowLeft, ArrowRight } from "lucide-react";
+import { Download, Sparkles, Upload, Save, BrainCircuit, Eye, ArrowLeft, ArrowRight, Trash2 } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -239,34 +239,63 @@ export const ReportWizard = ({ specialty, profileData }: ReportWizardProps) => {
 
     if (currentStep === totalSteps - 1) { // Final review step
       return (
-        <div className="space-y-4">
-          <h3 className="font-semibold text-lg">8. Revisão Final</h3>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-end">
-            {['logo', 'assinatura', 'carimbo'].map(item => (
-              <div key={item} className="space-y-2">
-                <Label htmlFor={item} className="capitalize">{item} Digital</Label>
-                <div className="flex items-center gap-2">
-                  <Input id={item} type="file" accept="image/png, image/jpeg" className="hidden" onChange={(e) => handleFileChange(e.target.files?.[0] || null, item === 'logo' ? setLogo : item === 'assinatura' ? setSignature : setStamp)} />
-                  <Button type="button" variant="outline" className="w-full justify-start" onClick={() => document.getElementById(item)?.click()}>
-                    <Upload className="h-4 w-4 mr-2" /> Enviar Imagem
-                  </Button>
-                  {(item === 'logo' && logo) && <img src={logo} alt="logo preview" className="h-10 w-10 object-contain border rounded-md" />}
-                  {(item === 'assinatura' && signature) && <img src={signature} alt="signature preview" className="h-10 w-20 object-contain border rounded-md" />}
-                  {(item === 'carimbo' && stamp) && <img src={stamp} alt="stamp preview" className="h-10 w-10 object-contain border rounded-md" />}
+        <div className="space-y-6">
+          <h3 className="font-semibold text-lg">8. Revisão Final e Personalização</h3>
+          
+          <div className="space-y-4">
+            <Label className="font-medium">Identidade Visual do Relatório</Label>
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+              {[
+                { id: 'logo', state: logo, setter: setLogo, label: 'Logo Digital' },
+                { id: 'assinatura', state: signature, setter: setSignature, label: 'Assinatura Digital' },
+                { id: 'carimbo', state: stamp, setter: setStamp, label: 'Carimbo Digital' }
+              ].map(item => (
+                <div key={item.id} className="space-y-2">
+                  <Label htmlFor={item.id}>{item.label}</Label>
+                  <div className="flex items-center gap-2 p-2 border rounded-lg h-16">
+                    <Input id={item.id} type="file" accept="image/png, image/jpeg" className="hidden" onChange={(e) => handleFileChange(e.target.files?.[0] || null, item.setter)} />
+                    <div className="w-24 h-full flex items-center justify-center bg-muted rounded-md overflow-hidden relative group">
+                      {item.state ? (
+                        <>
+                          <img src={item.state} alt={`${item.id} preview`} className="h-full w-full object-contain" />
+                          <Button
+                            type="button"
+                            variant="destructive"
+                            size="icon"
+                            className="absolute top-1 right-1 h-6 w-6 opacity-0 group-hover:opacity-100 transition-opacity"
+                            onClick={() => item.setter(null)}
+                          >
+                            <Trash2 className="h-3 w-3" />
+                          </Button>
+                        </>
+                      ) : (
+                        <span className="text-xs text-muted-foreground">Preview</span>
+                      )}
+                    </div>
+                    <Button type="button" variant="outline" className="flex-1" onClick={() => document.getElementById(item.id)?.click()}>
+                      <Upload className="h-4 w-4 mr-2" /> {item.state ? 'Alterar' : 'Enviar'}
+                    </Button>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 pt-4">
-            <Button variant="outline" onClick={() => toast.info("Funcionalidade 'Organizar com IA' em desenvolvimento.")}>
-              <BrainCircuit className="mr-2 h-4 w-4" /> Organizar com IA
-            </Button>
-            <Button variant="outline" onClick={() => toast.success("Relatório salvo com sucesso no sistema!")}>
-              <Save className="mr-2 h-4 w-4" /> Salvar Relatório
-            </Button>
-            <Button onClick={handleDownloadPDF} className="sm:col-span-2 md:col-span-1">
-              <Eye className="mr-2 h-4 w-4" /> Visualizar Relatório (PDF)
-            </Button>
+
+          <Separator />
+
+          <div className="space-y-4">
+            <Label className="font-medium">Ações Finais</Label>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+              <Button variant="outline" onClick={() => toast.info("Funcionalidade 'Organizar com IA' em desenvolvimento.")}>
+                <BrainCircuit className="mr-2 h-4 w-4" /> Organizar com IA
+              </Button>
+              <Button variant="outline" onClick={() => toast.success("Relatório salvo com sucesso no sistema!")}>
+                <Save className="mr-2 h-4 w-4" /> Salvar Relatório
+              </Button>
+              <Button onClick={handleDownloadPDF} className="sm:col-span-2 md:col-span-1">
+                <Eye className="mr-2 h-4 w-4" /> Visualizar Relatório (PDF)
+              </Button>
+            </div>
           </div>
         </div>
       );
