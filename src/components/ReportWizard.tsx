@@ -5,7 +5,7 @@ import { toast } from "sonner";
 import jsPDF from 'jspdf';
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { Download, Upload, Save, BrainCircuit, ArrowLeft, ArrowRight, Trash2 } from "lucide-react";
+import { Download, Upload, Save, BrainCircuit, ArrowLeft, ArrowRight, Trash2, Loader2 } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -15,6 +15,7 @@ import { Separator } from "@/components/ui/separator";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Progress } from "@/components/ui/progress";
+import { organizeWithAI } from "@/lib/ai";
 
 // Data structure for the quiz-like report generator
 const reportQuizData: Record<string, Record<string, { prompt: string; options: string[]; allowCustom: boolean; }>> = {
@@ -648,6 +649,7 @@ export const ReportWizard = ({ specialty, profileData, onSaveReport }: ReportWiz
   const [endDate, setEndDate] = useState("");
   const [quizAnswers, setQuizAnswers] = useState<Record<string, { selected: string[], custom: string }>>({});
   const [reportContent, setReportContent] = useState<Record<string, string>>({});
+  const [isOrganizing, setIsOrganizing] = useState(false);
 
   const currentQuiz = reportQuizData[specialty] || reportQuizData["Padrão"];
   const totalSteps = reportSections.length + 2; // Initial step + 7 sections + final step = 9 steps (0-8)
@@ -700,6 +702,42 @@ export const ReportWizard = ({ specialty, profileData, onSaveReport }: ReportWiz
       endDate: endDate,
       content: reportContent,
     });
+  };
+
+  const handleOrganizeWithAI = async () => {
+    if (!selectedPatient) {
+      toast.error("Por favor, selecione um paciente primeiro.");
+      return;
+    }
+
+    setIsOrganizing(true);
+    const toastId = toast.loading("Organizando relatório com IA...");
+
+    try {
+      const organizedContent = await organizeWithAI(
+        specialty,
+        reportContent,
+        selectedPatient,
+        startDate,
+        endDate
+      );
+
+      const newQuizAnswers: Record<string, { selected: string[], custom: string }> = {};
+      for (const sectionId in organizedContent) {
+        newQuizAnswers[sectionId] = {
+          selected: [],
+          custom: organizedContent[sectionId],
+        };
+      }
+      setQuizAnswers(newQuizAnswers);
+
+      toast.success("Relatório organizado com sucesso!", { id: toastId });
+    } catch (error) {
+      console.error("Erro ao organizar com IA:", error);
+      toast.error("Ocorreu um erro ao organizar o relatório.", { id: toastId });
+    } finally {
+      setIsOrganizing(false);
+    }
   };
 
   const handleDownloadPDF = () => {
@@ -971,8 +1009,13 @@ export const ReportWizard = ({ specialty, profileData, onSaveReport }: ReportWiz
           <div className="space-y-4">
             <Label className="font-medium">Ações Finais</Label>
             <div className="flex flex-col sm:flex-row sm:justify-end sm:space-x-2 space-y-2 sm:space-y-0">
-              <Button variant="outline" onClick={() => toast.info("Funcionalidade 'Organizar com IA' em desenvolvimento.")}>
-                <BrainCircuit className="mr-2 h-4 w-4" /> Organizar com IA
+              <Button variant="outline" onClick={handleOrganizeWithAI} disabled={isOrganizing}>
+                {isOrganizing ? (
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                ) : (
+                  <BrainCircuit className="mr-2 h-4 w-4" />
+                )}
+                {isOrganizing ? 'Organizando...' : 'Organizar com IA'}
               </Button>
               <Button variant="outline" onClick={handleSave}>
                 <Save className="mr-2 h-4 w-4" /> Salvar Relatório
