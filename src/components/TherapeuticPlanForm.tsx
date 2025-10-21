@@ -255,15 +255,155 @@ Terapeuta Responsável: [SEU NOME]
    - Reavaliação do perfil sensorial e desempenho ocupacional a cada 6 meses.
    - A alta será considerada quando o paciente atingir um nível de independência funcional e regulação sensorial compatível com sua idade e contexto, permitindo sua participação satisfatória nos ambientes escolar, familiar e social.
   `,
+  Psicomotricidade: `
+PLANO TERAPÊUTICO INDIVIDUAL (PTI) - PSICOMOTRICIDADE
+
+Paciente: [NOME DO PACIENTE]
+Data de Início: [DATA]
+Terapeuta Responsável: [SEU NOME]
+
+1. AVALIAÇÃO INICIAL E DIAGNÓSTICO (HIPÓTESE):
+   - Paciente apresenta desafios no desenvolvimento psicomotor, com impactos na consciência corporal, regulação tônico-emocional, planejamento motor e na forma de se expressar e interagir através do corpo.
+
+2. OBJETIVO GERAL:
+   - Facilitar a expressão e a organização psicomotora, promovendo a integração do paciente com seu corpo, com o outro e com o mundo, visando um desenvolvimento mais harmonioso e uma melhor disponibilidade para a aprendizagem e socialização.
+
+3. OBJETIVOS ESPECÍFICOS A CURTO PRAZO (Próximos 3 meses):
+[OBJETIVOS_CURTO_PRAZO]
+
+4. OBJETIVOS ESPECÍFICOS A MÉDIO PRAZO (Próximos 6 meses):
+[OBJETIVOS_MEDIO_PRAZO]
+
+5. ESTRATÉGIAS E INTERVENÇÕES:
+   - Terapia Psicomotora com foco no jogo simbólico e na expressividade motora.
+   - Utilização de circuitos psicomotores para trabalhar equilíbrio, agilidade e organização espaço-temporal.
+   - Atividades de relaxamento e de percepção corporal para adequação do tônus e do diálogo tônico.
+   - Jogos de construção e atividades grafomotoras para aprimorar a motricidade fina e a integração viso-motora.
+   - Mediação corporal nas interações para facilitar a comunicação e a regulação.
+
+6. CRITÉRIOS DE REAVALIAÇÃO E ALTA:
+   - Reavaliação psicomotora a cada 6 meses. A alta será considerada quando o paciente demonstrar uma imagem corporal mais integrada, maior regulação tônica e emocional, e utilizar seu corpo de forma mais funcional e expressiva nas suas relações e aprendizagens.
+  `,
+  Psicopedagogia: `
+PLANO TERAPÊUTICO INDIVIDUAL (PTI) - PSICOPEDAGOGIA
+
+Paciente: [NOME DO PACIENTE]
+Data de Início: [DATA]
+Terapeuta Responsável: [SEU NOME]
+
+1. AVALIAÇÃO INICIAL E DIAGNÓSTICO (HIPÓTESE):
+   - Paciente apresenta dificuldades de aprendizagem relacionadas a desafios nas funções executivas, processamento de informações e/ou questões emocionais que impactam seu desempenho acadêmico.
+
+2. OBJETIVO GERAL:
+   - Desenvolver estratégias de aprendizagem eficazes e promover a autonomia do paciente em seu processo de aprender, fortalecendo as funções cognitivas necessárias e resgatando o vínculo positivo com o conhecimento.
+
+3. OBJETIVOS ESPECÍFICOS A CURTO PRAZO (Próximos 3 meses):
+[OBJETIVOS_CURTO_PRAZO]
+
+4. OBJETIVOS ESPECÍFICOS A MÉDIO PRAZO (Próximos 6 meses):
+[OBJETIVOS_MEDIO_PRAZO]
+
+5. ESTRATÉGIAS E INTERVENÇÕES:
+   - Intervenção focada no desenvolvimento de funções executivas (planejamento, organização, memória de trabalho).
+   - Mediação cognitiva para a resolução de problemas e desenvolvimento do raciocínio.
+   - Utilização de jogos e materiais estruturados para trabalhar habilidades acadêmicas específicas (leitura, escrita, matemática).
+   - Trabalho com a metacognição, ajudando o paciente a entender como ele aprende.
+   - Articulação com a escola para adaptações curriculares e de avaliação.
+
+6. CRITÉRIOS DE REAVALIAÇÃO E ALTA:
+   - Reavaliação periódica do desempenho acadêmico e das estratégias de aprendizagem. A alta será considerada quando o paciente demonstrar maior autonomia, organização e sucesso no ambiente escolar, utilizando as estratégias aprendidas de forma independente.
+  `,
+  Musicoterapia: `
+PLANO TERAPÊUTICO INDIVIDUAL (PTI) - MUSICOTERAPIA
+
+Paciente: [NOME DO PACIENTE]
+Data de Início: [DATA]
+Terapeuta Responsável: [SEU NOME]
+
+1. AVALIAÇÃO INICIAL E DIAGNÓSTICO (HIPÓTESE):
+   - Paciente apresenta desafios na comunicação, interação social e expressão emocional, para os quais a musicoterapia pode oferecer um canal alternativo e potente de expressão e relação.
+
+2. OBJETIVO GERAL:
+   - Promover o desenvolvimento de habilidades comunicativas, sociais e emocionais através de experiências sonoro-musicais, facilitando a expressão de conteúdos internos e a construção de vínculos.
+
+3. OBJETIVOS ESPECÍFICOS A CURTO PRAZO (Próximos 3 meses):
+[OBJETIVOS_CURTO_PRAZO]
+
+4. OBJETIVOS ESPECÍFICOS A MÉDIO PRAZO (Próximos 6 meses):
+[OBJETIVOS_MEDIO_PRAZO]
+
+5. ESTRATÉGIAS E INTERVENÇÕES:
+   - Sessões baseadas na improvisação musical clínica para facilitar o diálogo sonoro e a reciprocidade.
+   - Utilização de canções estruturadas para trabalhar previsibilidade, memória e participação.
+   - Atividades de recreação musical para o desenvolvimento de habilidades sociais em um contexto lúdico.
+   - Composição conjunta de canções para trabalhar a narrativa e a organização do pensamento.
+   - Audição musical receptiva para fins de regulação emocional e relaxamento.
+
+6. CRITÉRIOS DE REAVALIAÇÃO E ALTA:
+   - Reavaliação a cada 6 meses. A alta será considerada quando os objetivos de comunicação e interação forem generalizados para outros contextos e o paciente demonstrar maior capacidade de expressão e regulação emocional.
+  `,
+  Fisioterapia: `
+PLANO TERAPÊUTICO INDIVIDUAL (PTI) - FISIOTERAPIA
+
+Paciente: [NOME DO PACIENTE]
+Data de Início: [DATA]
+Terapeuta Responsável: [SEU NOME]
+
+1. AVALIAÇÃO INICIAL E DIAGNÓSTICO (HIPÓTESE):
+   - Paciente apresenta atraso no desenvolvimento motor, hipotonia, padrão de marcha atípico e/ou desafios no controle postural e coordenação, impactando sua funcionalidade e participação em atividades motoras.
+
+2. OBJETIVO GERAL:
+   - Promover o desenvolvimento motor, aprimorando a força, o equilíbrio, a coordenação e a aquisição de habilidades motoras funcionais, visando maior independência e prevenção de alterações musculoesqueléticas.
+
+3. OBJETIVOS ESPECÍFICOS A CURTO PRAZO (Próximos 3 meses):
+[OBJETIVOS_CURTO_PRAZO]
+
+4. OBJETIVOS ESPECÍFICOS A MÉDIO PRAZO (Próximos 6 meses):
+[OBJETIVOS_MEDIO_PRAZO]
+
+5. ESTRATÉGIAS E INTERVENÇÕES:
+   - Cinesioterapia com exercícios terapêuticos para fortalecimento, alongamento e ganho de amplitude de movimento.
+   - Treino de marcha em diferentes superfícies e com obstáculos para adequação do padrão motor.
+   - Utilização de circuitos motores para trabalhar a coordenação motora ampla, o equilíbrio e o planejamento motor.
+   - Exercícios de propriocepção e estimulação vestibular para melhorar a consciência corporal e as reações de proteção.
+   - Orientação aos pais/cuidadores sobre posturas e atividades adequadas para o domicílio.
+
+6. CRITÉRIOS DE REAVALIAÇÃO E ALTA:
+   - Reavaliação funcional a cada 3-6 meses. A alta será considerada quando o paciente atingir os marcos motores esperados para sua idade ou um platô funcional, com orientações para manutenção e prevenção.
+  `,
+  Nutrição: `
+PLANO TERAPÊUTICO INDIVIDUAL (PTI) - NUTRIÇÃO
+
+Paciente: [NOME DO PACIENTE]
+Data de Início: [DATA]
+Terapeuta Responsável: [SEU NOME]
+
+1. AVALIAÇÃO INICIAL E DIAGNÓSTICO (HIPÓTESE):
+   - Paciente apresenta comportamento alimentar restritivo e seletivo, com repertório alimentar limitado, impactando seu estado nutricional e a dinâmica familiar durante as refeições.
+
+2. OBJETIVO GERAL:
+   - Ampliar o repertório alimentar do paciente de forma gradual e respeitosa, melhorando seu estado nutricional e promovendo uma relação mais positiva e flexível com a comida.
+
+3. OBJETIVOS ESPECÍFICOS A CURTO PRAZO (Próximos 3 meses):
+[OBJETIVOS_CURTO_PRAZO]
+
+4. OBJETIVOS ESPECÍFICOS A MÉDIO PRAZO (Próximos 6 meses):
+[OBJETIVOS_MEDIO_PRAZO]
+
+5. ESTRATÉGIAS E INTERVENÇÕES:
+   - Abordagem comportamental com foco na hierarquia de exposição aos alimentos (tolerar, interagir, cheirar, tocar, provar).
+   - Terapia alimentar com foco na dessensibilização de questões sensoriais (texturas, cores, cheiros).
+   - Orientação nutricional para a família, com estratégias para manejo da seletividade em casa e criação de um ambiente de refeição neutro.
+   - Planejamento de cardápio individualizado, incluindo alimentos já aceitos e introduzindo novos de forma estratégica.
+   - Atividades de culinária terapêutica para aumentar o contato e a familiaridade com os alimentos.
+
+6. CRITÉRIOS DE REAVALIAÇÃO E ALTA:
+   - Reavaliação periódica do recordatório alimentar, dados antropométricos e comportamento à mesa. A alta será considerada quando o paciente apresentar um repertório alimentar variado que atenda às suas necessidades nutricionais e a família se sentir segura para manejar a alimentação de forma autônoma.
+  `,
 };
 
 // Mapeamento para outras especialidades usarem templates base
 const specialtyMapping = {
-  "Psicomotricidade": "Terapia Ocupacional",
-  "Fisioterapia": "Terapia Ocupacional",
-  "Psicopedagogia": "Psicologia",
-  "Musicoterapia": "Psicologia",
-  "Nutrição": "Terapia Ocupacional",
   "Padrão": "Psicologia",
 };
 
