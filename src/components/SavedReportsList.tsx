@@ -18,6 +18,16 @@ interface SavedReportsListProps {
   profileData: ProfileData;
 }
 
+const reportSections = [
+  { id: "informacoesBasicas", title: "1. Informações Básicas" },
+  { id: "objetivosTerapeuticos", title: "2. Objetivos Terapêuticos" },
+  { id: "atividadesRealizadas", title: "3. Atividades Realizadas" },
+  { id: "evolucaoPaciente", title: "4. Evolução do Paciente" },
+  { id: "encaminhamentosRecomendacoes", title: "5. Encaminhamentos e Recomendações" },
+  { id: "conclusao", title: "6. Conclusão" },
+  { id: "observacoesComplementares", title: "7. Observações Complementares" },
+];
+
 const ReportItem = ({ report, onDelete, profileData }: { report: SavedReport; onDelete: (id: string) => void; profileData: ProfileData; }) => {
   
   const handleDownloadPDF = () => {
@@ -88,16 +98,6 @@ const ReportItem = ({ report, onDelete, profileData }: { report: SavedReport; on
     y += 30;
 
     // --- Body ---
-    const reportSections = [
-      { id: "informacoesBasicas", title: "1. Informações Básicas" },
-      { id: "objetivosTerapeuticos", title: "2. Objetivos Terapêuticos" },
-      { id: "atividadesRealizadas", title: "3. Atividades Realizadas" },
-      { id: "evolucaoPaciente", title: "4. Evolução do Paciente" },
-      { id: "encaminhamentosRecomendacoes", title: "5. Encaminhamentos e Recomendações" },
-      { id: "conclusao", title: "6. Conclusão" },
-      { id: "observacoesComplementares", title: "7. Observações Complementares" },
-    ];
-
     reportSections.forEach(section => {
       const sectionContent = content[section.id];
       if (sectionContent && sectionContent.trim()) {
