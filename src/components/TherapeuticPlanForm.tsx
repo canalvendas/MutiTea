@@ -417,6 +417,14 @@ export const TherapeuticPlanForm = ({ specialty, therapistName }: TherapeuticPla
   const [selectedPatient, setSelectedPatient] = useState("");
   const [selectedDemands, setSelectedDemands] = useState<string[]>([]);
 
+  const handleDemandChange = (demandId: string) => {
+    setSelectedDemands(prev =>
+      prev.includes(demandId)
+        ? prev.filter(id => id !== demandId)
+        : [...prev, demandId]
+    );
+  };
+
   const generatePlan = () => {
     if (!selectedPatient) {
       toast.error("Por favor, selecione um paciente primeiro.");
@@ -436,187 +444,6 @@ export const TherapeuticPlanForm = ({ specialty, therapistName }: TherapeuticPla
     selectedDemands.forEach(demandId => {
       const goals = objetivosPorDemanda[demandId as keyof typeof objetivosPorDemanda];
       if (goals) {
-        shortTermGoals.push(...goals.curtoPrazo);
-        mediumTermGoals.push(...goals.medioPrazo);
-      }
-    });
-
-    const formattedShortTermGoals = shortTermGoals.length > 0
-      ? shortTermGoals.map(g => `   - ${g}`).join('\n')
-      : "   - (Nenhum objetivo de curto prazo gerado para as demandas selecionadas)";
-
-    const formattedMediumTermGoals = mediumTermGoals.length > 0
-      ? mediumTermGoals.map(g => `   - ${g}`).join('\n')
-      : "   - (Nenhum objetivo de médio prazo gerado para as demandas selecionadas)";
-
-    const personalizedTemplate = template
-      .replace(/\[NOME DO PACIENTE\]/g, selectedPatient)
-      .replace(/\[DATA\]/g, new Date().toLocaleDateString('pt-BR'))
-      .replace(/\[SEU NOME\]/g, therapistName)
-      .replace('[OBJETIVOS_CURTO_PRAZO]', formattedShortTermGoals)
-      .replace('[OBJETIVOS_MEDIO_PRAZO]', formattedMediumTermGoals);
-
-    setPlanContent(personalizedTemplate.trim());
-    toast.success("Plano Terapêutico personalizado gerado!");
-  };
-
-  const handleDownloadPDF = async () => {
-    if (!planContent) {
-      toast.error("Gere ou preencha o plano antes de baixar o PDF.");
-      return;
-    }
-    if (!selectedPatient) {
-      toast.error("Por favor, selecione um paciente para nomear o arquivo PDF.");
-      return;
-    }
-    toast.info("Gerando PDF do Plano Terapêutico...");
-
-    const pdfContainer = document.createElement('div');
-    pdfContainer.style.position = 'absolute';
-    pdfContainer.style.left = '-9999px';
-    pdfContainer.style.width = '210mm'; // A4 width
-    pdfContainer.style.backgroundColor = 'white';
-    document.body.appendChild(pdfContainer);
-
-    const pdfContent = document.createElement('div');
-    pdfContent.className = 'p-8 font-sans text-gray-800';
-    
-    const lines = planContent.split('\n');
-    let currentList: HTMLUListElement | null = null;
-
-    // Header
-    const header = document.createElement('div');
-    header.className = 'text-center mb-8';
-    const title = document.createElement('h1');
-    title.className = 'text-2xl font-bold text-primary'; // Using a primary color
-    title.innerText = lines[0];
-    const subtitle = document.createElement('h2');
-    subtitle.className = 'text-lg text-muted-foreground';
-    subtitle.innerText = lines[1];
-    header.appendChild(title);
-    header.appendChild(subtitle);
-    pdfContent.appendChild(header);
-
-    // Patient Info
-    const infoContainer = document.createElement('div');
-    infoContainer.className = 'grid grid-cols-3 gap-4 mb-8 text-sm';
-    for (let i = 3; i <= 5; i++) {
-      const infoDiv = document.createElement('div');
-      const [label, ...valueParts] = lines[i].split(':');
-      const value = valueParts.join(':').trim();
-      infoDiv.innerHTML = `<strong class="text-muted-foreground">${label}:</strong><p>${value}</p>`;
-      infoContainer.appendChild(infoDiv);
-    }
-    pdfContent.appendChild(infoContainer);
-    
-    // Sections
-    lines.slice(7).forEach(line => {
-      const trimmedLine = line.trim();
-      if (/^\d+\./.test(trimmedLine)) { // Section title (e.g., "1. AVALIAÇÃO...")
-        currentList = null;
-        const h3 = document.createElement('h3');
-        h3.className = 'text-lg font-semibold text-primary mt-6 mb-2 pb-1 border-b-2 border-primary/20';
-        h3.innerText = trimmedLine;
-        pdfContent.appendChild(h3);
-      } else if (trimmedLine.startsWith('-')) { // List item
-        if (!currentList) {
-          currentList = document.createElement('ul');
-          currentList.className = 'list-disc pl-5 space-y-1';
-          pdfContent.appendChild(currentList);
-        }
-        const li = document.createElement('li');
-        li.innerText = trimmedLine.substring(1).trim();
-        currentList.appendChild(li);
-      } else if (trimmedLine) { // Paragraph
-        currentList = null;
-        const p = document.createElement('p');
-        p.className = 'text-justify';
-        p.innerText = trimmedLine;
-        pdfContent.appendChild(p);
-      }
-    });
-
-    pdfContainer.appendChild(pdfContent);
-
-    try {
-      const canvas = await html2canvas(pdfContainer, { scale: 2, useCORS: true });
-      const imgData = canvas.toDataURL('image/png');
-      const pdf = new jsPDF('p', 'mm', 'a4');
-      const pdfWidth = pdf.internal.pageSize.getWidth();
-      const pdfHeight = pdf.internal.pageSize.getHeight();
-      const imgProps = pdf.getImageProperties(imgData);
-      const imgHeight = (imgProps.height * pdfWidth) / imgProps.width;
-      let heightLeft = imgHeight;
-      let position = 0;
-
-      pdf.addImage(imgData, 'PNG', 0, position, pdfWidth, imgHeight);
-      heightLeft -= pdfHeight;
-
-      while (heightLeft > 0) {
-        position = -heightLeft;
-        pdf.addPage();
-        pdf.addImage(imgData, 'PNG', 0, position, pdfWidth, imgHeight);
-        heightLeft -= pdfHeight;
-      }
-      
-      pdf.save(`Plano_Terapeutico_${specialty}_${selectedPatient.replace(/\s+/g, '_')}.pdf`);
-      toast.success("PDF gerado com sucesso!");
-    } catch (err) {
-      console.error("Erro ao gerar PDF:", err);
-      toast.error("Ocorreu um erro ao gerar o PDF.");
-    } finally {
-      document.body.removeChild(pdfContainer);
-    }
-  };
-
-  return (
-    <div className="space-y-6">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="space-y-2">
-          <Label className="font-bold text-lg">1. Nome do Paciente</Label>
-          <Select onValueChange={setSelectedPatient} value={selectedPatient}>
-            <SelectTrigger>
-              <SelectValue placeholder="Selecione um paciente" />
-            </SelectTrigger>
-            <SelectContent>
-              {patientsData.map((patient) => (
-                <SelectItem key={patient.id} value={patient.name}>
-                  {patient.name}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
-        <div className="space-y-2">
-          <Label className="font-bold text-lg">2. Principais Demandas do Paciente</Label>
-          <div className="p-4 border rounded-md max-h-48 overflow-y-auto space-y-2">
-            {demandasComuns.map(demanda => (
-              <div key={demanda.id} className="flex items-center space-x-2">
-                <Checkbox
-                  id={demanda.id}
-                  checked={selectedDemands.includes(demanda.id)}
-                  onCheckedChange={() => handleDemandChange(demanda.id)}
-                />
-                <Label htmlFor={demanda.id} className="font-normal cursor-pointer">{demanda.label}</Label>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-      
-      <div className="space-y-4">
-        <div className="flex flex-col sm:flex-row gap-2">
-          <Button onClick={generatePlan} className="w-full sm:w-auto">
-            <Sparkles className="mr-2 h-4 w-4" />
-            3. Gerar Plano Personalizado
-          </Button>
-          <Button variant="outline" onClick={handleDownloadPDF} className="w-full sm:w-auto">
-            <Download className="mr-2 h-4 w-4" />
-            Baixar PDF
-          </Button>
-          <Button className="w-full sm:w-auto" onClick={() => toast.success("Plano salvo com sucesso!")}>
-            Salvar Plano
-          </bif (goals) {
         shortTermGoals.push(...goals.curtoPrazo);
         mediumTermGoals.push(...goals.medioPrazo);
       }
