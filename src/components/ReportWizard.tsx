@@ -130,7 +130,7 @@ export const ReportWizard = ({ specialty, profileData }: ReportWizardProps) => {
   const [reportContent, setReportContent] = useState<Record<string, string>>({});
 
   const currentQuiz = reportQuizData[specialty] || reportQuizData["Padrão"];
-  const totalSteps = reportSections.length + 1; // +1 for the final review step
+  const totalSteps = reportSections.length + 2; // Initial step + 7 sections + final step = 9 steps (0-8)
 
   useEffect(() => {
     const newReportContent: Record<string, string> = {};
