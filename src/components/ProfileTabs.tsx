@@ -60,9 +60,6 @@ const specialtyToCouncil: Record<string, string> = {
   "Terapia Ocupacional": "CREFITO",
 };
 
-// Especialidades que não possuem um conselho federal e não devem exibir o campo de registro
-const specialtiesWithoutCouncil = ["Psicomotricidade", "Psicopedagogia", "Musicoterapia"];
-
 interface ProfileTabsProps {
   isEditing: boolean;
   setIsEditing: (isEditing: boolean) => void;
@@ -97,7 +94,6 @@ export const ProfileTabs = ({
   }, [profileData, form]);
 
   const currentSpecialty = form.watch("specialty");
-  const showCouncilField = !specialtiesWithoutCouncil.includes(currentSpecialty);
 
   const onSubmitProfile = (data: ProfileFormValues) => {
     setProfileData(data);
@@ -108,6 +104,16 @@ export const ProfileTabs = ({
   const handleCancel = () => {
     form.reset(profileData); // Reseta o formulário para os valores originais
     setIsEditing(false); // Sai do modo de edição
+  };
+
+  const getCouncilLabel = () => {
+    if (specialtyToCouncil[currentSpecialty]) {
+      return specialtyToCouncil[currentSpecialty];
+    }
+    if (["Psicomotricidade", "Psicopedagogia", "Musicoterapia"].includes(currentSpecialty)) {
+      return "Nº de Associação";
+    }
+    return "Registro Profissional";
   };
 
   return (
@@ -214,21 +220,19 @@ export const ProfileTabs = ({
                       </FormItem>
                     )}
                   />
-                  {showCouncilField && (
-                    <FormField
-                      control={form.control}
-                      name="crp"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>{specialtyToCouncil[currentSpecialty] || "Registro Profissional"}</FormLabel>
-                          <FormControl>
-                            <Input {...field} disabled={!isEditing} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  )}
+                  <FormField
+                    control={form.control}
+                    name="crp"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>{getCouncilLabel()}</FormLabel>
+                        <FormControl>
+                          <Input {...field} disabled={!isEditing} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
                 </div>
                 {isEditing && (
                   <div className="flex space-x-2 pt-2">
