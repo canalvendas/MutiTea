@@ -91,7 +91,519 @@ const reportQuizData: Record<string, Record<string, { prompt: string; options: s
       allowCustom: true,
     },
   },
-  // Simplified templates for other specialties can be added here following the same structure
+  "Fonoaudiologia": {
+    informacoesBasicas: {
+      prompt: "Qual o contexto fonoaudiológico inicial do paciente?",
+      options: [
+        "Paciente encaminhado para avaliação fonoaudiológica devido a atraso no desenvolvimento da linguagem oral.",
+        "A queixa principal da família refere-se a dificuldades na comunicação, fala ininteligível e seletividade alimentar.",
+        "Iniciou acompanhamento para desenvolvimento de habilidades de comunicação funcional, verbal e não-verbal.",
+      ],
+      allowCustom: true,
+    },
+    objetivosTerapeuticos: {
+      prompt: "Quais foram os principais objetivos terapêuticos para o período?",
+      options: [
+        "Ampliar o vocabulário receptivo e expressivo.",
+        "Aumentar o Comprimento Médio do Enunciado (CME).",
+        "Melhorar a inteligibilidade da fala, trabalhando fonemas-alvo.",
+        "Desenvolver habilidades pragmáticas, como contato visual e troca de turnos.",
+        "Introduzir e/ou expandir o uso de Comunicação Aumentativa e Alternativa (CAA).",
+        "Trabalhar a dessensibilização oral e a expansão do repertório alimentar.",
+      ],
+      allowCustom: true,
+    },
+    atividadesRealizadas: {
+      prompt: "Quais atividades e abordagens foram utilizadas?",
+      options: [
+        "Terapia com base em abordagens naturalistas e desenvolvimentistas.",
+        "Utilização de pistas multissensoriais para a produção dos sons da fala.",
+        "Implementação de sistema de comunicação por troca de figuras (PECS).",
+        "Atividades lúdicas para estimulação da atenção compartilhada e intenção comunicativa.",
+        "Exercícios do sistema sensório-motor-oral para trabalhar a mastigação e a deglutição.",
+      ],
+      allowCustom: true,
+    },
+    evolucaoPaciente: {
+      prompt: "Como o paciente evoluiu na comunicação e linguagem?",
+      options: [
+        "Houve um aumento significativo no vocabulário expressivo, com a produção de novas palavras funcionais.",
+        "Paciente passou a combinar duas ou mais palavras para formar frases simples.",
+        "A produção do fonema-alvo [ex: /s/] tornou-se mais consistente em nível de palavra.",
+        "Demonstrou maior iniciativa na comunicação, utilizando gestos e/ou CAA para fazer pedidos.",
+        "Apresentou melhora na compreensão de comandos de duas etapas.",
+        "Mostrou-se mais tolerante a novas texturas alimentares.",
+      ],
+      allowCustom: true,
+    },
+    encaminhamentosRecomendacoes: {
+      prompt: "Quais são as recomendações e próximos passos?",
+      options: [
+        "Recomenda-se a continuidade da terapia fonoaudiológica para aprimorar a complexidade frasal e a clareza da fala.",
+        "Sugere-se avaliação audiológica (BERA, Audiometria) para descartar perdas auditivas.",
+        "Orientação à família para estimular a linguagem em contextos diários, utilizando estratégias de modelagem.",
+        "Articulação com a escola para o uso consistente da CAA no ambiente educacional.",
+      ],
+      allowCustom: true,
+    },
+    conclusao: {
+      prompt: "Qual a conclusão profissional sobre o período?",
+      options: [
+        "O paciente demonstrou progresso significativo em suas habilidades de comunicação, o que impactou positivamente sua interação social.",
+        "A intervenção fonoaudiológica tem sido essencial para o desenvolvimento da linguagem e da fala.",
+        "A combinação de terapia direta e orientação familiar tem se mostrado eficaz para a generalização das habilidades.",
+      ],
+      allowCustom: true,
+    },
+    observacoesComplementares: {
+      prompt: "Há observações fonoaudiológicas relevantes a adicionar?",
+      options: [
+        "Observa-se a presença de ecolalia (imediata/tardia), com função predominantemente comunicativa/auto-regulatória.",
+        "A prosódia da fala apresenta-se atípica (monótona/cantada).",
+        "Paciente demonstra boa memória para jingles e frases de desenhos, o que pode ser usado terapeuticamente.",
+        "Apresenta hipersensibilidade oral, impactando tanto a fala quanto a alimentação.",
+      ],
+      allowCustom: true,
+    },
+  },
+  "Terapia Ocupacional": {
+    informacoesBasicas: {
+      prompt: "Qual o contexto ocupacional inicial do paciente?",
+      options: [
+        "Paciente encaminhado para T.O. com queixas de disfunção de integração sensorial, impactando o desempenho nas AVDs e participação social.",
+        "A demanda principal refere-se a dificuldades na coordenação motora fina, seletividade alimentar e desregulação comportamental.",
+        "Iniciou acompanhamento para promover maior independência nas atividades de vida diária e ampliar o repertório de brincar.",
+      ],
+      allowCustom: true,
+    },
+    objetivosTerapeuticos: {
+      prompt: "Quais foram os principais objetivos terapêuticos para o período?",
+      options: [
+        "Melhorar a modulação sensorial e as respostas adaptativas ao ambiente.",
+        "Desenvolver habilidades de práxis e planejamento motor.",
+        "Aumentar a independência em AVDs, como vestir-se e alimentar-se.",
+        "Aprimorar a coordenação motora fina para atividades escolares e de lazer.",
+        "Ampliar o repertório de brincar funcional e simbólico.",
+      ],
+      allowCustom: true,
+    },
+    atividadesRealizadas: {
+      prompt: "Quais atividades e abordagens foram utilizadas?",
+      options: [
+        "Sessões com abordagem de Integração Sensorial de Ayres em ambiente com equipamentos adequados.",
+        "Implementação e orientação de uma 'dieta sensorial' para casa e escola.",
+        "Análise de tarefas e treino graduado para as AVDs.",
+        "Atividades de coordenação viso-motora e destreza manual.",
+        "Uso terapêutico do brincar para desenvolver habilidades sociais e cognitivas.",
+      ],
+      allowCustom: true,
+    },
+    evolucaoPaciente: {
+      prompt: "Como o paciente evoluiu em seu desempenho ocupacional?",
+      options: [
+        "Apresentou melhora na capacidade de autorregulação, utilizando estratégias sensoriais para se acalmar.",
+        "Demonstrou maior tolerância a estímulos táteis, participando de atividades com diferentes texturas.",
+        "Conquistou maior independência na tarefa de vestir-se, realizando [n] etapas de forma autônoma.",
+        "A preensão do lápis tornou-se mais funcional, melhorando a qualidade de seus desenhos/escrita.",
+        "Engajou-se em brincadeiras simbólicas por períodos mais longos.",
+      ],
+      allowCustom: true,
+    },
+    encaminhamentosRecomendacoes: {
+      prompt: "Quais são as recomendações e próximos passos?",
+      options: [
+        "Recomenda-se a continuidade da intervenção para aprimorar o planejamento motor e a independência nas AIVDs.",
+        "Sugere-se adaptações no mobiliário escolar para favorecer a postura e a atenção.",
+        "Orientação à família sobre como graduar as tarefas em casa para promover a autonomia.",
+        "Encaminhamento para avaliação oftalmológica/optométrica para investigar aspectos visuais.",
+      ],
+      allowCustom: true,
+    },
+    conclusao: {
+      prompt: "Qual a conclusão profissional sobre o período?",
+      options: [
+        "O paciente obteve ganhos significativos em seu desempenho ocupacional, resultando em maior participação e qualidade de vida.",
+        "A intervenção focada na integração sensorial foi fundamental para a melhora da regulação e do engajamento do paciente.",
+        "O progresso observado indica um bom prognóstico para a aquisição de novas habilidades funcionais.",
+      ],
+      allowCustom: true,
+    },
+    observacoesComplementares: {
+      prompt: "Há observações ocupacionais relevantes a adicionar?",
+      options: [
+        "Paciente apresenta um perfil sensorial misto, com hipersensibilidade auditiva e busca por estímulos vestibulares.",
+        "A dispraxia (dificuldade no planejamento motor) é um fator significativo que impacta a aprendizagem de novas tarefas.",
+        "O brincar é predominantemente exploratório e repetitivo, com dificuldades na ideação.",
+        "A participação ativa da família na implementação das estratégias tem sido um diferencial na evolução do caso.",
+      ],
+      allowCustom: true,
+    },
+  },
+  "Psicopedagogia": {
+    informacoesBasicas: {
+      prompt: "Qual o contexto de aprendizagem inicial do paciente?",
+      options: [
+        "Paciente encaminhado para avaliação psicopedagógica devido a dificuldades no processo de alfabetização e raciocínio lógico-matemático.",
+        "A queixa escolar refere-se à desatenção, baixa organização com os materiais e dificuldade em seguir as instruções em sala de aula.",
+        "Iniciou acompanhamento para desenvolver estratégias de aprendizagem e trabalhar as funções executivas.",
+      ],
+      allowCustom: true,
+    },
+    objetivosTerapeuticos: {
+      prompt: "Quais foram os principais objetivos terapêuticos para o período?",
+      options: [
+        "Desenvolver a consciência fonológica e a relação fonema-grafema.",
+        "Aprimorar a compreensão leitora em diferentes níveis (literal, inferencial).",
+        "Trabalhar a resolução de problemas matemáticos e o senso numérico.",
+        "Estimular as funções executivas, com foco em planejamento, organização e memória de trabalho.",
+        "Promover a autonomia e a metacognição no processo de aprendizagem.",
+      ],
+      allowCustom: true,
+    },
+    atividadesRealizadas: {
+      prompt: "Quais atividades e abordagens foram utilizadas?",
+      options: [
+        "Intervenção baseada em jogos estruturados para o desenvolvimento de habilidades acadêmicas.",
+        "Utilização de métodos multissensoriais para a alfabetização.",
+        "Mediação cognitiva para a resolução de problemas.",
+        "Treino de estratégias de organização e planejamento de tarefas.",
+        "Uso de softwares e aplicativos educacionais como ferramentas de apoio.",
+      ],
+      allowCustom: true,
+    },
+    evolucaoPaciente: {
+      prompt: "Como o paciente evoluiu em seu processo de aprendizagem?",
+      options: [
+        "Apresentou avanços significativos na decodificação de palavras e na fluência leitora.",
+        "Demonstrou maior capacidade de organizar suas ideias para a produção de textos escritos.",
+        "Conseguiu aplicar estratégias para resolver problemas matemáticos de [tipo].",
+        "Mostrou-se mais organizado com seus materiais e na execução das tarefas propostas.",
+        "Houve melhora na atenção sustentada durante as atividades.",
+      ],
+      allowCustom: true,
+    },
+    encaminhamentosRecomendacoes: {
+      prompt: "Quais são as recomendações e próximos passos?",
+      options: [
+        "Recomenda-se a continuidade do acompanhamento psicopedagógico para consolidar as estratégias aprendidas.",
+        "Sugere-se a implementação de um Plano de Ensino Individualizado (PEI) na escola.",
+        "Articulação com os professores para o uso de adaptações curriculares e avaliativas.",
+        "Encaminhamento para avaliação neuropsicológica para um mapeamento cognitivo detalhado.",
+      ],
+      allowCustom: true,
+    },
+    conclusao: {
+      prompt: "Qual a conclusão profissional sobre o período?",
+      options: [
+        "A intervenção psicopedagógica tem sido crucial para superar as barreiras de aprendizagem do paciente.",
+        "O paciente demonstrou grande potencial de aprendizagem ao receber o suporte e as estratégias adequadas.",
+        "Observa-se uma melhora na autoestima e na percepção do paciente sobre si mesmo como aprendiz.",
+      ],
+      allowCustom: true,
+    },
+    observacoesComplementares: {
+      prompt: "Há observações psicopedagógicas relevantes a adicionar?",
+      options: [
+        "O estilo de aprendizagem do paciente é predominantemente visual.",
+        "Apresenta um pensamento rígido (baixa flexibilidade cognitiva), o que dificulta a correção de erros.",
+        "O hiperfoco em [tema] tem sido utilizado como uma porta de entrada para conteúdos acadêmicos.",
+        "Fatores emocionais, como a ansiedade de desempenho, impactam significativamente seu rendimento.",
+      ],
+      allowCustom: true,
+    },
+  },
+  "Fisioterapia": {
+    informacoesBasicas: {
+      prompt: "Qual o contexto motor inicial do paciente?",
+      options: [
+        "Paciente encaminhado para fisioterapia devido a hipotonia muscular generalizada e atraso no desenvolvimento motor.",
+        "A queixa principal refere-se à marcha atípica (na ponta dos pés) e quedas frequentes.",
+        "Iniciou acompanhamento para avaliação e intervenção postural e de coordenação motora.",
+      ],
+      allowCustom: true,
+    },
+    objetivosTerapeuticos: {
+      prompt: "Quais foram os principais objetivos terapêuticos para o período?",
+      options: [
+        "Promover o aumento do tônus muscular e da força, principalmente em tronco (core).",
+        "Adequar o padrão da marcha, estimulando o contato total do pé com o solo.",
+        "Melhorar o equilíbrio estático e dinâmico e as reações de proteção.",
+        "Aprimorar a coordenação motora ampla e o planejamento motor.",
+        "Realizar orientações posturais para as atividades diárias.",
+      ],
+      allowCustom: true,
+    },
+    atividadesRealizadas: {
+      prompt: "Quais atividades e abordagens foram utilizadas?",
+      options: [
+        "Realização de cinesioterapia com exercícios terapêuticos para fortalecimento e alongamento.",
+        "Treino de marcha em diferentes superfícies e com obstáculos.",
+        "Utilização de circuitos motores para trabalhar a coordenação e o equilíbrio.",
+        "Exercícios de propriocepção e estimulação vestibular.",
+        "Técnicas de terapia manual para mobilização articular e de tecidos moles.",
+      ],
+      allowCustom: true,
+    },
+    evolucaoPaciente: {
+      prompt: "Como o paciente evoluiu em seu desenvolvimento motor?",
+      options: [
+        "Observou-se um aumento da força em musculatura abdominal e paravertebral, resultando em melhor controle postural.",
+        "Houve uma diminuição na frequência da marcha na ponta dos pés, com maior tempo de contato do calcanhar no solo.",
+        "Apresentou melhora no equilíbrio, conseguindo permanecer em apoio unipodal por mais tempo.",
+        "As quedas tornaram-se menos frequentes, com reações de proteção mais eficazes.",
+        "Demonstrou maior agilidade e coordenação na execução dos circuitos motores.",
+      ],
+      allowCustom: true,
+    },
+    encaminhamentosRecomendacoes: {
+      prompt: "Quais são as recomendações e próximos passos?",
+      options: [
+        "Recomenda-se a continuidade do tratamento fisioterapêutico para automatização do padrão de marcha correto.",
+        "Sugere-se a prática de atividades como natação ou judô para fortalecimento global.",
+        "Encaminhamento para avaliação com ortopedista para investigar possível encurtamento do tendão de Aquiles.",
+        "Orientação à família sobre calçados adequados e exercícios para realizar em casa.",
+      ],
+      allowCustom: true,
+    },
+    conclusao: {
+      prompt: "Qual a conclusão profissional sobre o período?",
+      options: [
+        "A intervenção fisioterapêutica tem proporcionado ganhos motores funcionais importantes para o paciente.",
+        "O paciente respondeu bem aos estímulos propostos, demonstrando boa evolução no controle motor e postural.",
+        "O tratamento tem sido fundamental para prevenir futuras alterações musculoesqueléticas e promover um desenvolvimento motor mais harmonioso.",
+      ],
+      allowCustom: true,
+    },
+    observacoesComplementares: {
+      prompt: "Há observações fisioterapêuticas relevantes a adicionar?",
+      options: [
+        "Paciente apresenta frouxidão ligamentar, o que contribui para a instabilidade articular.",
+        "A hipotonia muscular é mais acentuada em tronco do que em membros.",
+        "A busca por estímulos proprioceptivos (pressão profunda) e vestibulares (movimento) é intensa durante as sessões.",
+        "Apresenta baixa resistência à fadiga em atividades motoras contínuas.",
+      ],
+      allowCustom: true,
+    },
+  },
+  "Nutrição": {
+    informacoesBasicas: {
+      prompt: "Qual o contexto nutricional e alimentar inicial do paciente?",
+      options: [
+        "Paciente encaminhado para acompanhamento nutricional devido à seletividade alimentar severa e baixo peso.",
+        "A queixa principal da família refere-se a comportamentos alimentares restritivos e recusa em experimentar novos alimentos.",
+        "Iniciou acompanhamento para manejo de sintomas gastrointestinais (constipação/diarreia) e adequação nutricional.",
+      ],
+      allowCustom: true,
+    },
+    objetivosTerapeuticos: {
+      prompt: "Quais foram os principais objetivos terapêuticos para o período?",
+      options: [
+        "Ampliar o repertório alimentar, com foco na aceitação de novos grupos de alimentos.",
+        "Melhorar a aceitação de diferentes texturas, cores e apresentações de alimentos.",
+        "Adequar a ingestão de macro e micronutrientes para garantir crescimento e desenvolvimento saudáveis.",
+        "Manejar os sintomas gastrointestinais através de estratégias dietéticas.",
+        "Promover um comportamento alimentar mais flexível e um ambiente de refeição positivo.",
+      ],
+      allowCustom: true,
+    },
+    atividadesRealizadas: {
+      prompt: "Quais atividades e abordagens foram utilizadas?",
+      options: [
+        "Aplicação da abordagem hierárquica de exposição aos alimentos (ver, tocar, cheirar, provar).",
+        "Realização de atividades de exploração sensorial com os alimentos.",
+        "Orientação nutricional para a família, com estratégias para manejo da seletividade em casa.",
+        "Planejamento de cardápio individualizado e receitas adaptadas.",
+        "Prescrição de suplementação nutricional, quando necessário.",
+      ],
+      allowCustom: true,
+    },
+    evolucaoPaciente: {
+      prompt: "Como o paciente evoluiu em seu comportamento alimentar e estado nutricional?",
+      options: [
+        "Houve a inclusão de [n] novos alimentos no repertório alimentar do paciente.",
+        "Paciente passou a tolerar a presença de alimentos recusados no prato sem desregulação.",
+        "Apresentou melhora significativa no quadro de constipação com o aumento da ingestão de fibras e água.",
+        "Observou-se uma melhora no comportamento durante as refeições, com redução de recusas e comportamentos de fuga.",
+        "Houve ganho de peso/altura adequado para a idade, conforme demonstrado na curva de crescimento.",
+      ],
+      allowCustom: true,
+    },
+    encaminhamentosRecomendacoes: {
+      prompt: "Quais são as recomendações e próximos passos?",
+      options: [
+        "Recomenda-se a continuidade do acompanhamento nutricional para progressiva ampliação do cardápio.",
+        "Sugere-se a realização de exames bioquímicos para monitorar possíveis deficiências de micronutrientes.",
+        "Encaminhamento para gastropediatra para investigação aprofundada dos sintomas gastrointestinais.",
+        "Manter a família engajada na oferta consistente e sem pressão dos alimentos.",
+      ],
+      allowCustom: true,
+    },
+    conclusao: {
+      prompt: "Qual a conclusão profissional sobre o período?",
+      options: [
+        "A intervenção nutricional tem sido efetiva para a melhora do comportamento alimentar e do estado nutricional do paciente.",
+        "O paciente demonstra capacidade de ampliar seu repertório alimentar em um ambiente terapêutico seguro e com estratégias adequadas.",
+        "O manejo da seletividade alimentar tem impactado positivamente a saúde geral e a dinâmica familiar.",
+      ],
+      allowCustom: true,
+    },
+    observacoesComplementares: {
+      prompt: "Há observações nutricionais relevantes a adicionar?",
+      options: [
+        "A seletividade alimentar do paciente é fortemente influenciada por características sensoriais, principalmente textura e cor.",
+        "Apresenta rituais durante a alimentação, como a necessidade de separar todos os alimentos no prato.",
+        "A ingestão hídrica é baixa, sendo um ponto de atenção contínuo.",
+        "Há suspeita de alergias/intolerâncias alimentares que precisam ser investigadas.",
+      ],
+      allowCustom: true,
+    },
+  },
+  "Musicoterapia": {
+    informacoesBasicas: {
+      prompt: "Qual o contexto inicial do paciente para a Musicoterapia?",
+      options: [
+        "Paciente encaminhado para Musicoterapia com o objetivo de ampliar os canais de comunicação e promover a interação social.",
+        "A demanda principal refere-se à necessidade de trabalhar a regulação emocional e a expressão de sentimentos.",
+        "Iniciou acompanhamento para estimulação do desenvolvimento global através de experiências sonoro-musicais.",
+      ],
+      allowCustom: true,
+    },
+    objetivosTerapeuticos: {
+      prompt: "Quais foram os principais objetivos terapêuticos para o período?",
+      options: [
+        "Fomentar a intenção comunicativa e a reciprocidade na interação.",
+        "Promover a expressão e a modulação de afetos através da música.",
+        "Desenvolver a atenção compartilhada e o contato visual em um contexto musical.",
+        "Estimular a consciência corporal e o planejamento motor através do ritmo e do movimento.",
+        "Ampliar o repertório de respostas adaptativas a estímulos sonoros.",
+      ],
+      allowCustom: true,
+    },
+    atividadesRealizadas: {
+      prompt: "Quais atividades e abordagens foram utilizadas?",
+      options: [
+        "Sessões baseadas na improvisação musical clínica para facilitar o diálogo sonoro.",
+        "Utilização de canções estruturadas para trabalhar a previsibilidade e a participação.",
+        "Atividades de recreação musical para o desenvolvimento de habilidades sociais.",
+        "Audição musical receptiva para fins de regulação e relaxamento.",
+        "Composição conjunta de canções para trabalhar a narrativa e a expressão de ideias.",
+      ],
+      allowCustom: true,
+    },
+    evolucaoPaciente: {
+      prompt: "Como o paciente evoluiu através da experiência musicoterápica?",
+      options: [
+        "Houve um aumento na frequência e na duração do contato visual durante as interações musicais.",
+        "Paciente passou a iniciar interações sonoras, demonstrando maior intencionalidade comunicativa.",
+        "Demonstrou capacidade de usar os sons para expressar diferentes emoções, como alegria e frustração.",
+        "Apresentou melhora na coordenação motora e na capacidade de seguir um ritmo proposto.",
+        "Utilizou a música como uma ferramenta para se regular em momentos de agitação.",
+      ],
+      allowCustom: true,
+    },
+    encaminhamentosRecomendacoes: {
+      prompt: "Quais são as recomendações e próximos passos?",
+      options: [
+        "Recomenda-se a continuidade do processo musicoterapêutico para aprofundar o vínculo e os canais de comunicação.",
+        "Sugere-se o uso de músicas específicas em casa para auxiliar nas transições e na rotina.",
+        "Articulação com a equipe multidisciplinar para compartilhar as percepções sobre a comunicação não-verbal do paciente.",
+        "Incentivar a exploração de instrumentos musicais como forma de lazer e expressão.",
+      ],
+      allowCustom: true,
+    },
+    conclusao: {
+      prompt: "Qual a conclusão profissional sobre o período?",
+      options: [
+        "A Musicoterapia tem se mostrado um espaço potente para o desenvolvimento da comunicação e da expressão do paciente.",
+        "O vínculo estabelecido no setting terapêutico musical tem permitido ao paciente explorar novas formas de ser e de se relacionar.",
+        "O paciente responde de forma muito positiva ao setting sonoro, demonstrando grande potencial de desenvolvimento através da música.",
+      ],
+      allowCustom: true,
+    },
+    observacoesComplementares: {
+      prompt: "Há observações musicoterápicas relevantes a adicionar?",
+      options: [
+        "O paciente possui um ISO (Identidade Sonora) com preferência por sons de frequência grave e ritmo constante.",
+        "Apresenta hipersensibilidade auditiva a sons agudos e inesperados.",
+        "Demonstra uma memória musical excepcional, recordando melodias e letras com facilidade.",
+        "A interação é mais rica e fluida no contexto não-verbal da improvisação do que na comunicação verbal.",
+      ],
+      allowCustom: true,
+    },
+  },
+  "Psicomotricidade": {
+    informacoesBasicas: {
+      prompt: "Qual o contexto psicomotor inicial do paciente?",
+      options: [
+        "Paciente encaminhado para Psicomotricidade devido a agitação motora, dificuldades de coordenação e de consciência corporal.",
+        "A queixa principal refere-se à inibição psicomotora, baixo tônus muscular e dificuldades na interação corporal com pares.",
+        "Iniciou acompanhamento para trabalhar a organização espacial e temporal e a regulação tônico-emocional.",
+      ],
+      allowCustom: true,
+    },
+    objetivosTerapeuticos: {
+      prompt: "Quais foram os principais objetivos terapêuticos para o período?",
+      options: [
+        "Promover a consciência e a organização do esquema corporal.",
+        "Adequar o tônus muscular e desenvolver o diálogo tônico.",
+        "Aprimorar a coordenação motora global e fina, e o equilíbrio.",
+        "Desenvolver a noção de espaço e tempo.",
+        "Facilitar a expressão de emoções através do corpo e do movimento.",
+      ],
+      allowCustom: true,
+    },
+    atividadesRealizadas: {
+      prompt: "Quais atividades e abordagens foram utilizadas?",
+      options: [
+        "Sessões com foco no jogo simbólico e na expressividade motora.",
+        "Utilização de circuitos psicomotores para trabalhar equilíbrio, agilidade e planejamento.",
+        "Atividades de relaxamento e de percepção corporal.",
+        "Jogos de construção e atividades grafomotoras para aprimorar a motricidade fina.",
+        "Brincadeiras que envolvem o reconhecimento e o respeito aos limites corporais (seus e do outro).",
+      ],
+      allowCustom: true,
+    },
+    evolucaoPaciente: {
+      prompt: "Como o paciente evoluiu em seu desenvolvimento psicomotor?",
+      options: [
+        "Apresentou melhora na consciência corporal, nomeando e localizando partes do corpo com mais precisão.",
+        "Demonstrou maior regulação tônica, com menos agitação e maior capacidade de se acalmar.",
+        "Houve uma evolução na coordenação motora global, visível em atividades como pular e correr.",
+        "Conseguiu se organizar melhor no espaço, respeitando os limites das atividades.",
+        "Passou a utilizar o corpo de forma mais expressiva e funcional no brincar.",
+      ],
+      allowCustom: true,
+    },
+    encaminhamentosRecomendacoes: {
+      prompt: "Quais são as recomendações e próximos passos?",
+      options: [
+        "Recomenda-se a continuidade da terapia psicomotora para consolidar a imagem corporal e a organização espaço-temporal.",
+        "Sugere-se a prática de esportes que favoreçam a consciência corporal e a coordenação.",
+        "Orientação à família e à escola sobre a importância de permitir a exploração corporal em ambientes seguros.",
+        "Encaminhamento para Terapia Ocupacional para avaliação de aspectos sensoriais específicos.",
+      ],
+      allowCustom: true,
+    },
+    conclusao: {
+      prompt: "Qual a conclusão profissional sobre o período?",
+      options: [
+        "A intervenção psicomotora tem sido fundamental para a integração do paciente com seu próprio corpo e com o mundo.",
+        "O paciente tem se beneficiado do espaço terapêutico para construir uma imagem corporal mais positiva e funcional.",
+        "O desenvolvimento psicomotor tem impactado positivamente a autoestima e a disponibilidade do paciente para a aprendizagem e a socialização.",
+      ],
+      allowCustom: true,
+    },
+    observacoesComplementares: {
+      prompt: "Há observações psicomotoras relevantes a adicionar?",
+      options: [
+        "O paciente apresenta um diálogo tônico caracterizado por hipertonia defensiva ao contato inicial.",
+        "A lateralidade ainda se encontra em fase de definição.",
+        "Apresenta sincinesias (movimentos parasitas) em atividades que exigem coordenação fina.",
+        "A relação com os objetos é mais de exploração sensorial do que de uso simbólico.",
+      ],
+      allowCustom: true,
+    },
+  },
   "Padrão": {
     informacoesBasicas: { prompt: "Contexto inicial", options: [], allowCustom: true },
     objetivosTerapeuticos: { prompt: "Objetivos", options: [], allowCustom: true },
