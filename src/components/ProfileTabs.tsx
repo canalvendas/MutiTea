@@ -97,7 +97,7 @@ export const ProfileTabs = ({
         <TabsTrigger value="dados-cadastrais">Dados Cadastrais</TabsTrigger>
         <TabsTrigger value="anamnese">Anamnese</TabsTrigger>
         <TabsTrigger value="evolucao">Evolução</TabsTrigger>
-        <TabsTrigger value="documentos">Documentos</TabsTrigger>
+        <TabsTrigger value="relatorio">Relatório</TabsTrigger>
         <TabsTrigger value="plano-terapeutico">Plano Terapêutico</TabsTrigger>
       </TabsList>
 
@@ -299,15 +299,15 @@ export const ProfileTabs = ({
         </Collapsible>
       </TabsContent>
 
-      <TabsContent value="documentos" className="mt-4">
+      <TabsContent value="relatorio" className="mt-4">
         <Card>
           <CardHeader>
-            <CardTitle>Documentos</CardTitle>
-            <CardDescription>Gerencie documentos relacionados ao paciente.</CardDescription>
+            <CardTitle>Relatório</CardTitle>
+            <CardDescription>Gere e gerencie relatórios e laudos para seus pacientes.</CardDescription>
           </CardHeader>
           <CardContent>
-            <p className="text-muted-foreground">Nenhum documento anexado ainda.</p>
-            <Button className="mt-4">Adicionar Documento</Button>
+            <p className="text-muted-foreground">Funcionalidade de geração de relatórios em breve.</p>
+            <Button className="mt-4" disabled>Gerar Novo Relatório</Button>
           </CardContent>
         </Card>
       </TabsContent>
