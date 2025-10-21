@@ -269,9 +269,10 @@ const specialtyMapping = {
 
 interface TherapeuticPlanFormProps {
   specialty: string;
+  therapistName: string;
 }
 
-export const TherapeuticPlanForm = ({ specialty }: TherapeuticPlanFormProps) => {
+export const TherapeuticPlanForm = ({ specialty, therapistName }: TherapeuticPlanFormProps) => {
   const [planContent, setPlanContent] = useState("");
   const [selectedPatient, setSelectedPatient] = useState("");
   const [selectedDemands, setSelectedDemands] = useState<string[]>([]);
@@ -320,6 +321,7 @@ export const TherapeuticPlanForm = ({ specialty }: TherapeuticPlanFormProps) => 
     const personalizedTemplate = template
       .replace(/\[NOME DO PACIENTE\]/g, selectedPatient)
       .replace(/\[DATA\]/g, new Date().toLocaleDateString('pt-BR'))
+      .replace(/\[SEU NOME\]/g, therapistName)
       .replace('[OBJETIVOS_CURTO_PRAZO]', formattedShortTermGoals)
       .replace('[OBJETIVOS_MEDIO_PRAZO]', formattedMediumTermGoals);
 

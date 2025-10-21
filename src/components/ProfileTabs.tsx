@@ -373,7 +373,7 @@ export const ProfileTabs = ({
             <CardDescription>Defina e acompanhe o plano de tratamento.</CardDescription>
           </CardHeader>
           <CardContent>
-            <TherapeuticPlanForm specialty={currentSpecialty} />
+            <TherapeuticPlanForm specialty={currentSpecialty} therapistName={profileData.name} />
           </CardContent>
         </Card>
       </TabsContent>
