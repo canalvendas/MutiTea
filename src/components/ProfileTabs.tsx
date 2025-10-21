@@ -24,7 +24,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { toast } from "sonner";
 import { AnamneseForm, AnamneseFormData } from "./AnamneseForm";
-import { ProfileData, SavedAnamnese, SavedEvolution, SavedReport } from "@/pages/Profile";
+import { ProfileData, SavedAnamnese, SavedEvolution, SavedReport, SavedTherapeuticPlan } from "@/pages/Profile";
 import { EvolutionForm, EvolutionFormData } from "./EvolutionForm";
 import { TherapeuticPlanForm } from "./TherapeuticPlanForm";
 import { Input } from "@/components/ui/input";
@@ -38,6 +38,7 @@ import {
 import { ChevronsUpDown } from "lucide-react";
 import { ReportWizard, ReportWizardData } from "./ReportWizard";
 import { SavedReportsList } from "./SavedReportsList";
+import { SavedTherapeuticPlansList } from "./SavedTherapeuticPlansList";
 
 // Esquema de validação para os dados cadastrais
 const profileFormSchema = z.object({
@@ -76,13 +77,17 @@ interface ProfileTabsProps {
   savedReports: SavedReport[];
   onSaveReport: (data: ReportWizardData) => void;
   onDeleteReport: (id: string) => void;
+  savedPlans: SavedTherapeuticPlan[];
+  onSavePlan: (data: { patientName: string; specialty: string; planContent: string }) => void;
+  onDeletePlan: (id: string) => void;
 }
 
 export const ProfileTabs = ({ 
   isEditing, setIsEditing, profileData, setProfileData, 
   savedAnamneses, onSaveAnamnese, onEditAnamnese, onDeleteAnamnese,
   savedEvolutions, onSaveEvolution, onEditEvolution, onDeleteEvolution,
-  savedReports, onSaveReport, onDeleteReport
+  savedReports, onSaveReport, onDeleteReport,
+  savedPlans, onSavePlan, onDeletePlan
 }: ProfileTabsProps) => {
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(profileFormSchema),
@@ -366,14 +371,31 @@ export const ProfileTabs = ({
         </Collapsible>
       </TabsContent>
 
-      <TabsContent value="plano-terapeutico" className="mt-4">
+      <TabsContent value="plano-terapeutico" className="mt-4 space-y-6">
         <Card>
           <CardHeader>
-            <CardTitle>Plano Terapêutico</CardTitle>
+            <CardTitle>Planos Terapêuticos Salvos</CardTitle>
+            <CardDescription>Visualize, baixe ou exclua os planos gerados.</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <SavedTherapeuticPlansList
+              plans={savedPlans}
+              onDelete={onDeletePlan}
+              profileData={profileData}
+            />
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader>
+            <CardTitle>Criar Novo Plano Terapêutico</CardTitle>
             <CardDescription>Defina e acompanhe o plano de tratamento.</CardDescription>
           </CardHeader>
           <CardContent>
-            <TherapeuticPlanForm specialty={currentSpecialty} therapistName={profileData.name} />
+            <TherapeuticPlanForm 
+              specialty={currentSpecialty} 
+              therapistName={profileData.name}
+              onSavePlan={onSavePlan}
+            />
           </CardContent>
         </Card>
       </TabsContent>

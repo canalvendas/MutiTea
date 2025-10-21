@@ -43,6 +43,14 @@ export interface SavedReport {
   data: ReportWizardData;
 }
 
+export interface SavedTherapeuticPlan {
+  id: string;
+  patientName: string;
+  submissionDate: string;
+  specialty: string;
+  planContent: string;
+}
+
 const Profile = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [profileData, setProfileData] = useState<ProfileData>({
@@ -92,6 +100,9 @@ const Profile = () => {
 
   // Report State
   const [savedReports, setSavedReports] = useState<SavedReport[]>([]);
+
+  // Therapeutic Plan State
+  const [savedPlans, setSavedPlans] = useState<SavedTherapeuticPlan[]>([]);
 
   // Anamnese Handlers
   const handleSaveAnamnese = (formData: AnamneseFormData) => {
@@ -195,6 +206,24 @@ const Profile = () => {
     }
   };
 
+  // Therapeutic Plan Handlers
+  const handleSavePlan = (planData: { patientName: string; specialty: string; planContent: string }) => {
+    const newPlan: SavedTherapeuticPlan = {
+      id: new Date().toISOString(),
+      submissionDate: new Date().toISOString().split('T')[0],
+      ...planData,
+    };
+    setSavedPlans(prev => [newPlan, ...prev]);
+    toast.success("Plano Terapêutico salvo com sucesso!");
+  };
+
+  const handleDeletePlan = (id: string) => {
+    if (window.confirm("Tem certeza que deseja excluir este plano terapêutico?")) {
+      setSavedPlans(prev => prev.filter(p => p.id !== id));
+      toast.success("Plano Terapêutico excluído com sucesso.");
+    }
+  };
+
   const handleAvatarChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
@@ -236,6 +265,9 @@ const Profile = () => {
         savedReports={savedReports}
         onSaveReport={handleSaveReport}
         onDeleteReport={handleDeleteReport}
+        savedPlans={savedPlans}
+        onSavePlan={handleSavePlan}
+        onDeletePlan={handleDeletePlan}
       />
       <EditAnamneseDialog
         isOpen={isEditAnamneseDialogOpen}
