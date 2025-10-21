@@ -51,6 +51,15 @@ const profileFormSchema = z.object({
 
 type ProfileFormValues = z.infer<typeof profileFormSchema>;
 
+// Mapeamento de especialidade para a sigla do conselho
+const specialtyToCouncil: Record<string, string> = {
+  "Psicologia": "CRP",
+  "Nutrição": "CRN",
+  "Fonoaudiologia": "CREFONO",
+  "Fisioterapia": "CREFITO",
+  "Terapia Ocupacional": "CREFITO",
+};
+
 interface ProfileTabsProps {
   isEditing: boolean;
   setIsEditing: (isEditing: boolean) => void;
@@ -206,7 +215,7 @@ export const ProfileTabs = ({
                     name="crp"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>CRP/CRM</FormLabel>
+                        <FormLabel>{specialtyToCouncil[currentSpecialty] || "Registro Profissional"}</FormLabel>
                         <FormControl>
                           <Input {...field} disabled={!isEditing} />
                         </FormControl>
