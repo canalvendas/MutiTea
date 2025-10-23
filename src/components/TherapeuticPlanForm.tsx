@@ -196,7 +196,7 @@ Terapeuta Responsável: [SEU NOME]
    - Os critérios de alta envolvem a generalização das habilidades para os ambientes naturalísticos (casa, escola), a redução significativa de comportamentos desafiadores e a melhora na qualidade da interação social e bem-estar do paciente.
   `,
   Fonoaudiologia: `
-PLANO TERAPÊUTICO INDIVIDUAL (PTI) - FONOAUDIOLOGIA
+PLANO TERAPÊUTICO INDIVIDUAL (PTI) - FONOAUDIologia
 
 Paciente: [NOME DO PACIENTE]
 Data de Início: [DATA]
@@ -410,9 +410,10 @@ const specialtyMapping = {
 interface TherapeuticPlanFormProps {
   specialty: string;
   therapistName: string;
+  onSavePlan: (data: { patientName: string; specialty: string; planContent: string }) => void;
 }
 
-export const TherapeuticPlanForm = ({ specialty, therapistName }: TherapeuticPlanFormProps) => {
+export const TherapeuticPlanForm = ({ specialty, therapistName, onSavePlan }: TherapeuticPlanFormProps) => {
   const [planContent, setPlanContent] = useState("");
   const [selectedPatient, setSelectedPatient] = useState("");
   const [selectedDemands, setSelectedDemands] = useState<string[]>([]);
@@ -466,6 +467,26 @@ export const TherapeuticPlanForm = ({ specialty, therapistName }: TherapeuticPla
 
     setPlanContent(personalizedTemplate.trim());
     toast.success("Plano Terapêutico personalizado gerado!");
+  };
+
+  const handleSave = () => {
+    if (!selectedPatient) {
+      toast.error("Por favor, selecione um paciente para salvar o plano.");
+      return;
+    }
+    if (!planContent.trim()) {
+      toast.error("O conteúdo do plano não pode estar vazio para ser salvo.");
+      return;
+    }
+    onSavePlan({
+      patientName: selectedPatient,
+      specialty: specialty,
+      planContent: planContent,
+    });
+    // Limpa o formulário após salvar
+    setSelectedPatient("");
+    setSelectedDemands([]);
+    setPlanContent("");
   };
 
   const handleDownloadPDF = async () => {
@@ -622,7 +643,7 @@ export const TherapeuticPlanForm = ({ specialty, therapistName }: TherapeuticPla
             <Download className="mr-2 h-4 w-4" />
             Baixar PDF
           </Button>
-          <Button className="w-full sm:w-auto" onClick={() => toast.success("Plano salvo com sucesso!")}>
+          <Button className="w-full sm:w-auto" onClick={handleSave}>
             Salvar Plano
           </Button>
         </div>
