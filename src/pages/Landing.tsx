@@ -21,11 +21,13 @@ import {
   Download,
   Star,
   CheckCircle,
+  ToyBrick,
 } from "lucide-react";
 
 const specialties = [
   { icon: BrainCircuit, name: "Psicologia", description: "Gestão de sessões, prontuários e planos terapêuticos." },
   { icon: Mic, name: "Fonoaudiologia", description: "Acompanhamento da evolução da fala e linguagem." },
+  { icon: ToyBrick, name: "Terapia Ocupacional", description: "Atividades para autonomia e desenvolvimento sensorial." },
   { icon: Footprints, name: "Psicomotricidade", description: "Registro de atividades e desenvolvimento motor." },
   { icon: BookOpen, name: "Psicopedagogia", description: "Planos de intervenção e relatórios de aprendizagem." },
   { icon: HeartPulse, name: "Fisioterapia", description: "Monitoramento de progresso motor e funcional." },
