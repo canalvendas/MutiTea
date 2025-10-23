@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-import { Home, Users, Calendar, FileText, User } from "lucide-react";
+import { Home, Users, Calendar, FileText, User, Lightbulb } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Logo } from "./Logo";
 
@@ -7,6 +7,7 @@ const navItems = [
   { name: "Início", icon: Home, path: "/dashboard" },
   { name: "Pacientes", icon: Users, path: "/patients" },
   { name: "Agenda", icon: Calendar, path: "/agenda" },
+  { name: "Atividades", icon: Lightbulb, path: "/activities" },
   { name: "Relatórios", icon: FileText, path: "/reports" },
   { name: "Perfil", icon: User, path: "/profile" },
 ];

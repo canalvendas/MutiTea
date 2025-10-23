@@ -12,6 +12,7 @@ import Patients from "./pages/Patients";
 import Agenda from "./pages/Agenda";
 import Reports from "./pages/Reports";
 import Profile from "./pages/Profile";
+import Activities from "./pages/Activities";
 import NotFound from "./pages/NotFound";
 
 // Layout
@@ -37,6 +38,7 @@ const App = () => (
             <Route path="/agenda" element={<Agenda />} />
             <Route path="/reports" element={<Reports />} />
             <Route path="/profile" element={<Profile />} />
+            <Route path="/activities" element={<Activities />} />
           </Route>
 
           {/* Rota de Not Found */}

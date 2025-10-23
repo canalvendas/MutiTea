@@ -1,12 +1,12 @@
 import { NavLink } from "react-router-dom";
-import { Home, Users, Calendar, FileText, User } from "lucide-react";
+import { Home, Users, Calendar, Lightbulb, User } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const navItems = [
   { name: "Início", icon: Home, path: "/dashboard" },
   { name: "Pacientes", icon: Users, path: "/patients" },
   { name: "Agenda", icon: Calendar, path: "/agenda" },
-  { name: "Relatórios", icon: FileText, path: "/reports" },
+  { name: "Atividades", icon: Lightbulb, path: "/activities" },
   { name: "Perfil", icon: User, path: "/profile" },
 ];
 
@@ -20,7 +20,7 @@ export const BottomNavigation = () => {
             to={item.path}
             className={({ isActive }) =>
               cn(
-                "flex flex-col items-center justify-center text-sm font-medium text-muted-foreground transition-colors hover:text-primary",
+                "flex flex-col items-center justify-center text-sm font-medium text-muted-foreground transition-colors hover:text-primary w-1/5",
                 isActive && "text-primary"
               )
             }
