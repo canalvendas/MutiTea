@@ -51,6 +51,14 @@ export interface SavedTherapeuticPlan {
   planContent: string;
 }
 
+export interface SavedDevolutiva {
+  id: string;
+  patientName: string;
+  submissionDate: string;
+  specialty: string;
+  content: string;
+}
+
 const Profile = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [profileData, setProfileData] = useState<ProfileData>({
@@ -103,6 +111,9 @@ const Profile = () => {
 
   // Therapeutic Plan State
   const [savedPlans, setSavedPlans] = useState<SavedTherapeuticPlan[]>([]);
+
+  // Devolutiva State
+  const [savedDevolutivas, setSavedDevolutivas] = useState<SavedDevolutiva[]>([]);
 
   // Anamnese Handlers
   const handleSaveAnamnese = (formData: AnamneseFormData) => {
@@ -224,6 +235,24 @@ const Profile = () => {
     }
   };
 
+  // Devolutiva Handlers
+  const handleSaveDevolutiva = (data: { patientName: string; specialty: string; content: string }) => {
+    const newDevolutiva: SavedDevolutiva = {
+      id: new Date().toISOString(),
+      submissionDate: new Date().toISOString().split('T')[0],
+      ...data,
+    };
+    setSavedDevolutivas(prev => [newDevolutiva, ...prev]);
+    toast.success("Devolutiva salva com sucesso!");
+  };
+
+  const handleDeleteDevolutiva = (id: string) => {
+    if (window.confirm("Tem certeza que deseja excluir esta devolutiva?")) {
+      setSavedDevolutivas(prev => prev.filter(d => d.id !== id));
+      toast.success("Devolutiva excluída com sucesso.");
+    }
+  };
+
   const handleAvatarChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
@@ -268,6 +297,9 @@ const Profile = () => {
         savedPlans={savedPlans}
         onSavePlan={handleSavePlan}
         onDeletePlan={handleDeletePlan}
+        savedDevolutivas={savedDevolutivas}
+        onSaveDevolutiva={handleSaveDevolutiva}
+        onDeleteDevolutiva={handleDeleteDevolutiva}
       />
       <EditAnamneseDialog
         isOpen={isEditAnamneseDialogOpen}

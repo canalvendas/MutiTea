@@ -24,7 +24,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { toast } from "sonner";
 import { AnamneseForm, AnamneseFormData } from "./AnamneseForm";
-import { ProfileData, SavedAnamnese, SavedEvolution, SavedReport, SavedTherapeuticPlan } from "@/pages/Profile";
+import { ProfileData, SavedAnamnese, SavedEvolution, SavedReport, SavedTherapeuticPlan, SavedDevolutiva } from "@/pages/Profile";
 import { EvolutionForm, EvolutionFormData } from "./EvolutionForm";
 import { TherapeuticPlanForm } from "./TherapeuticPlanForm";
 import { Input } from "@/components/ui/input";
@@ -39,6 +39,8 @@ import { ChevronsUpDown } from "lucide-react";
 import { ReportWizard, ReportWizardData } from "./ReportWizard";
 import { SavedReportsList } from "./SavedReportsList";
 import { SavedTherapeuticPlansList } from "./SavedTherapeuticPlansList";
+import { DevolutivaForm } from "./DevolutivaForm";
+import { SavedDevolutivasList } from "./SavedDevolutivasList";
 
 // Esquema de validação para os dados cadastrais
 const profileFormSchema = z.object({
@@ -80,6 +82,9 @@ interface ProfileTabsProps {
   savedPlans: SavedTherapeuticPlan[];
   onSavePlan: (data: { patientName: string; specialty: string; planContent: string }) => void;
   onDeletePlan: (id: string) => void;
+  savedDevolutivas: SavedDevolutiva[];
+  onSaveDevolutiva: (data: { patientName: string; specialty: string; content: string }) => void;
+  onDeleteDevolutiva: (id: string) => void;
 }
 
 export const ProfileTabs = ({ 
@@ -87,7 +92,8 @@ export const ProfileTabs = ({
   savedAnamneses, onSaveAnamnese, onEditAnamnese, onDeleteAnamnese,
   savedEvolutions, onSaveEvolution, onEditEvolution, onDeleteEvolution,
   savedReports, onSaveReport, onDeleteReport,
-  savedPlans, onSavePlan, onDeletePlan
+  savedPlans, onSavePlan, onDeletePlan,
+  savedDevolutivas, onSaveDevolutiva, onDeleteDevolutiva
 }: ProfileTabsProps) => {
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(profileFormSchema),
@@ -123,12 +129,13 @@ export const ProfileTabs = ({
 
   return (
     <Tabs defaultValue="dados-cadastrais" className="w-full">
-      <TabsList className="grid w-full grid-cols-2 md:grid-cols-5 h-auto">
-        <TabsTrigger value="dados-cadastrais">Dados Cadastrais</TabsTrigger>
+      <TabsList className="grid w-full grid-cols-3 md:grid-cols-6 h-auto">
+        <TabsTrigger value="dados-cadastrais">Dados</TabsTrigger>
         <TabsTrigger value="anamnese">Anamnese</TabsTrigger>
         <TabsTrigger value="evolucao">Evolução</TabsTrigger>
         <TabsTrigger value="relatorio">Relatório</TabsTrigger>
-        <TabsTrigger value="plano-terapeutico">Plano Terapêutico</TabsTrigger>
+        <TabsTrigger value="plano-terapeutico">Plano</TabsTrigger>
+        <TabsTrigger value="devolutiva">Devolutiva</TabsTrigger>
       </TabsList>
 
       <TabsContent value="dados-cadastrais" className="mt-4">
@@ -395,6 +402,35 @@ export const ProfileTabs = ({
               specialty={currentSpecialty} 
               therapistName={profileData.name}
               onSavePlan={onSavePlan}
+            />
+          </CardContent>
+        </Card>
+      </TabsContent>
+
+      <TabsContent value="devolutiva" className="mt-4 space-y-6">
+        <Card>
+          <CardHeader>
+            <CardTitle>Devolutivas Salvas</CardTitle>
+            <CardDescription>Visualize, baixe ou exclua as devolutivas geradas.</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <SavedDevolutivasList
+              devolutivas={savedDevolutivas}
+              onDelete={onDeleteDevolutiva}
+            />
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader>
+            <CardTitle>Gerar Nova Devolutiva</CardTitle>
+            <CardDescription>Crie um relatório de devolutiva para pais ou escola.</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <DevolutivaForm
+              specialty={currentSpecialty}
+              therapistName={profileData.name}
+              therapistCouncil={profileData.crp || ""}
+              onSave={onSaveDevolutiva}
             />
           </CardContent>
         </Card>
