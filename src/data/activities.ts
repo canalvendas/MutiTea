@@ -84,32 +84,47 @@ export const activitiesData: SpecialtyActivities[] = [
     icon: Mic,
     demands: [
       {
-        name: "Comunicação e Linguagem Expressiva",
+        name: "Comunicação Funcional e Intenção Comunicativa",
         activities: [
           {
             title: "Caixa Surpresa",
-            description: "Coloque objetos variados dentro de uma caixa. A criança tira um objeto e deve nomeá-lo ou descrevê-lo. Incentive a formação de frases como 'Eu peguei a bola vermelha'.",
-            materials: "Caixa de sapatos, objetos variados (brinquedos, frutas de plástico, etc.).",
+            description: "Coloque objetos de alto interesse da criança dentro de uma caixa. A criança precisa solicitar (verbalmente, com gestos ou CAA) para ver o que tem dentro, trabalhando a iniciativa comunicativa.",
+            materials: "Caixa de sapatos, objetos de interesse da criança.",
+          },
+          {
+            title: "Comunicação por Troca de Figuras (PECS Básico)",
+            description: "Inicie o treino de troca de figuras. A criança entrega uma figura do item desejado para o adulto e recebe o item em troca, estabelecendo uma comunicação funcional clara.",
+            materials: "Figuras plastificadas de itens preferidos, pasta de comunicação.",
+          },
+        ],
+      },
+      {
+        name: "Linguagem e Pragmática",
+        activities: [
+          {
+            title: "Jogo de Turnos",
+            description: "Use jogos simples como 'encaixar peças' ou 'rolar uma bola'. Enfatize verbalmente 'Minha vez', 'Sua vez' para trabalhar a troca de turnos, uma habilidade pragmática fundamental.",
+            materials: "Qualquer jogo simples de duas pessoas (bola, quebra-cabeça, blocos).",
           },
           {
             title: "Contando Histórias com Figuras",
-            description: "Use cartões com sequências de cenas. A criança deve organizar as cartas na ordem correta e contar a história, trabalhando a narrativa e a coesão.",
+            description: "Use cartões com sequências de cenas. A criança deve organizar as cartas na ordem correta e contar a história, trabalhando a narrativa, coesão e compreensão de causa e efeito.",
             materials: "Cartões de sequência lógica.",
           },
         ],
       },
       {
-        name: "Articulação e Produção de Fala",
+        name: "Fala e Sistema Sensório-Motor-Oral",
         activities: [
-          {
-            title: "Jogo da Pescaria de Fonemas",
-            description: "Crie peixes de papel com figuras que representam palavras com o fonema-alvo. A criança 'pesca' um peixe e deve dizer o nome da figura, praticando o som.",
-            materials: "Papel colorido, clipes de papel, varinha com imã.",
-          },
           {
             title: "Sopro Divertido",
             description: "Atividades como soprar bolhas de sabão, apitos, ou uma bolinha de isopor em um percurso, fortalecem a musculatura orofacial necessária para a fala.",
             materials: "Bolhas de sabão, apitos, canudos, bolinhas de isopor.",
+          },
+          {
+            title: "Exploração Sensorial Oral",
+            description: "Para crianças com hipo ou hipersensibilidade oral, use mordedores com diferentes texturas ou alimentos seguros para explorar a boca, ajudando na dessensibilização e na consciência oral.",
+            materials: "Mordedores texturizados, escovas de dente macias, alimentos seguros.",
           },
         ],
       },
@@ -120,22 +135,27 @@ export const activitiesData: SpecialtyActivities[] = [
     icon: ToyBrick,
     demands: [
       {
-        name: "Processamento Sensorial (Tátil)",
+        name: "Modulação e Integração Sensorial",
         activities: [
           {
             title: "Caixa de Texturas",
-            description: "Encha uma caixa com diferentes materiais (arroz, feijão, areia, algodão) e esconda pequenos objetos. A criança deve encontrar os objetos usando apenas o tato.",
+            description: "Encha uma caixa com diferentes materiais (arroz, feijão, areia, algodão) e esconda pequenos objetos. A criança deve encontrar os objetos usando apenas o tato, trabalhando a discriminação e tolerância tátil.",
             materials: "Caixa, arroz, feijão, areia, algodão, pequenos brinquedos.",
           },
           {
-            title: "Pintura com os Dedos",
-            description: "Use tintas comestíveis ou atóxicas para que a criança possa explorar a pintura com as mãos, dedos e até pés, trabalhando a tolerância a diferentes texturas.",
-            materials: "Tinta guache atóxica ou tinta caseira, papel grande.",
+            title: "Balanço Terapêutico",
+            description: "Use um balanço (de rede, plataforma) para fornecer estímulos vestibulares. O movimento pode ser calmante (lento e linear) ou ativador (rápido e rotatório), ajudando na regulação do nível de alerta.",
+            materials: "Balanço de rede, plataforma suspensa ou até um lençol seguro.",
+          },
+          {
+            title: "Cantinho do Aconchego",
+            description: "Crie um espaço com almofadas pesadas, cobertores e pufes onde a criança possa receber pressão profunda (propriocepção), o que ajuda a acalmar e organizar o sistema nervoso.",
+            materials: "Almofadas, cobertores pesados, pufes.",
           },
         ],
       },
       {
-        name: "Habilidades Motoras Finas",
+        name: "Habilidades Motoras Finas e Grafomotoras",
         activities: [
           {
             title: "Colar de Macarrão",
@@ -143,14 +163,14 @@ export const activitiesData: SpecialtyActivities[] = [
             materials: "Macarrão tipo penne, barbante com uma ponta endurecida com fita adesiva.",
           },
           {
-            title: "Brincando com Massinha",
-            description: "Amassar, enrolar, fazer bolinhas e 'cobrinhas' com massinha de modelar fortalece os músculos das mãos e desenvolve a destreza.",
-            materials: "Massinha de modelar.",
+            title: "Desenho no Saco Sensorial",
+            description: "Coloque gel de cabelo ou tinta dentro de um saco plástico com fecho zip. A criança pode desenhar letras e formas com o dedo, trabalhando a motricidade fina de forma divertida e sensorial.",
+            materials: "Saco plástico tipo zip, gel de cabelo ou tinta.",
           },
         ],
       },
       {
-        name: "Planejamento Motor (Práxis)",
+        name: "Planejamento Motor (Práxis) e Consciência Corporal",
         activities: [
           {
             title: "Circuito de Obstáculos",
@@ -158,9 +178,117 @@ export const activitiesData: SpecialtyActivities[] = [
             materials: "Almofadas, cadeiras, túneis de pano, bambolês.",
           },
           {
-            title: "Siga o Mestre",
-            description: "Faça uma sequência de movimentos (ex: bater palmas, pular, tocar a cabeça) e peça para a criança imitar. Aumente a complexidade da sequência gradualmente.",
+            title: "Estátua de Imitação",
+            description: "Faça uma pose (ex: um braço para cima, uma perna dobrada) e peça para a criança imitar como se fosse um espelho. Isso trabalha a consciência corporal e o planejamento motor.",
             materials: "Nenhum.",
+          },
+        ],
+      },
+      {
+        name: "Autonomia em Atividades de Vida Diária (AVDs)",
+        activities: [
+          {
+            title: "Quadro de Rotina Visual",
+            description: "Crie um quadro com a sequência de uma AVD (ex: escovar os dentes: pegar a escova, por a pasta, etc.). As figuras ajudam na previsibilidade e na execução independente da tarefa.",
+            materials: "Cartolina, figuras representando os passos da tarefa, velcro.",
+          },
+          {
+            title: "Treino de Vestir com Pistas",
+            description: "Use roupas um número maior e coloque etiquetas ou adesivos coloridos na parte da frente e de trás para ajudar a criança a se orientar. Pratique a sequência de vestir de forma lúdica.",
+            materials: "Roupas, etiquetas coloridas ou adesivos de tecido.",
+          },
+        ],
+      },
+    ],
+  },
+  {
+    specialty: "Psicomotricidade",
+    icon: Footprints,
+    demands: [
+      {
+        name: "Consciência e Esquema Corporal",
+        activities: [
+          {
+            title: "Carimbo do Corpo",
+            description: "Passe tinta guache nas mãos e pés da criança e carimbe em um papel grande. Depois, nomeie as partes do corpo e desenhe o resto do 'boneco'.",
+            materials: "Papel pardo ou cartolina, tinta guache atóxica.",
+          },
+          {
+            title: "Onde a Bolinha Tocou?",
+            description: "Com a criança de olhos fechados, toque suavemente uma parte do corpo dela com uma bola macia. Ela deve adivinhar e apontar onde foi tocada, aumentando a percepção corporal.",
+            materials: "Bola macia ou de texturas.",
+          },
+        ],
+      },
+      {
+        name: "Regulação Tônico-Emocional",
+        activities: [
+          {
+            title: "Estátua e Gelatina",
+            description: "Ao som de uma música, a criança se move. Quando a música para, ela vira uma 'estátua' (contração muscular). Quando a música volta, ela vira uma 'gelatina' (relaxamento). Ajuda a perceber e controlar o tônus.",
+            materials: "Aparelho de som.",
+          },
+          {
+            title: "Massagem com Bolinhas",
+            description: "Role bolinhas de texturas diferentes (cravos, lisas) pelos braços, pernas e costas da criança. Isso ajuda na regulação do tônus e na aceitação do toque.",
+            materials: "Bolinhas de massagem com diferentes texturas.",
+          },
+        ],
+      },
+    ],
+  },
+  {
+    specialty: "Psicopedagogia",
+    icon: BookOpen,
+    demands: [
+      {
+        name: "Funções Executivas (Planejamento e Organização)",
+        activities: [
+          {
+            title: "Receita de Massinha Caseira",
+            description: "Siga uma receita simples com a criança. A atividade exige seguir uma sequência, separar ingredientes (organização) e executar um plano para chegar ao resultado final.",
+            materials: "Ingredientes para massinha (farinha, sal, óleo, água, corante).",
+          },
+          {
+            title: "Montando um Calendário de Tarefas",
+            description: "Crie um calendário semanal visual com a criança, planejando as atividades escolares e terapêuticas. Use figuras e cores para representar cada tarefa.",
+            materials: "Cartolina, canetas, adesivos ou figuras.",
+          },
+        ],
+      },
+      {
+        name: "Atenção e Foco",
+        activities: [
+          {
+            title: "Jogo da Memória Temático",
+            description: "Use um jogo da memória com figuras do hiperfoco da criança (dinossauros, planetas, etc.). O interesse no tema ajuda a sustentar a atenção por mais tempo.",
+            materials: "Jogo da memória (comprado ou feito em casa).",
+          },
+          {
+            title: "Onde está o Wally?",
+            description: "Livros ou figuras de procurar objetos/personagens são excelentes para treinar a atenção seletiva e a varredura visual de forma estruturada e divertida.",
+            materials: "Livros do tipo 'Onde está o Wally?' ou figuras impressas da internet.",
+          },
+        ],
+      },
+    ],
+  },
+  {
+    specialty: "Nutrição",
+    icon: Salad,
+    demands: [
+      {
+        name: "Seletividade Alimentar e Neofobia",
+        activities: [
+          {
+            title: "Exploração Sensorial de Alimentos",
+            description: "Apresente um alimento novo sem a pressão de comer. Incentive a criança a tocar, cheirar, amassar, e descrever o alimento. É o primeiro passo da hierarquia da alimentação.",
+            materials: "Um alimento novo (ex: brócolis cozido, uma fatia de manga).",
+          },
+          {
+            title: "Culinária Terapêutica",
+            description: "Envolva a criança no preparo de uma receita simples (ex: espetinho de frutas, biscoitos). O contato com os alimentos em um contexto lúdico diminui a ansiedade e aumenta a chance de experimentar.",
+            materials: "Ingredientes da receita, utensílios seguros para crianças.",
           },
         ],
       },
