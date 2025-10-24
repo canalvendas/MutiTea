@@ -53,6 +53,13 @@ export const activitiesData: SpecialtyActivities[] = [
               { title: "Termômetro da Raiva", description: "Criar um 'termômetro' visual que ajuda a criança a identificar os níveis de sua raiva ou ansiedade e associar estratégias de calma para cada nível.", materials: "Cartolina, canetas, velcro." },
             ],
           },
+          {
+            name: "👂 Sensorial e Motor",
+            activities: [
+              { title: "Mapeamento Sensorial Lúdico", description: "Investigar o perfil sensorial da criança através de brincadeiras, observando reações a diferentes estímulos e ajudando-a a nomear suas sensações.", materials: "Caixa com diferentes texturas, sons variados, lanternas." },
+              { title: "Técnicas de Acalmar o Corpo", description: "Ensinar estratégias de autorregulação que envolvem o corpo, como respiração profunda ('cheirar a flor, soprar a vela') ou pressão profunda (abraço de urso).", materials: "Almofadas, cobertores." },
+            ],
+          },
         ],
       },
       {
@@ -133,16 +140,28 @@ export const activitiesData: SpecialtyActivities[] = [
         icon: "🧩",
         demands: [
           {
-            name: "👂 Sensorial e Motor",
+            name: "💬 Comunicação e Linguagem",
             activities: [
-              { title: "Dieta Sensorial", description: "Criar um 'cardápio' de atividades sensoriais (pular, balançar, usar colete pesado) para ajudar a criança a se regular ao longo do dia.", materials: "Balanço, cama elástica, colete ponderado, massinha." },
-              { title: "Circuito Motor", description: "Montar um percurso com diferentes desafios motores e sensoriais (passar por túneis, pular em almofadas, equilibrar-se) para trabalhar o planejamento motor e a consciência corporal.", materials: "Túnel de pano, almofadas, bambolês." },
+              { title: "Brincar Funcional com Script", description: "Durante uma brincadeira (ex: lanchonete), fornecer um script visual ou verbal simples para a criança usar para se comunicar ('Eu quero suco', 'Obrigado').", materials: "Brinquedos de lanchonete, cartões com frases." },
+            ],
+          },
+          {
+            name: "🧠 Cognição e Aprendizagem",
+            activities: [
+              { title: "Sequenciamento de AVDs", description: "Usar cartões com figuras para que a criança organize a sequência de uma Atividade de Vida Diária (ex: vestir-se) antes de executá-la.", materials: "Cartões de sequência para AVDs." },
             ],
           },
           {
             name: "💞 Socioemocional",
             activities: [
               { title: "Brincar de Faz de Conta", description: "Estruturar brincadeiras simbólicas (cozinhar, cuidar de um boneco) para trabalhar a imitação, a reciprocidade e a compreensão de papéis sociais.", materials: "Cozinha de brinquedo, bonecos, fantasias." },
+            ],
+          },
+          {
+            name: "👂 Sensorial e Motor",
+            activities: [
+              { title: "Dieta Sensorial", description: "Criar um 'cardápio' de atividades sensoriais (pular, balançar, usar colete pesado) para ajudar a criança a se regular ao longo do dia.", materials: "Balanço, cama elástica, colete ponderado, massinha." },
+              { title: "Circuito Motor", description: "Montar um percurso com diferentes desafios motores e sensoriais (passar por túneis, pular em almofadas, equilibrar-se) para trabalhar o planejamento motor e a consciência corporal.", materials: "Túnel de pano, almofadas, bambolês." },
             ],
           },
         ],
@@ -226,6 +245,24 @@ export const activitiesData: SpecialtyActivities[] = [
               { title: "Expansão e Reformulação", description: "Quando a criança usa uma palavra ou ecolalia, o terapeuta expande a frase. Se a criança diz 'bola', o terapeuta diz 'Ah, você quer a bola grande!'.", materials: "Brinquedos e objetos do cotidiano." },
             ],
           },
+          {
+            name: "🧠 Cognição e Aprendizagem",
+            activities: [
+              { title: "Jogo de Categorias Visuais", description: "Usar figuras para que a criança agrupe itens por categoria (comida, animais, roupas), trabalhando o vocabulário e o pensamento abstrato.", materials: "Cartões com figuras de diferentes categorias." },
+            ],
+          },
+          {
+            name: "💞 Socioemocional",
+            activities: [
+              { title: "Vídeos com Pausa para Inferência", description: "Assistir a vídeos curtos de interações sociais e pausar para perguntar 'O que você acha que ele está sentindo?' ou 'O que vai acontecer agora?'.", materials: "Tablet ou computador com vídeos curtos." },
+            ],
+          },
+          {
+            name: "👂 Sensorial e Motor",
+            activities: [
+              { title: "Dessensibilização Oral", description: "Usar massageadores orais, escovas de dente de diferentes texturas ou alimentos com sabores/texturas variadas para diminuir a hipersensibilidade oral.", materials: "Massageadores orais, escovas, alimentos." },
+            ],
+          },
         ],
       },
       {
@@ -290,6 +327,24 @@ export const activitiesData: SpecialtyActivities[] = [
         icon: "🧩",
         demands: [
           {
+            name: "💬 Comunicação e Linguagem",
+            activities: [
+              { title: "Comandos Motores com Preposições", description: "Dar comandos que envolvam noções espaciais ('Pule DENTRO do bambolê', 'Passe POR BAIXO da corda'), associando a linguagem ao movimento.", materials: "Bambolês, cordas, cones." },
+            ],
+          },
+          {
+            name: "🧠 Cognição e Aprendizagem",
+            activities: [
+              { title: "Circuito com Sequência Lógica", description: "Montar um circuito onde a criança precisa seguir uma sequência de cores ou formas (ex: pular no azul, depois no amarelo), trabalhando a memória de trabalho e o planejamento.", materials: "Círculos de EVA coloridos." },
+            ],
+          },
+          {
+            name: "💞 Socioemocional",
+            activities: [
+              { title: "Jogo do Espelho Corporal", description: "Em dupla, um faz um movimento e o outro imita, trabalhando a atenção ao outro, a imitação e a consciência corporal.", materials: "Nenhum." },
+            ],
+          },
+          {
             name: "👂 Sensorial e Motor",
             activities: [
               { title: "Circuito Sensorial", description: "Criar um caminho com diferentes texturas para andar, objetos para pular e túneis para passar, trabalhando a integração sensorial e o planejamento motor.", materials: "Tapetes de texturas, bambolês, túneis de pano." },
@@ -353,10 +408,28 @@ export const activitiesData: SpecialtyActivities[] = [
         icon: "🧩",
         demands: [
           {
+            name: "💬 Comunicação e Linguagem",
+            activities: [
+              { title: "Leitura Compartilhada com Apoio Visual", description: "Ler um livro e usar figuras ou objetos para representar os personagens e ações, facilitando a compreensão da narrativa.", materials: "Livro infantil, figuras ou objetos relacionados." },
+            ],
+          },
+          {
             name: "🧠 Cognição e Aprendizagem",
             activities: [
               { title: "Aprendizagem baseada em Hiperfoco", description: "Utilizar o tema de alto interesse da criança (ex: dinossauros) para ensinar conceitos acadêmicos (contar dinossauros, ler sobre eles, escrever seus nomes).", materials: "Livros, brinquedos e materiais sobre o tema de interesse." },
               { title: "Roteiro Visual para Tarefas", description: "Criar um passo a passo visual para a realização de tarefas escolares, como resolver um problema de matemática, para dar previsibilidade e autonomia.", materials: "Cartões com figuras ou texto." },
+            ],
+          },
+          {
+            name: "💞 Socioemocional",
+            activities: [
+              { title: "Diário das Emoções na Escola", description: "Criar um diário simples onde a criança pode desenhar ou colar figuras para representar como se sentiu em diferentes momentos do dia escolar.", materials: "Caderno, lápis de cor, adesivos de emoções." },
+            ],
+          },
+          {
+            name: "👂 Sensorial e Motor",
+            activities: [
+              { title: "Alfabeto Tátil", description: "Usar letras de lixa ou feitas com massinha para que a criança trace com o dedo, associando a forma da letra a uma experiência sensorial.", materials: "Letras de lixa, massinha de modelar." },
             ],
           },
         ],
@@ -415,6 +488,24 @@ export const activitiesData: SpecialtyActivities[] = [
         name: "🧩 TEA – Transtorno do Espectro Autista",
         icon: "🧩",
         demands: [
+          {
+            name: "💬 Comunicação e Linguagem",
+            activities: [
+              { title: "Cardápio de Figuras", description: "Criar um cardápio com figuras dos alimentos para que a criança possa apontar ou nomear o que deseja comer, facilitando a comunicação na hora da refeição.", materials: "Fichas com fotos de alimentos." },
+            ],
+          },
+          {
+            name: "🧠 Cognição e Aprendizagem",
+            activities: [
+              { title: "Separando os Alimentos", description: "Brincar de separar alimentos (reais ou de brinquedo) por cor, forma ou grupo alimentar (frutas, legumes), trabalhando a categorização.", materials: "Alimentos variados ou de brinquedo." },
+            ],
+          },
+          {
+            name: "💞 Socioemocional",
+            activities: [
+              { title: "Prato das Emoções", description: "Usar alimentos para montar carinhas que representem diferentes emoções no prato, ajudando a criança a associar e nomear sentimentos de forma lúdica.", materials: "Alimentos variados (rodelas de banana, uvas, tiras de cenoura)." },
+            ],
+          },
           {
             name: "👂 Sensorial e Motor",
             activities: [
@@ -483,6 +574,24 @@ export const activitiesData: SpecialtyActivities[] = [
               { title: "Canções com Rotinas", description: "Criar músicas curtas para momentos de transição (guardar brinquedos, lavar as mãos). A música oferece previsibilidade e ajuda a organizar o comportamento.", materials: "Voz, instrumento harmônico (violão, teclado)." },
             ],
           },
+          {
+            name: "🧠 Cognição e Aprendizagem",
+            activities: [
+              { title: "Canção com Sequência", description: "Criar uma música que tenha uma sequência de ações ou sons que a criança precise memorizar e repetir, trabalhando a memória de trabalho.", materials: "Instrumentos de percussão." },
+            ],
+          },
+          {
+            name: "💞 Socioemocional",
+            activities: [
+              { title: "Música das Emoções", description: "Tocar diferentes melodias (alegre, triste, agitada) e pedir para a criança expressar com o corpo ou com um instrumento como a música a faz sentir.", materials: "Aparelho de som, instrumentos variados." },
+            ],
+          },
+          {
+            name: "👂 Sensorial e Motor",
+            activities: [
+              { title: "Exploração de Timbres e Vibrações", description: "Oferecer instrumentos que produzam diferentes vibrações (tambor, triângulo, chocalho) para a criança explorar, trabalhando a discriminação auditiva e a sensibilidade tátil.", materials: "Instrumentos com diferentes timbres." },
+            ],
+          },
         ],
       },
       {
@@ -537,6 +646,24 @@ export const activitiesData: SpecialtyActivities[] = [
         name: "🧩 TEA – Transtorno do Espectro Autista",
         icon: "🧩",
         demands: [
+          {
+            name: "💬 Comunicação e Linguagem",
+            activities: [
+              { title: "Circuito Comunicativo", description: "Montar um circuito onde a criança precisa pedir verbalmente ou com CAA pelo próximo item ('bola', 'pula-pula') para poder avançar.", materials: "Equipamentos de fisioterapia (bola, rolo, pula-pula)." },
+            ],
+          },
+          {
+            name: "🧠 Cognição e Aprendizagem",
+            activities: [
+              { title: "Sequência Motora com Cores", description: "Criar uma sequência de movimentos associada a cores (ex: 'azul = sentar na bola', 'vermelho = rolar no colchonete') para trabalhar o planejamento motor e a memória.", materials: "Cartões coloridos, equipamentos de fisioterapia." },
+            ],
+          },
+          {
+            name: "💞 Socioemocional",
+            activities: [
+              { title: "Jogo Motor em Dupla", description: "Propor atividades que exijam cooperação, como rolar uma bola grande um para o outro ou construir uma torre de almofadas juntos, trabalhando a interação e o respeito ao espaço do outro.", materials: "Bola suíça, almofadas." },
+            ],
+          },
           {
             name: "👂 Sensorial e Motor",
             activities: [
