@@ -8,6 +8,7 @@ import { EditAnamneseDialog } from "@/components/EditAnamneseDialog";
 import { EditEvolutionDialog } from "@/components/EditEvolutionDialog";
 import { toast } from "sonner";
 import { ReportWizardData } from "@/components/ReportWizard";
+import { useProfile } from "@/components/AppLayout";
 
 export interface ProfileData {
   name: string;
@@ -60,16 +61,8 @@ export interface SavedDevolutiva {
 }
 
 const Profile = () => {
+  const { profileData, setProfileData } = useProfile();
   const [isEditing, setIsEditing] = useState(false);
-  const [profileData, setProfileData] = useState<ProfileData>({
-    name: "Dra. Marina Silva",
-    email: "marina.silva@multitea.com",
-    phone: "(XX) XXXXX-XXXX",
-    address: "Rua Exemplo, 123 - Cidade, Estado",
-    specialty: "Psicologia",
-    crp: "CRP 00/12345",
-    avatarUrl: "/placeholder.svg",
-  });
 
   // Anamnese State
   const [savedAnamneses, setSavedAnamneses] = useState<SavedAnamnese[]>([

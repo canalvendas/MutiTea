@@ -4,9 +4,15 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { ActivityPlanForm } from "@/components/ActivityPlanForm";
 import { SavedActivityPlansList, SavedActivityPlan } from "@/components/SavedActivityPlansList";
 import { toast } from "sonner";
+import { useProfile } from "@/components/AppLayout";
+import { activitiesData } from "@/data/activities";
 
 const Activities = () => {
+  const { profileData } = useProfile();
   const [savedPlans, setSavedPlans] = useState<SavedActivityPlan[]>([]);
+
+  const specialtyActivities = activitiesData.find(s => s.specialty === profileData.specialty);
+  const demandsForSpecialty = specialtyActivities ? specialtyActivities.demands : [];
 
   const handleSavePlan = (data: { patientName: string; content: string }) => {
     const newPlan: SavedActivityPlan = {
@@ -45,10 +51,10 @@ const Activities = () => {
       <Card>
         <CardHeader>
           <CardTitle>Criar Novo Plano de Atividades</CardTitle>
-          <CardDescription>Selecione o paciente e as demandas para gerar sugestões de atividades.</CardDescription>
+          <CardDescription>Selecione o paciente e as demandas para gerar sugestões de atividades para a sua especialidade: <span className="font-semibold text-primary">{profileData.specialty}</span>.</CardDescription>
         </CardHeader>
         <CardContent>
-          <ActivityPlanForm onSavePlan={handleSavePlan} />
+          <ActivityPlanForm onSavePlan={handleSavePlan} demands={demandsForSpecialty} />
         </CardContent>
       </Card>
 

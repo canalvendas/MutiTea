@@ -10,18 +10,17 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Label } from "@/components/ui/label";
 import { patientsData } from "@/data/patients";
 import { Checkbox } from "@/components/ui/checkbox";
-import { activitiesData, Demand } from "@/data/activities";
+import { Demand } from "@/data/activities";
 
 interface ActivityPlanFormProps {
   onSavePlan: (data: { patientName: string; content: string }) => void;
+  demands: Demand[];
 }
 
-export const ActivityPlanForm = ({ onSavePlan }: ActivityPlanFormProps) => {
+export const ActivityPlanForm = ({ onSavePlan, demands }: ActivityPlanFormProps) => {
   const [planContent, setPlanContent] = useState("");
   const [selectedPatient, setSelectedPatient] = useState("");
   const [selectedDemands, setSelectedDemands] = useState<Demand[]>([]);
-
-  const allDemands = activitiesData.flatMap(s => s.demands);
 
   const handleDemandChange = (demand: Demand) => {
     setSelectedDemands(prev =>
@@ -103,7 +102,7 @@ export const ActivityPlanForm = ({ onSavePlan }: ActivityPlanFormProps) => {
         <div className="space-y-2">
           <Label className="font-bold text-lg">2. Principais Demandas</Label>
           <div className="p-4 border rounded-md max-h-48 overflow-y-auto space-y-2">
-            {allDemands.map(demand => (
+            {demands.map(demand => (
               <div key={demand.name} className="flex items-center space-x-2">
                 <Checkbox
                   id={demand.name}
