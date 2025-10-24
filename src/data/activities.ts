@@ -35,8 +35,9 @@ export const activitiesData: SpecialtyActivities[] = [
           {
             name: "💬 Comunicação e Linguagem",
             activities: [
-              { title: "Histórias Sociais", description: "Criar narrativas curtas e visuais para explicar situações sociais, como esperar a vez ou como cumprimentar um amigo.", materials: "Figuras, fotos, software de criação de histórias." },
-              { title: "Role-playing com Fantoches", description: "Encenar diálogos e interações sociais usando fantoches para praticar a troca de turnos na conversa e a iniciativa comunicativa.", materials: "Fantoches, bonecos." },
+              { title: "Histórias Sociais para Conversas", description: "Criar histórias sociais focadas em 'scripts' de conversação: como iniciar um papo (ex: 'Oi, tudo bem?'), como pedir para brincar, e como responder a perguntas simples.", materials: "Figuras, fotos, software de criação de histórias." },
+              { title: "Role-playing de Turnos", description: "Usar fantoches ou bonecos para encenar diálogos. Utilizar um 'objeto da fala' (quem segura, fala) para treinar a espera e a troca de turnos na conversa.", materials: "Fantoches, bonecos, um objeto pequeno." },
+              { title: "Dando Função à Ecolalia", description: "Quando a criança repetir uma pergunta (ex: 'Você quer suco?'), responda a pergunta como se ela a tivesse feito ('Sim, eu quero suco!') e depois modele a resposta dela ('Eu quero').", materials: "Objetos do cotidiano (suco, brinquedos)." },
             ],
           },
           {
@@ -142,7 +143,9 @@ export const activitiesData: SpecialtyActivities[] = [
           {
             name: "💬 Comunicação e Linguagem",
             activities: [
-              { title: "Brincar Funcional com Script", description: "Durante uma brincadeira (ex: lanchonete), fornecer um script visual ou verbal simples para a criança usar para se comunicar ('Eu quero suco', 'Obrigado').", materials: "Brinquedos de lanchonete, cartões com frases." },
+              { title: "Cozinha Terapêutica com CAA", description: "Durante o preparo de um lanche, a criança usa um sistema de comunicação alternativa (figuras, app) para pedir ingredientes, escolher sabores ou comentar sobre a atividade.", materials: "Ingredientes para lanche, sistema de CAA." },
+              { title: "Circuito Motor com Pedidos", description: "Em cada estação do circuito, a criança precisa iniciar uma comunicação (verbal ou com CAA) para pedir o próximo item. Ex: 'bola', 'pular', 'túnel'.", materials: "Bola, pula-pula, túnel, sistema de CAA." },
+              { title: "Brincar Simbólico com Script", description: "Estruturar uma brincadeira de faz de conta (ex: médico) com cartões de script para cada participante, incentivando a troca de turnos e a manutenção do diálogo.", materials: "Kit de médico de brinquedo, cartões com frases." },
             ],
           },
           {
@@ -241,8 +244,9 @@ export const activitiesData: SpecialtyActivities[] = [
           {
             name: "💬 Comunicação e Linguagem",
             activities: [
-              { title: "Caça ao Tesouro com CAA", description: "Esconder objetos e a criança deve usar seu sistema de comunicação alternativa (CAA) para pedir pistas ou nomear o objeto encontrado.", materials: "Sistema de CAA (fichas, tablet), objetos de interesse." },
-              { title: "Expansão e Reformulação", description: "Quando a criança usa uma palavra ou ecolalia, o terapeuta expande a frase. Se a criança diz 'bola', o terapeuta diz 'Ah, você quer a bola grande!'.", materials: "Brinquedos e objetos do cotidiano." },
+              { title: "Caça ao Tesouro com CAA", description: "Esconder objetos e a criança deve usar seu sistema de comunicação alternativa (CAA) para pedir pistas ou nomear o objeto encontrado, focando na iniciação de pedidos.", materials: "Sistema de CAA (fichas, tablet), objetos de interesse." },
+              { title: "Expansão e Reformulação da Ecolalia", description: "Quando a criança repetir uma frase (ecolalia), o terapeuta a aceita e a expande, adicionando uma nova informação para manter a 'conversa'. Ex: Criança: 'Carro azul'. Terapeuta: 'Sim, o carro azul é rápido!'.", materials: "Brinquedos e objetos do cotidiano." },
+              { title: "Jogo de Tabuleiro Conversacional", description: "Criar um tabuleiro simples onde cada casa tem uma instrução como 'Faça uma pergunta', 'Conte algo sobre seu dia', para praticar a iniciação e manutenção de conversas.", materials: "Tabuleiro, dado, pinos." },
             ],
           },
           {
@@ -329,7 +333,9 @@ export const activitiesData: SpecialtyActivities[] = [
           {
             name: "💬 Comunicação e Linguagem",
             activities: [
-              { title: "Comandos Motores com Preposições", description: "Dar comandos que envolvam noções espaciais ('Pule DENTRO do bambolê', 'Passe POR BAIXO da corda'), associando a linguagem ao movimento.", materials: "Bambolês, cordas, cones." },
+              { title: "Circuito da Conversa", description: "Em cada estação do circuito, a criança precisa fazer uma pergunta ou um comentário (verbal ou com CAA) para receber a instrução do próximo passo. Ex: 'O que eu faço agora?'.", materials: "Cones, bambolês, sistema de CAA." },
+              { title: "Espelho Sonoro e Motor", description: "O terapeuta faz um som e um movimento (ex: diz 'Pula!' e pula). A criança imita. A ecolalia é usada como ponto de partida para a ação motora e a interação.", materials: "Colchonetes." },
+              { title: "Jogo de Estátua Comunicativa", description: "Quando a música para, além de virar estátua, a criança deve apontar (usando um apontador a laser, se motivador) para uma figura que represente o que ela quer fazer a seguir.", materials: "Aparelho de som, figuras de atividades." },
             ],
           },
           {
@@ -410,7 +416,9 @@ export const activitiesData: SpecialtyActivities[] = [
           {
             name: "💬 Comunicação e Linguagem",
             activities: [
-              { title: "Leitura Compartilhada com Apoio Visual", description: "Ler um livro e usar figuras ou objetos para representar os personagens e ações, facilitando a compreensão da narrativa.", materials: "Livro infantil, figuras ou objetos relacionados." },
+              { title: "Leitura Compartilhada Interativa", description: "Durante a leitura, fazer pausas e usar um sistema de figuras para que a criança possa comentar, fazer perguntas ou responder sobre a história, mantendo a 'conversa' sobre o livro.", materials: "Livro infantil, figuras relacionadas à história." },
+              { title: "Criação de Histórias em Conjunto", description: "Começar uma história e pedir para a criança adicionar a próxima frase (verbalmente ou apontando para uma figura), praticando a manutenção de um tópico.", materials: "Folha em branco, canetas, cartões com figuras." },
+              { title: "Diário Terapêutico com CAA", description: "Usar um caderno e um sistema de comunicação alternativa para que a criança registre (colando figuras, usando um app) algo sobre seu dia, e o terapeuta responde por escrito, criando um diálogo assíncrono.", materials: "Caderno, cola, figuras de CAA." },
             ],
           },
           {
@@ -491,7 +499,9 @@ export const activitiesData: SpecialtyActivities[] = [
           {
             name: "💬 Comunicação e Linguagem",
             activities: [
-              { title: "Cardápio de Figuras", description: "Criar um cardápio com figuras dos alimentos para que a criança possa apontar ou nomear o que deseja comer, facilitando a comunicação na hora da refeição.", materials: "Fichas com fotos de alimentos." },
+              { title: "Cardápio de Figuras (PECS)", description: "Criar um cardápio visual onde a criança pode usar figuras para montar seu prato ou escolher o lanche, promovendo a comunicação e a autonomia.", materials: "Fichas com fotos de alimentos, velcro." },
+              { title: "Conversa na Cozinha", description: "Durante o preparo de alimentos, modelar e incentivar frases simples como 'me dá a banana', 'eu quero mais', usando o contexto motivador da comida.", materials: "Ingredientes e utensílios de cozinha." },
+              { title: "Modelagem de Comentários", description: "Quando a criança repetir o nome de um alimento (ecolalia), expanda com um comentário. Criança: 'Biscoito'. Terapeuta: 'Sim, o biscoito é crocante!'.", materials: "Alimentos variados." },
             ],
           },
           {
@@ -570,8 +580,9 @@ export const activitiesData: SpecialtyActivities[] = [
           {
             name: "💬 Comunicação e Linguagem",
             activities: [
-              { title: "Improvisação Musical", description: "Criar um diálogo não-verbal onde o terapeuta toca um ritmo ou melodia e a criança responde com um instrumento. Fomenta a reciprocidade e a comunicação espontânea.", materials: "Instrumentos de percussão variados (tambor, chocalho)." },
-              { title: "Canções com Rotinas", description: "Criar músicas curtas para momentos de transição (guardar brinquedos, lavar as mãos). A música oferece previsibilidade e ajuda a organizar o comportamento.", materials: "Voz, instrumento harmônico (violão, teclado)." },
+              { title: "Canção de Pergunta e Resposta", description: "Criar uma música simples com uma estrutura de pergunta e resposta (ex: Terapeuta canta 'Como você está?', e a criança responde com um som ou palavra no ritmo), iniciando uma conversa musical.", materials: "Voz, instrumento harmônico." },
+              { title: "Variações na Ecolalia Musical", description: "O terapeuta imita a vocalização da criança (ecolalia) e, em seguida, a repete com uma pequena variação de ritmo ou melodia, convidando a criança a imitar de volta e criando um diálogo.", materials: "Voz, instrumentos." },
+              { title: "Escolha de Músicas com Figuras", description: "Apresentar cartões com figuras de músicas ou instrumentos para a criança escolher o que quer cantar/tocar, usando um sistema de comunicação alternativa para iniciar uma atividade.", materials: "Cartões com figuras (PECS), tablet com app de música." },
             ],
           },
           {
@@ -649,7 +660,9 @@ export const activitiesData: SpecialtyActivities[] = [
           {
             name: "💬 Comunicação e Linguagem",
             activities: [
-              { title: "Circuito Comunicativo", description: "Montar um circuito onde a criança precisa pedir verbalmente ou com CAA pelo próximo item ('bola', 'pula-pula') para poder avançar.", materials: "Equipamentos de fisioterapia (bola, rolo, pula-pula)." },
+              { title: "Circuito Comunicativo", description: "Montar um circuito onde a criança precisa usar uma palavra ou uma figura de CAA para pedir o próximo equipamento ('bola', 'pula-pula'), integrando a iniciação da comunicação ao movimento.", materials: "Equipamentos de fisioterapia, sistema de CAA." },
+              { title: "Jogo Motor com Turnos", description: "Rolar uma bola um para o outro. A cada vez, o participante deve dizer 'minha vez' ou 'sua vez' (verbalmente ou com CAA), praticando a manutenção de uma interação com troca de turnos.", materials: "Bola suíça." },
+              { title: "Eco Motor", description: "O terapeuta faz um som e um movimento (ex: diz 'Upa!' e levanta os braços). A criança imita (ecolalia + ecopraxia). O terapeuta então expande a brincadeira, dando função à repetição.", materials: "Colchonetes." },
             ],
           },
           {
