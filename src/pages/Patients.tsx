@@ -1,14 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { MadeWithDyad } from "@/components/made-with-dyad";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Search, Plus } from "lucide-react";
+import { Search, Plus, AlertCircle } from "lucide-react";
 import { PatientsList } from "@/components/PatientsList";
 import { AddPatientDialog } from "@/components/AddPatientDialog";
 import { toast } from "sonner";
 import { Patient } from "@/types";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/context/AuthContext";
+import { Card, CardContent } from "@/components/ui/card";
 
 const Patients = () => {
   const { user } = useAuth();
@@ -16,42 +17,54 @@ const Patients = () => {
   const [patients, setPatients] = useState<Patient[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
+  const [fetchError, setFetchError] = useState<string | null>(null);
 
-  useEffect(() => {
-    const fetchPatients = async () => {
-      if (!user) return;
-      setLoading(true);
-      const { data, error } = await supabase
-        .from("patients")
-        .select("*")
-        .eq("user_id", user.id)
-        .order("name", { ascending: true });
-
-      if (error) {
-        toast.error("Erro ao buscar pacientes.");
-        console.error(error);
-      } else {
-        setPatients(data as Patient[]);
-      }
+  const fetchPatients = useCallback(async () => {
+    if (!user) {
       setLoading(false);
-    };
-
-    fetchPatients();
-  }, [user]);
-
-  const handleAddPatient = async (patientData: { name: string; birth_date: string; diagnosis: string; mother_name: string; phone: string; }) => {
-    if (!user) return;
+      return;
+    }
+    setLoading(true);
+    setFetchError(null);
 
     const { data, error } = await supabase
       .from("patients")
-      .insert([{ ...patientData, user_id: user.id, avatar_url: "/placeholder.svg" }])
-      .select();
+      .select("*")
+      .eq("user_id", user.id)
+      .order("name", { ascending: true });
 
     if (error) {
-      toast.error(`Erro ao adicionar paciente ${patientData.name}.`);
-      console.error(error);
+      console.error("Erro ao buscar pacientes:", error);
+      const errorMessage = "Erro ao carregar pacientes. Verifique sua conexão e tente novamente.";
+      toast.error(errorMessage);
+      setFetchError(errorMessage);
+    } else {
+      setPatients(data as Patient[]);
+    }
+    setLoading(false);
+  }, [user]);
+
+  useEffect(() => {
+    fetchPatients();
+  }, [fetchPatients]);
+
+  const handleAddPatient = async (patientData: { name: string; birth_date?: string; diagnosis?: string; mother_name?: string; phone?: string; }) => {
+    if (!user) {
+      toast.error("Você precisa estar logado para adicionar um paciente.");
+      return;
+    }
+
+    const { data, error } = await supabase
+      .from("patients")
+      .insert([{ ...patientData, user_id: user.id }])
+      .select()
+      .single();
+
+    if (error) {
+      toast.error(`Erro ao adicionar paciente: ${error.message}`);
+      console.error("Erro do Supabase:", error);
     } else if (data) {
-      setPatients((prevPatients) => [...prevPatients, data[0] as Patient].sort((a, b) => a.name.localeCompare(b.name)));
+      setPatients((prevPatients) => [...prevPatients, data as Patient].sort((a, b) => a.name.localeCompare(b.name)));
       toast.success(`Paciente ${patientData.name} adicionado com sucesso!`);
     }
   };
@@ -80,7 +93,21 @@ const Patients = () => {
         </Button>
       </div>
 
-      {loading ? <p>Carregando pacientes...</p> : <PatientsList patients={filteredPatients} />}
+      {loading ? (
+        <p>Carregando pacientes...</p>
+      ) : fetchError ? (
+        <Card className="bg-destructive/10 border-destructive/50">
+          <CardContent className="p-4 flex items-center">
+            <AlertCircle className="h-5 w-5 text-destructive mr-3" />
+            <div className="text-destructive">
+              <p className="font-semibold">Falha ao carregar</p>
+              <p className="text-sm">{fetchError}</p>
+            </div>
+          </CardContent>
+        </Card>
+      ) : (
+        <PatientsList patients={filteredPatients} />
+      )}
 
       <AddPatientDialog
         isOpen={isAddPatientDialogOpen}
