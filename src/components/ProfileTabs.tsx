@@ -282,14 +282,20 @@ export const ProfileTabs = ({
                     </FormItem>
                   )}
                 />
-                {isEditing && (
-                  <div className="flex space-x-2 pt-2">
-                    <Button type="submit">Salvar Alterações</Button>
-                    <Button variant="outline" type="button" onClick={handleCancel}>
-                      Cancelar
+                <div className="flex space-x-2 pt-2">
+                  {!isEditing ? (
+                    <Button type="button" onClick={() => setIsEditing(true)}>
+                      Editar Perfil
                     </Button>
-                  </div>
-                )}
+                  ) : (
+                    <>
+                      <Button type="submit">Salvar Alterações</Button>
+                      <Button variant="outline" type="button" onClick={handleCancel}>
+                        Cancelar
+                      </Button>
+                    </>
+                  )}
+                </div>
               </form>
             </Form>
           </CardContent>
