@@ -56,8 +56,8 @@ export const AddPatientDialog = ({ isOpen, onClose, onAddPatient }: AddPatientDi
   }, [isOpen, form]);
 
   const onSubmit = (data: PatientFormValues) => {
+    console.log("Dados do formulário:", data);
     onAddPatient(data);
-    onClose();
   };
 
   return (
@@ -91,7 +91,11 @@ export const AddPatientDialog = ({ isOpen, onClose, onAddPatient }: AddPatientDi
                 <FormItem className="grid grid-cols-1 sm:grid-cols-4 items-center gap-4">
                   <FormLabel className="text-left sm:text-right">Nascimento</FormLabel>
                   <FormControl className="col-span-full sm:col-span-3">
-                    <Input placeholder="DD/MM/AAAA" {...field} />
+                    <Input 
+                      type="date" 
+                      placeholder="DD/MM/AAAA" 
+                      {...field} 
+                    />
                   </FormControl>
                   <FormMessage className="col-start-1 sm:col-start-2 col-span-full sm:col-span-3" />
                 </FormItem>

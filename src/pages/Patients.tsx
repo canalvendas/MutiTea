@@ -27,45 +27,74 @@ const Patients = () => {
     setLoading(true);
     setFetchError(null);
 
-    const { data, error } = await supabase
-      .from("patients")
-      .select("*")
-      .eq("user_id", user.id)
-      .order("name", { ascending: true });
+    try {
+      const { data, error } = await supabase
+        .from("patients")
+        .select("*")
+        .eq("user_id", user.id)
+        .order("name", { ascending: true });
 
-    if (error) {
-      console.error("Erro ao buscar pacientes:", error);
-      const errorMessage = "Erro ao carregar pacientes. Verifique sua conexão e tente novamente.";
+      if (error) {
+        console.error("Erro ao buscar pacientes:", error);
+        const errorMessage = `Erro ao carregar pacientes: ${error.message}`;
+        toast.error(errorMessage);
+        setFetchError(errorMessage);
+      } else {
+        setPatients(data as Patient[]);
+        console.log("Pacientes carregados:", data);
+      }
+    } catch (error) {
+      console.error("Erro inesperado ao buscar pacientes:", error);
+      const errorMessage = "Erro inesperado ao carregar pacientes";
       toast.error(errorMessage);
       setFetchError(errorMessage);
-    } else {
-      setPatients(data as Patient[]);
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   }, [user]);
 
   useEffect(() => {
     fetchPatients();
   }, [fetchPatients]);
 
-  const handleAddPatient = async (patientData: { name: string; birth_date?: string; diagnosis?: string; mother_name?: string; phone?: string; }) => {
+  const handleAddPatient = async (patientData: { 
+    name: string; 
+    birth_date?: string; 
+    diagnosis?: string; 
+    mother_name?: string; 
+    phone?: string; 
+  }) => {
     if (!user) {
       toast.error("Você precisa estar logado para adicionar um paciente.");
       return;
     }
 
-    const { data, error } = await supabase
-      .from("patients")
-      .insert([{ ...patientData, user_id: user.id }])
-      .select()
-      .single();
+    try {
+      console.log("Tentando adicionar paciente:", patientData);
+      
+      const { data, error } = await supabase
+        .from("patients")
+        .insert([{ 
+          ...patientData, 
+          user_id: user.id 
+        }])
+        .select()
+        .single();
 
-    if (error) {
-      toast.error(`Erro ao adicionar paciente: ${error.message}`);
-      console.error("Erro do Supabase:", error);
-    } else if (data) {
-      setPatients((prevPatients) => [...prevPatients, data as Patient].sort((a, b) => a.name.localeCompare(b.name)));
-      toast.success(`Paciente ${patientData.name} adicionado com sucesso!`);
+      if (error) {
+        console.error("Erro do Supabase:", error);
+        toast.error(`Erro ao adicionar paciente: ${error.message}`);
+        return;
+      }
+
+      if (data) {
+        console.log("Paciente adicionado com sucesso:", data);
+        setPatients((prevPatients) => [...prevPatients, data as Patient].sort((a, b) => a.name.localeCompare(b.name)));
+        toast.success(`Paciente ${patientData.name} adicionado com sucesso!`);
+      }
+    } catch (error) {
+      console.error("Erro inesperado ao adicionar paciente:", error);
+      toast.error("Erro inesperado ao adicionar paciente");
     }
   };
 
@@ -88,7 +117,10 @@ const Patients = () => {
             onChange={(e) => setSearchTerm(e.target.value)}
           />
         </div>
-        <Button className="w-full md:w-auto py-3 text-base rounded-lg shadow-sm" onClick={() => setIsAddPatientDialogOpen(true)}>
+        <Button 
+          className="w-full md:w-auto py-3 text-base rounded-lg shadow-sm" 
+          onClick={() => setIsAddPatientDialogOpen(true)}
+        >
           <Plus className="h-5 w-5 mr-2" /> Adicionar Paciente
         </Button>
       </div>
