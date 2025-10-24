@@ -283,11 +283,7 @@ export const ProfileTabs = ({
                   )}
                 />
                 <div className="flex space-x-2 pt-2">
-                  {!isEditing ? (
-                    <Button type="button" onClick={() => setIsEditing(true)}>
-                      Editar Perfil
-                    </Button>
-                  ) : (
+                  {isEditing && (
                     <>
                       <Button type="submit">Salvar Alterações</Button>
                       <Button variant="outline" type="button" onClick={handleCancel}>
