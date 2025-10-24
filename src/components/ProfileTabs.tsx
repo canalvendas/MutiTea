@@ -44,7 +44,8 @@ import { SavedDevolutivasList } from "./SavedDevolutivasList";
 
 // Esquema de validação para os dados cadastrais
 const profileFormSchema = z.object({
-  name: z.string().min(2, { message: "O nome deve ter pelo menos 2 caracteres." }),
+  firstName: z.string().min(2, { message: "O nome deve ter pelo menos 2 caracteres." }),
+  lastName: z.string().default(''),
   email: z.string().email({ message: "Email inválido." }),
   phone: z.string().optional(),
   address: z.string().optional(),
@@ -97,11 +98,19 @@ export const ProfileTabs = ({
 }: ProfileTabsProps) => {
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(profileFormSchema),
-    defaultValues: profileData,
+    defaultValues: {
+      ...profileData,
+      firstName: profileData.firstName || '',
+      lastName: profileData.lastName || '',
+    },
   });
 
   useEffect(() => {
-    form.reset(profileData);
+    form.reset({
+      ...profileData,
+      firstName: profileData.firstName || '',
+      lastName: profileData.lastName || '',
+    });
   }, [profileData, form]);
 
   const currentSpecialty = form.watch("specialty");
@@ -148,17 +157,32 @@ export const ProfileTabs = ({
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <FormField
                     control={form.control}
-                    name="name"
+                    name="firstName"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Nome Completo</FormLabel>
+                        <FormLabel>Nome</FormLabel>
                         <FormControl>
-                          <Input {...field} disabled={!isEditing} />
+                          <Input {...field} disabled={!isEditing} placeholder="Seu primeiro nome" />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
                     )}
                   />
+                  <FormField
+                    control={form.control}
+                    name="lastName"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Sobrenome</FormLabel>
+                        <FormControl>
+                          <Input {...field} disabled={!isEditing} placeholder="Seu sobrenome" />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <FormField
                     control={form.control}
                     name="email"
@@ -172,8 +196,6 @@ export const ProfileTabs = ({
                       </FormItem>
                     )}
                   />
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <FormField
                     control={form.control}
                     name="phone"
@@ -187,6 +209,8 @@ export const ProfileTabs = ({
                       </FormItem>
                     )}
                   />
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <FormField
                     control={form.control}
                     name="address"
@@ -200,15 +224,13 @@ export const ProfileTabs = ({
                       </FormItem>
                     )}
                   />
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <FormField
                     control={form.control}
                     name="specialty"
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Especialidade</FormLabel>
-                        <Select onValueChange={field.onChange} defaultValue={field.value} disabled={!isEditing}>
+                        <Select onValueChange={field.onChange} value={field.value} disabled={!isEditing}>
                           <FormControl>
                             <SelectTrigger>
                               <SelectValue placeholder="Selecione sua especialidade" />
@@ -230,20 +252,20 @@ export const ProfileTabs = ({
                       </FormItem>
                     )}
                   />
-                  <FormField
-                    control={form.control}
-                    name="crp"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>{getCouncilLabel()}</FormLabel>
-                        <FormControl>
-                          <Input {...field} disabled={!isEditing} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
                 </div>
+                <FormField
+                  control={form.control}
+                  name="crp"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>{getCouncilLabel()}</FormLabel>
+                      <FormControl>
+                        <Input {...field} disabled={!isEditing} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
                 {isEditing && (
                   <div className="flex space-x-2 pt-2">
                     <Button type="submit">Salvar Alterações</Button>
@@ -398,7 +420,7 @@ export const ProfileTabs = ({
           <CardContent>
             <TherapeuticPlanForm 
               specialty={currentSpecialty} 
-              therapistName={profileData.name}
+              therapistName={`${profileData.firstName} ${profileData.lastName}`.trim()}
               onSavePlan={onSavePlan}
             />
           </CardContent>
@@ -426,7 +448,7 @@ export const ProfileTabs = ({
           <CardContent>
             <DevolutivaForm
               specialty={currentSpecialty}
-              therapistName={profileData.name}
+              therapistName={`${profileData.firstName} ${profileData.lastName}`.trim()}
               therapistCouncil={profileData.crp || ""}
               onSave={onSaveDevolutiva}
             />

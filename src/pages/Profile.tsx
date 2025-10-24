@@ -12,7 +12,8 @@ import { useAuth } from "@/context/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 
 export interface ProfileData {
-  name: string;
+  firstName: string;
+  lastName: string;
   email: string;
   phone?: string;
   address?: string;
@@ -263,15 +264,11 @@ const Profile = () => {
   const handleProfileUpdate = async (data: ProfileData) => {
     if (!user) return;
 
-    const nameParts = data.name.trim().split(/\s+/);
-    const firstName = nameParts.shift() || '';
-    const lastName = nameParts.join(' ');
-
     const { error } = await supabase
       .from('profiles')
       .update({
-        first_name: firstName,
-        last_name: lastName,
+        first_name: data.firstName,
+        last_name: data.lastName,
         phone: data.phone,
         address: data.address,
         specialty: data.specialty,
@@ -301,7 +298,8 @@ const Profile = () => {
   const displaySpecialty = profile?.specialty || 'Especialidade';
 
   const profileFormData: ProfileData = {
-    name: displayName,
+    firstName: profile?.firstName || '',
+    lastName: profile?.lastName || '',
     email: user?.email || '',
     phone: profile?.phone || '',
     address: profile?.address || '',
