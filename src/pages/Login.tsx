@@ -1,20 +1,24 @@
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { Auth } from "@supabase/auth-ui-react";
+import { ThemeSupa } from "@supabase/auth-ui-shared";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/context/AuthContext";
 import { Logo } from "@/components/Logo";
-import { Eye, EyeOff } from "lucide-react";
 
 const Login = () => {
+  const { session } = useAuth();
   const navigate = useNavigate();
-  const [showPassword, setShowPassword] = useState(false);
 
-  const handleLogin = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Simula o login e redireciona para o dashboard
-    navigate("/dashboard");
-  };
+  useEffect(() => {
+    if (session) {
+      navigate("/dashboard");
+    }
+  }, [session, navigate]);
+
+  if (session) {
+    return null; // Evita renderizar o formulário durante o redirecionamento
+  }
 
   return (
     <div className="w-full lg:grid lg:min-h-screen lg:grid-cols-2">
@@ -24,67 +28,40 @@ const Login = () => {
             <div className="mb-4 flex justify-center">
               <Logo />
             </div>
-            <h1 className="text-3xl font-bold">Bem-vindo de volta!</h1>
+            <h1 className="text-3xl font-bold">Bem-vindo!</h1>
             <p className="text-balance text-muted-foreground">
-              Insira seus dados para acessar a plataforma.
+              Acesse sua conta para continuar.
             </p>
           </div>
-          <form onSubmit={handleLogin} className="grid gap-4">
-            <div className="grid gap-2">
-              <Label htmlFor="email">Email</Label>
-              <Input
-                id="email"
-                type="email"
-                placeholder="seu@email.com"
-                required
-                defaultValue="terapeuta@multitea.com"
-              />
-            </div>
-            <div className="grid gap-2">
-              <div className="flex items-center">
-                <Label htmlFor="password">Senha</Label>
-                <Link
-                  to="#"
-                  className="ml-auto inline-block text-sm underline"
-                >
-                  Esqueceu sua senha?
-                </Link>
-              </div>
-              <div className="relative">
-                <Input
-                  id="password"
-                  type={showPassword ? "text" : "password"}
-                  required
-                  defaultValue="123456"
-                  className="pr-10"
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute inset-y-0 right-0 flex items-center pr-3 text-muted-foreground hover:text-foreground"
-                  aria-label={showPassword ? "Ocultar senha" : "Mostrar senha"}
-                >
-                  {showPassword ? (
-                    <EyeOff className="h-5 w-5" />
-                  ) : (
-                    <Eye className="h-5 w-5" />
-                  )}
-                </button>
-              </div>
-            </div>
-            <Button type="submit" className="w-full">
-              Entrar
-            </Button>
-            <Button variant="outline" className="w-full">
-              Login com Google
-            </Button>
-          </form>
-          <div className="mt-4 text-center text-sm">
-            Não tem uma conta?{" "}
-            <Link to="#" className="underline">
-              Cadastre-se
-            </Link>
-          </div>
+          <Auth
+            supabaseClient={supabase}
+            appearance={{ theme: ThemeSupa }}
+            providers={[]}
+            theme="light"
+            localization={{
+              variables: {
+                sign_in: {
+                  email_label: 'Seu email',
+                  password_label: 'Sua senha',
+                  button_label: 'Entrar',
+                  social_provider_text: 'Entrar com {{provider}}',
+                  link_text: 'Já tem uma conta? Entre',
+                },
+                sign_up: {
+                  email_label: 'Seu email',
+                  password_label: 'Sua senha',
+                  button_label: 'Cadastrar',
+                  social_provider_text: 'Cadastrar com {{provider}}',
+                  link_text: 'Não tem uma conta? Cadastre-se',
+                },
+                forgotten_password: {
+                  email_label: 'Seu email',
+                  button_label: 'Enviar instruções',
+                  link_text: 'Esqueceu sua senha?',
+                },
+              },
+            }}
+          />
         </div>
       </div>
       <div className="hidden bg-muted lg:block">

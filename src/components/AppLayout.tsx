@@ -1,20 +1,31 @@
-import { Outlet, useOutletContext } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import { Sidebar } from "./Sidebar";
 import { BottomNavigation } from "./BottomNavigation";
 import { Header } from "./Header";
-import { useState } from "react";
-import { ProfileData } from "@/pages/Profile";
+import { useEffect } from "react";
+import { useAuth } from "@/context/AuthContext";
 
 const AppLayout = () => {
-  const [profileData, setProfileData] = useState<ProfileData>({
-    name: "Dra. Marina Silva",
-    email: "marina.silva@multitea.com",
-    phone: "(XX) XXXXX-XXXX",
-    address: "Rua Exemplo, 123 - Cidade, Estado",
-    specialty: "Psicologia",
-    crp: "CRP 00/12345",
-    avatarUrl: "/placeholder.svg",
-  });
+  const { user, loading } = useAuth();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!loading && !user) {
+      navigate("/login");
+    }
+  }, [user, loading, navigate]);
+
+  if (loading) {
+    return (
+        <div className="flex items-center justify-center h-screen">
+            <p>Carregando...</p>
+        </div>
+    );
+  }
+
+  if (!user) {
+      return null;
+  }
 
   return (
     <div className="flex min-h-screen bg-background">
@@ -22,7 +33,7 @@ const AppLayout = () => {
       <div className="flex-1 flex flex-col">
         <Header />
         <main className="flex-1 overflow-y-auto pb-20 md:pb-0">
-          <Outlet context={{ profileData, setProfileData }} />
+          <Outlet />
         </main>
         <BottomNavigation />
       </div>
@@ -31,7 +42,3 @@ const AppLayout = () => {
 };
 
 export default AppLayout;
-
-export function useProfile() {
-  return useOutletContext<{ profileData: ProfileData, setProfileData: React.Dispatch<React.SetStateAction<ProfileData>> }>();
-}

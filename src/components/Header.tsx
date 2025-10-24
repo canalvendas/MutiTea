@@ -12,14 +12,27 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Logo } from "@/components/Logo";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/context/AuthContext";
 
 export const Header = () => {
   const navigate = useNavigate();
   const isMobile = useIsMobile();
+  const { user, profile } = useAuth();
 
-  const handleLogout = () => {
-    // Em um aplicativo real, você limparia tokens, etc.
-    navigate("/");
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    navigate("/login");
+  };
+
+  const getInitials = () => {
+    if (profile?.firstName && profile?.lastName) {
+      return `${profile.firstName.charAt(0)}${profile.lastName.charAt(0)}`.toUpperCase();
+    }
+    if (user?.email) {
+      return user.email.substring(0, 2).toUpperCase();
+    }
+    return "U";
   };
 
   return (
@@ -33,8 +46,8 @@ export const Header = () => {
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Avatar className="cursor-pointer">
-              <AvatarImage src="/placeholder.svg" alt="Therapist Profile" />
-              <AvatarFallback>MS</AvatarFallback>
+              <AvatarImage src={profile?.avatarUrl || "/placeholder.svg"} alt="Therapist Profile" />
+              <AvatarFallback>{getInitials()}</AvatarFallback>
             </Avatar>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">

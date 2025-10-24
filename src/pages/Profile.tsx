@@ -8,7 +8,7 @@ import { EditAnamneseDialog } from "@/components/EditAnamneseDialog";
 import { EditEvolutionDialog } from "@/components/EditEvolutionDialog";
 import { toast } from "sonner";
 import { ReportWizardData } from "@/components/ReportWizard";
-import { useProfile } from "@/components/AppLayout";
+import { useAuth } from "@/context/AuthContext";
 
 export interface ProfileData {
   name: string;
@@ -61,41 +61,16 @@ export interface SavedDevolutiva {
 }
 
 const Profile = () => {
-  const { profileData, setProfileData } = useProfile();
+  const { user, profile } = useAuth();
   const [isEditing, setIsEditing] = useState(false);
 
   // Anamnese State
-  const [savedAnamneses, setSavedAnamneses] = useState<SavedAnamnese[]>([
-    {
-      id: '1',
-      patientName: 'João Pedro Santos',
-      submissionDate: '2024-07-15',
-      specialty: 'Psicologia',
-      data: {
-        patientName: 'João Pedro Santos',
-        queixaPrincipal: 'Dificuldade de interação social na escola.',
-        historicoQueixa: 'Os pais notaram os primeiros sinais por volta dos 3 anos de idade.',
-      } as AnamneseFormData,
-    }
-  ]);
+  const [savedAnamneses, setSavedAnamneses] = useState<SavedAnamnese[]>([]);
   const [isEditAnamneseDialogOpen, setIsEditAnamneseDialogOpen] = useState(false);
   const [currentAnamnese, setCurrentAnamnese] = useState<SavedAnamnese | null>(null);
 
   // Evolution State
-  const [savedEvolutions, setSavedEvolutions] = useState<SavedEvolution[]>([
-    {
-      id: 'evo1',
-      patientName: 'João Pedro Santos',
-      submissionDate: '2024-07-22',
-      specialty: 'Psicologia',
-      data: {
-        patientName: 'João Pedro Santos',
-        sessionDate: '2024-07-22',
-        chegadaPaciente: 'Chegou regulado, comunicando-se sobre seu dia.',
-        recursosAtividades: 'Jogo de regras para trabalhar troca de turnos e flexibilidade.',
-      } as EvolutionFormData,
-    }
-  ]);
+  const [savedEvolutions, setSavedEvolutions] = useState<SavedEvolution[]>([]);
   const [isEditEvolutionDialogOpen, setIsEditEvolutionDialogOpen] = useState(false);
   const [currentEvolution, setCurrentEvolution] = useState<SavedEvolution | null>(null);
 
@@ -114,7 +89,7 @@ const Profile = () => {
       id: new Date().toISOString(),
       patientName: formData.patientName,
       submissionDate: new Date().toISOString().split('T')[0],
-      specialty: profileData.specialty,
+      specialty: profile?.specialty || "Padrão",
       data: formData,
     };
     setSavedAnamneses(prev => [newAnamnese, ...prev]);
@@ -155,7 +130,7 @@ const Profile = () => {
       id: new Date().toISOString(),
       patientName: formData.patientName,
       submissionDate: formData.sessionDate || new Date().toISOString().split('T')[0],
-      specialty: profileData.specialty,
+      specialty: profile?.specialty || "Padrão",
       data: formData,
     };
     setSavedEvolutions(prev => [newEvolution, ...prev]);
@@ -196,7 +171,7 @@ const Profile = () => {
       id: new Date().toISOString(),
       patientName: reportData.patientName,
       submissionDate: new Date().toISOString().split('T')[0],
-      specialty: profileData.specialty,
+      specialty: profile?.specialty || "Padrão",
       data: reportData,
     };
     setSavedReports(prev => [newReport, ...prev]);
@@ -248,25 +223,36 @@ const Profile = () => {
 
   const handleAvatarChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
-      const file = event.target.files[0];
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setProfileData(prevData => ({
-          ...prevData,
-          avatarUrl: reader.result as string,
-        }));
-      };
-      reader.readAsDataURL(file);
+      toast.info("A funcionalidade de upload de avatar será implementada em breve.");
     }
+  };
+
+  const handleProfileUpdate = (data: ProfileData) => {
+    toast.info("A funcionalidade de atualização de perfil será implementada em breve.");
+    console.log("Dados para atualizar:", data);
+    setIsEditing(false);
+  };
+
+  const displayName = profile ? `${profile.firstName || ''} ${profile.lastName || ''}`.trim() : user?.email || 'Usuário';
+  const displaySpecialty = profile?.specialty || 'Especialidade';
+
+  const profileFormData: ProfileData = {
+    name: displayName,
+    email: user?.email || '',
+    phone: profile?.phone || '',
+    address: profile?.address || '',
+    specialty: profile?.specialty || '',
+    crp: profile?.crp || '',
+    avatarUrl: profile?.avatarUrl || '',
   };
 
   return (
     <div className="p-4 md:p-6">
       <h1 className="text-3xl font-bold mb-8">Perfil do Terapeuta</h1>
       <ProfileHeader
-        name={profileData.name}
-        specialty={profileData.specialty}
-        avatarUrl={profileData.avatarUrl}
+        name={displayName}
+        specialty={displaySpecialty}
+        avatarUrl={profile?.avatarUrl}
         isEditing={isEditing}
         setIsEditing={setIsEditing}
         onAvatarChange={handleAvatarChange}
@@ -274,8 +260,8 @@ const Profile = () => {
       <ProfileTabs
         isEditing={isEditing}
         setIsEditing={setIsEditing}
-        profileData={profileData}
-        setProfileData={setProfileData}
+        profileData={profileFormData}
+        setProfileData={handleProfileUpdate}
         savedAnamneses={savedAnamneses}
         onSaveAnamnese={handleSaveAnamnese}
         onEditAnamnese={handleEditAnamnese}
