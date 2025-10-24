@@ -20,6 +20,7 @@ interface AuthContextType {
   user: User | null;
   profile: Profile | null;
   loading: boolean;
+  refreshProfile: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -30,33 +31,45 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
   const [profile, setProfile] = useState<Profile | null>(null);
   const [loading, setLoading] = useState(true);
 
+  const fetchProfile = async (user: User) => {
+    const { data, error } = await supabase
+      .from('profiles')
+      .select('id, first_name, last_name, specialty, crp, phone, address, avatar_url')
+      .eq('id', user.id)
+      .single();
+
+    if (error) {
+      console.error('Error fetching profile:', error);
+      setProfile(null);
+    }
+    if (data) {
+      setProfile({
+        id: data.id,
+        firstName: data.first_name,
+        lastName: data.last_name,
+        specialty: data.specialty,
+        crp: data.crp,
+        phone: data.phone,
+        address: data.address,
+        avatarUrl: data.avatar_url,
+      });
+    }
+  };
+
+  const refreshProfile = async () => {
+    if (user) {
+      await fetchProfile(user);
+    }
+  };
+
   useEffect(() => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
       setSession(session);
-      setUser(session?.user ?? null);
+      const currentUser = session?.user ?? null;
+      setUser(currentUser);
 
-      if (session?.user) {
-        const { data, error } = await supabase
-          .from('profiles')
-          .select('id, first_name, last_name, specialty, crp, phone, address, avatar_url')
-          .eq('id', session.user.id)
-          .single();
-
-        if (error) {
-          console.error('Error fetching profile:', error);
-        }
-        if (data) {
-          setProfile({
-            id: data.id,
-            firstName: data.first_name,
-            lastName: data.last_name,
-            specialty: data.specialty,
-            crp: data.crp,
-            phone: data.phone,
-            address: data.address,
-            avatarUrl: data.avatar_url,
-          });
-        }
+      if (currentUser) {
+        await fetchProfile(currentUser);
       } else {
         setProfile(null);
       }
@@ -74,13 +87,14 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
     return () => {
       subscription.unsubscribe();
     };
-  }, []);
+  }, [user]);
 
   const value = {
     session,
     user,
     profile,
     loading,
+    refreshProfile,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

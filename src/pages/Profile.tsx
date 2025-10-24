@@ -9,6 +9,7 @@ import { EditEvolutionDialog } from "@/components/EditEvolutionDialog";
 import { toast } from "sonner";
 import { ReportWizardData } from "@/components/ReportWizard";
 import { useAuth } from "@/context/AuthContext";
+import { supabase } from "@/integrations/supabase/client";
 
 export interface ProfileData {
   name: string;
@@ -61,7 +62,7 @@ export interface SavedDevolutiva {
 }
 
 const Profile = () => {
-  const { user, profile } = useAuth();
+  const { user, profile, refreshProfile, loading } = useAuth();
   const [isEditing, setIsEditing] = useState(false);
 
   // Anamnese State
@@ -221,17 +222,79 @@ const Profile = () => {
     }
   };
 
-  const handleAvatarChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files && event.target.files[0]) {
-      toast.info("A funcionalidade de upload de avatar será implementada em breve.");
+  const handleAvatarChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (!event.target.files || event.target.files.length === 0 || !user) {
+      return;
+    }
+
+    const file = event.target.files[0];
+    const fileExt = file.name.split('.').pop();
+    const filePath = `${user.id}/${Math.random()}.${fileExt}`;
+    const toastId = toast.loading("Enviando avatar...");
+
+    const { error: uploadError } = await supabase.storage
+      .from('avatars')
+      .upload(filePath, file, { upsert: true });
+
+    if (uploadError) {
+      toast.error("Erro ao enviar o avatar.", { id: toastId });
+      console.error(uploadError);
+      return;
+    }
+
+    const { data } = supabase.storage.from('avatars').getPublicUrl(filePath);
+    const newAvatarUrl = data.publicUrl;
+
+    const { error: updateError } = await supabase
+      .from('profiles')
+      .update({ avatar_url: newAvatarUrl })
+      .eq('id', user.id);
+
+    if (updateError) {
+      toast.error("Erro ao atualizar o perfil.", { id: toastId });
+      console.error(updateError);
+      return;
+    }
+
+    await refreshProfile();
+    toast.success("Avatar atualizado com sucesso!", { id: toastId });
+  };
+
+  const handleProfileUpdate = async (data: ProfileData) => {
+    if (!user) return;
+
+    const [firstName, ...lastNameParts] = data.name.split(' ');
+    const lastName = lastNameParts.join(' ');
+
+    const { error } = await supabase
+      .from('profiles')
+      .update({
+        first_name: firstName,
+        last_name: lastName,
+        phone: data.phone,
+        address: data.address,
+        specialty: data.specialty,
+        crp: data.crp,
+      })
+      .eq('id', user.id);
+
+    if (error) {
+      toast.error("Erro ao atualizar o perfil.");
+      console.error(error);
+    } else {
+      await refreshProfile();
+      toast.success("Dados cadastrais atualizados com sucesso!");
+      setIsEditing(false);
     }
   };
 
-  const handleProfileUpdate = (data: ProfileData) => {
-    toast.info("A funcionalidade de atualização de perfil será implementada em breve.");
-    console.log("Dados para atualizar:", data);
-    setIsEditing(false);
-  };
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-full">
+        <p>Carregando perfil...</p>
+      </div>
+    );
+  }
 
   const displayName = profile ? `${profile.firstName || ''} ${profile.lastName || ''}`.trim() : user?.email || 'Usuário';
   const displaySpecialty = profile?.specialty || 'Especialidade';
@@ -261,7 +324,7 @@ const Profile = () => {
         isEditing={isEditing}
         setIsEditing={setIsEditing}
         profileData={profileFormData}
-        setProfileData={handleProfileUpdate}
+        onProfileUpdate={handleProfileUpdate}
         savedAnamneses={savedAnamneses}
         onSaveAnamnese={handleSaveAnamnese}
         onEditAnamnese={handleEditAnamnese}

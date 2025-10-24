@@ -67,7 +67,7 @@ interface ProfileTabsProps {
   isEditing: boolean;
   setIsEditing: (isEditing: boolean) => void;
   profileData: ProfileData;
-  setProfileData: (data: ProfileData) => void;
+  onProfileUpdate: (data: ProfileData) => void;
   savedAnamneses: SavedAnamnese[];
   onSaveAnamnese: (data: AnamneseFormData) => void;
   onEditAnamnese: (id: string) => void;
@@ -88,7 +88,7 @@ interface ProfileTabsProps {
 }
 
 export const ProfileTabs = ({ 
-  isEditing, setIsEditing, profileData, setProfileData, 
+  isEditing, setIsEditing, profileData, onProfileUpdate, 
   savedAnamneses, onSaveAnamnese, onEditAnamnese, onDeleteAnamnese,
   savedEvolutions, onSaveEvolution, onEditEvolution, onDeleteEvolution,
   savedReports, onSaveReport, onDeleteReport,
@@ -107,9 +107,7 @@ export const ProfileTabs = ({
   const currentSpecialty = form.watch("specialty");
 
   const onSubmitProfile = (data: ProfileFormValues) => {
-    setProfileData(data);
-    toast.success("Dados cadastrais atualizados com sucesso!");
-    setIsEditing(false);
+    onProfileUpdate(data as ProfileData);
   };
 
   const handleCancel = () => {
@@ -168,7 +166,7 @@ export const ProfileTabs = ({
                       <FormItem>
                         <FormLabel>Email</FormLabel>
                         <FormControl>
-                          <Input type="email" {...field} disabled={!isEditing} />
+                          <Input type="email" {...field} disabled={true} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
