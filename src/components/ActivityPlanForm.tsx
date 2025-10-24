@@ -10,14 +10,15 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Label } from "@/components/ui/label";
 import { patientsData } from "@/data/patients";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Demand } from "@/data/activities";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { Demand, Diagnosis } from "@/data/activities";
 
 interface ActivityPlanFormProps {
   onSavePlan: (data: { patientName: string; content: string }) => void;
-  demands: Demand[];
+  diagnoses: Diagnosis[];
 }
 
-export const ActivityPlanForm = ({ onSavePlan, demands }: ActivityPlanFormProps) => {
+export const ActivityPlanForm = ({ onSavePlan, diagnoses }: ActivityPlanFormProps) => {
   const [planContent, setPlanContent] = useState("");
   const [selectedPatient, setSelectedPatient] = useState("");
   const [selectedDemands, setSelectedDemands] = useState<Demand[]>([]);
@@ -101,17 +102,26 @@ export const ActivityPlanForm = ({ onSavePlan, demands }: ActivityPlanFormProps)
         </div>
         <div className="space-y-2">
           <Label className="font-bold text-lg">2. Principais Demandas</Label>
-          <div className="p-4 border rounded-md max-h-48 overflow-y-auto space-y-2">
-            {demands.map(demand => (
-              <div key={demand.name} className="flex items-center space-x-2">
-                <Checkbox
-                  id={demand.name}
-                  checked={selectedDemands.some(d => d.name === demand.name)}
-                  onCheckedChange={() => handleDemandChange(demand)}
-                />
-                <Label htmlFor={demand.name} className="font-normal cursor-pointer">{demand.name}</Label>
-              </div>
-            ))}
+          <div className="p-4 border rounded-md max-h-48 overflow-y-auto">
+            <Accordion type="multiple" className="w-full">
+              {diagnoses.map(diagnosis => (
+                <AccordionItem value={diagnosis.name} key={diagnosis.name}>
+                  <AccordionTrigger className="font-semibold">{diagnosis.name}</AccordionTrigger>
+                  <AccordionContent className="pl-4 pt-2 space-y-2">
+                    {diagnosis.demands.map(demand => (
+                      <div key={demand.name} className="flex items-center space-x-2">
+                        <Checkbox
+                          id={`${diagnosis.name}-${demand.name}`}
+                          checked={selectedDemands.some(d => d.name === demand.name)}
+                          onCheckedChange={() => handleDemandChange(demand)}
+                        />
+                        <Label htmlFor={`${diagnosis.name}-${demand.name}`} className="font-normal cursor-pointer">{demand.name}</Label>
+                      </div>
+                    ))}
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
           </div>
         </div>
       </div>

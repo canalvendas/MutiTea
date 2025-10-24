@@ -12,7 +12,7 @@ const Activities = () => {
   const [savedPlans, setSavedPlans] = useState<SavedActivityPlan[]>([]);
 
   const specialtyActivities = activitiesData.find(s => s.specialty === profileData.specialty);
-  const demandsForSpecialty = specialtyActivities ? specialtyActivities.demands : [];
+  const diagnosesForSpecialty = specialtyActivities ? specialtyActivities.diagnoses : [];
 
   const handleSavePlan = (data: { patientName: string; content: string }) => {
     const newPlan: SavedActivityPlan = {
@@ -54,7 +54,7 @@ const Activities = () => {
           <CardDescription>Selecione o paciente e as demandas para gerar sugestões de atividades para a sua especialidade: <span className="font-semibold text-primary">{profileData.specialty}</span>.</CardDescription>
         </CardHeader>
         <CardContent>
-          <ActivityPlanForm onSavePlan={handleSavePlan} demands={demandsForSpecialty} />
+          <ActivityPlanForm onSavePlan={handleSavePlan} diagnoses={diagnosesForSpecialty} />
         </CardContent>
       </Card>
 

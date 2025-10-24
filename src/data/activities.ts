@@ -11,120 +11,94 @@ export interface Demand {
   activities: Activity[];
 }
 
+export interface Diagnosis {
+  name: string;
+  icon: string;
+  demands: Demand[];
+}
+
 export interface SpecialtyActivities {
   specialty: string;
   icon: LucideIcon;
-  demands: Demand[];
+  diagnoses: Diagnosis[];
 }
 
 export const activitiesData: SpecialtyActivities[] = [
   {
     specialty: "Psicologia",
     icon: BrainCircuit,
-    demands: [
+    diagnoses: [
       {
-        name: "Regulação Emocional",
-        activities: [
+        name: "🧩 TEA – Transtorno do Espectro Autista",
+        icon: "🧩",
+        demands: [
           {
-            title: "Termômetro das Emoções",
-            description: "Ajuda a criança a identificar e graduar a intensidade de suas emoções. Crie um termômetro visual com cores (ex: verde para calmo, amarelo para alerta, vermelho para raiva) e ajude a criança a apontar como está se sentindo.",
-            materials: "Cartolina, canetinhas coloridas, velcro ou um clipe de roupa.",
+            name: "💬 Comunicação e Linguagem",
+            activities: [
+              { title: "Histórias Sociais", description: "Criar narrativas curtas e visuais para explicar situações sociais, como esperar a vez ou como cumprimentar um amigo.", materials: "Figuras, fotos, software de criação de histórias." },
+              { title: "Role-playing com Fantoches", description: "Encenar diálogos e interações sociais usando fantoches para praticar a troca de turnos na conversa e a iniciativa comunicativa.", materials: "Fantoches, bonecos." },
+            ],
           },
           {
-            title: "Pote da Calma (Calm Down Jar)",
-            description: "Uma garrafa sensorial que ajuda a criança a focar e se acalmar. Ao agitar, o glitter se move lentamente, o que pode ser hipnótico e relaxante.",
-            materials: "Garrafa plástica transparente, água morna, cola glitter, glitter extra, corante alimentício (opcional).",
+            name: "🧠 Cognição e Aprendizagem",
+            activities: [
+              { title: "Jogo da Generalização", description: "Ensinar um conceito (ex: 'vermelho') com um objeto (bloco vermelho) e depois praticar a identificação da cor em outros contextos (roupa, fruta, caneta).", materials: "Objetos variados da mesma cor." },
+              { title: "Mapa Mental de Rotinas", description: "Criar um mapa visual para uma tarefa complexa (ex: arrumar a mochila), quebrando-a em passos menores e concretos para facilitar a execução.", materials: "Cartolina, canetas coloridas, figuras adesivas." },
+            ],
           },
           {
-            title: "Respiração do Balão",
-            description: "Ensina a respiração profunda de forma lúdica. Peça para a criança 'encher um balão' na barriga, inspirando lentamente pelo nariz, e depois 'esvaziar', expirando pela boca.",
-            materials: "Nenhum.",
+            name: "💞 Socioemocional",
+            activities: [
+              { title: "Baralho das Emoções", description: "Usar cartas com expressões faciais para que a criança identifique, nomeie e imite as emoções, associando-as a situações do dia a dia.", materials: "Cartas com fotos ou desenhos de emoções." },
+              { title: "Termômetro da Raiva", description: "Criar um 'termômetro' visual que ajuda a criança a identificar os níveis de sua raiva ou ansiedade e associar estratégias de calma para cada nível.", materials: "Cartolina, canetas, velcro." },
+            ],
           },
         ],
       },
       {
-        name: "Habilidades Sociais e Teoria da Mente",
-        activities: [
+        name: "⚡ TDAH – Transtorno de Déficit de Atenção e Hiperatividade",
+        icon: "⚡",
+        demands: [
           {
-            title: "Jogo das Emoções com Cartas",
-            description: "Crie cartas com diferentes expressões faciais. A criança deve adivinhar a emoção e tentar imitar. Pode-se adicionar um nível de complexidade perguntando 'O que pode ter deixado essa pessoa assim?'.",
-            materials: "Cartões com fotos ou desenhos de expressões faciais.",
+            name: "🧠 Atenção e Funções Executivas",
+            activities: [
+              { title: "Técnica do Pomodoro Kids", description: "Usar um timer visual para marcar períodos de foco (ex: 15 min) seguidos por uma pequena pausa recompensadora (ex: 5 min de massinha).", materials: "Timer visual (analógico ou digital), atividade de recompensa." },
+              { title: "Checklist do Super-Herói", description: "Criar um checklist visual com os passos de uma tarefa (ex: lição de casa). A cada passo completado, a criança ganha um adesivo de super-herói.", materials: "Papel, caneta, adesivos." },
+            ],
           },
           {
-            title: "Role-playing com Fantoches",
-            description: "Use fantoches para encenar situações sociais comuns (ex: pedir um brinquedo, entrar em uma brincadeira). Isso permite que a criança pratique as habilidades em um ambiente seguro.",
-            materials: "Fantoches ou bonecos.",
+            name: "💬 Comportamento",
+            activities: [
+              { title: "Jogo do Semáforo", description: "Usar as cores do semáforo para ensinar o controle de impulsos: Vermelho (Pare e pense), Amarelo (Pense em soluções), Verde (Escolha a melhor e siga).", materials: "Círculos de papel nas cores vermelho, amarelo e verde." },
+              { title: "Contrato de Comportamento", description: "Elaborar um 'contrato' simples com a criança, definindo 1 ou 2 comportamentos-alvo e as recompensas associadas, promovendo a autorregulação.", materials: "Papel, caneta, adesivos." },
+            ],
           },
           {
-            title: "Histórias Sociais",
-            description: "Crie pequenas histórias com imagens que descrevem uma situação social, as pistas relevantes e a resposta social esperada. Ex: 'Como se comportar em uma festa de aniversário'.",
-            materials: "Papel, canetas, figuras ou um software para criar histórias.",
-          },
-        ],
-      },
-      {
-        name: "Flexibilidade Cognitiva",
-        activities: [
-          {
-            title: "Construção com Regras Malucas",
-            description: "Comece a construir algo com blocos (ex: uma torre). No meio, mude a regra: 'Agora só podemos usar blocos azuis' ou 'Agora temos que colocar um bloco deitado e um em pé'.",
-            materials: "Blocos de montar de diferentes cores e formas.",
-          },
-          {
-            title: "Caminho Alternativo",
-            description: "Desenhe um labirinto simples. Depois que a criança encontrar a saída, bloqueie o caminho que ela usou e peça para ela encontrar uma nova rota.",
-            materials: "Papel, lápis, borracha.",
-          },
-        ],
-      },
-    ],
-  },
-  {
-    specialty: "Fonoaudiologia",
-    icon: Mic,
-    demands: [
-      {
-        name: "Comunicação Funcional e Intenção Comunicativa",
-        activities: [
-          {
-            title: "Caixa Surpresa",
-            description: "Coloque objetos de alto interesse da criança dentro de uma caixa. A criança precisa solicitar (verbalmente, com gestos ou CAA) para ver o que tem dentro, trabalhando a iniciativa comunicativa.",
-            materials: "Caixa de sapatos, objetos de interesse da criança.",
-          },
-          {
-            title: "Comunicação por Troca de Figuras (PECS Básico)",
-            description: "Inicie o treino de troca de figuras. A criança entrega uma figura do item desejado para o adulto e recebe o item em troca, estabelecendo uma comunicação funcional clara.",
-            materials: "Figuras plastificadas de itens preferidos, pasta de comunicação.",
+            name: "💞 Socioemocional",
+            activities: [
+              { title: "Pote dos Elogios", description: "Manter um pote onde a família e o terapeuta depositam bilhetes com elogios e reconhecimento pelos esforços e conquistas da criança, para ser lido em momentos especiais.", materials: "Pote de vidro, pequenos papéis coloridos." },
+              { title: "Roda das Soluções", description: "Criar uma roda com diferentes opções para lidar com a frustração (respirar fundo, pedir ajuda, tentar de novo, fazer uma pausa). Quando frustrada, a criança gira a roda e escolhe uma estratégia.", materials: "Prato de papelão, canetas, um clipe e um pino." },
+            ],
           },
         ],
       },
       {
-        name: "Linguagem e Pragmática",
-        activities: [
+        name: "😤 TOD – Transtorno Opositivo-Desafiador",
+        icon: "😤",
+        demands: [
           {
-            title: "Jogo de Turnos",
-            description: "Use jogos simples como 'encaixar peças' ou 'rolar uma bola'. Enfatize verbalmente 'Minha vez', 'Sua vez' para trabalhar a troca de turnos, uma habilidade pragmática fundamental.",
-            materials: "Qualquer jogo simples de duas pessoas (bola, quebra-cabeça, blocos).",
+            name: "💬 Comportamento",
+            activities: [
+              { title: "Jogo da Cooperação", description: "Utilizar jogos de tabuleiro ou de construção que exijam que os jogadores trabalhem juntos para um objetivo comum, em vez de competirem entre si.", materials: "Jogos cooperativos (ex: construir uma torre juntos)." },
+              { title: "Escolha Guiada", description: "Em vez de dar uma ordem direta, oferecer duas opções aceitáveis. Ex: 'Você prefere guardar os blocos ou os carrinhos primeiro?'. Isso dá uma sensação de controle e aumenta a cooperação.", materials: "Nenhum." },
+            ],
           },
           {
-            title: "Contando Histórias com Figuras",
-            description: "Use cartões com sequências de cenas. A criança deve organizar as cartas na ordem correta e contar a história, trabalhando a narrativa, coesão e compreensão de causa e efeito.",
-            materials: "Cartões de sequência lógica.",
-          },
-        ],
-      },
-      {
-        name: "Fala e Sistema Sensório-Motor-Oral",
-        activities: [
-          {
-            title: "Sopro Divertido",
-            description: "Atividades como soprar bolhas de sabão, apitos, ou uma bolinha de isopor em um percurso, fortalecem a musculatura orofacial necessária para a fala.",
-            materials: "Bolhas de sabão, apitos, canudos, bolinhas de isopor.",
-          },
-          {
-            title: "Exploração Sensorial Oral",
-            description: "Para crianças com hipo ou hipersensibilidade oral, use mordedores com diferentes texturas ou alimentos seguros para explorar a boca, ajudando na dessensibilização e na consciência oral.",
-            materials: "Mordedores texturizados, escovas de dente macias, alimentos seguros.",
+            name: "💞 Socioemocional",
+            activities: [
+              { title: "Detetive dos Sentimentos", description: "Ajudar a criança a identificar o sentimento por trás do comportamento de oposição. 'Eu vejo que você está com raiva. O que aconteceu que te deixou assim?'.", materials: "Cartas de emoções." },
+              { title: "Tempo de Conexão", description: "Agendar um tempo curto (10-15 min) e diário de atenção exclusiva e positiva com a criança, fazendo uma atividade de sua escolha, para fortalecer o vínculo.", materials: "Atividade de escolha da criança." },
+            ],
           },
         ],
       },
@@ -133,162 +107,92 @@ export const activitiesData: SpecialtyActivities[] = [
   {
     specialty: "Terapia Ocupacional",
     icon: ToyBrick,
-    demands: [
+    diagnoses: [
       {
-        name: "Modulação e Integração Sensorial",
-        activities: [
+        name: "🧩 TEA – Transtorno do Espectro Autista",
+        icon: "🧩",
+        demands: [
           {
-            title: "Caixa de Texturas",
-            description: "Encha uma caixa com diferentes materiais (arroz, feijão, areia, algodão) e esconda pequenos objetos. A criança deve encontrar os objetos usando apenas o tato, trabalhando a discriminação e tolerância tátil.",
-            materials: "Caixa, arroz, feijão, areia, algodão, pequenos brinquedos.",
+            name: "👂 Sensorial e Motor",
+            activities: [
+              { title: "Dieta Sensorial", description: "Criar um 'cardápio' de atividades sensoriais (pular, balançar, usar colete pesado) para ajudar a criança a se regular ao longo do dia.", materials: "Balanço, cama elástica, colete ponderado, massinha." },
+              { title: "Circuito Motor", description: "Montar um percurso com diferentes desafios motores e sensoriais (passar por túneis, pular em almofadas, equilibrar-se) para trabalhar o planejamento motor e a consciência corporal.", materials: "Túnel de pano, almofadas, bambolês." },
+            ],
           },
           {
-            title: "Balanço Terapêutico",
-            description: "Use um balanço (de rede, plataforma) para fornecer estímulos vestibulares. O movimento pode ser calmante (lento e linear) ou ativador (rápido e rotatório), ajudando na regulação do nível de alerta.",
-            materials: "Balanço de rede, plataforma suspensa ou até um lençol seguro.",
-          },
-          {
-            title: "Cantinho do Aconchego",
-            description: "Crie um espaço com almofadas pesadas, cobertores e pufes onde a criança possa receber pressão profunda (propriocepção), o que ajuda a acalmar e organizar o sistema nervoso.",
-            materials: "Almofadas, cobertores pesados, pufes.",
+            name: "💞 Socioemocional",
+            activities: [
+              { title: "Brincar de Faz de Conta", description: "Estruturar brincadeiras simbólicas (cozinhar, cuidar de um boneco) para trabalhar a imitação, a reciprocidade e a compreensão de papéis sociais.", materials: "Cozinha de brinquedo, bonecos, fantasias." },
+            ],
           },
         ],
       },
       {
-        name: "Habilidades Motoras Finas e Grafomotoras",
-        activities: [
+        name: "⚡ TDAH – Transtorno de Déficit de Atenção e Hiperatividade",
+        icon: "⚡",
+        demands: [
           {
-            title: "Colar de Macarrão",
-            description: "A criança deve passar um barbante por dentro de pedaços de macarrão (tipo penne). A atividade trabalha a preensão em pinça e a coordenação olho-mão.",
-            materials: "Macarrão tipo penne, barbante com uma ponta endurecida com fita adesiva.",
+            name: "🧠 Atenção e Funções Executivas",
+            activities: [
+              { title: "Cozinha Terapêutica", description: "Seguir uma receita simples para trabalhar o sequenciamento de tarefas, a organização e a atenção sustentada de forma prática e motivadora.", materials: "Ingredientes para uma receita simples (ex: sanduíche, vitamina)." },
+              { title: "Assento Adaptado", description: "Utilizar um disco inflável ou uma almofada de assento que permita micromovimentos, ajudando a criança a se manter sentada e focada por mais tempo.", materials: "Disco de equilíbrio (almofada de assento)." },
+            ],
           },
           {
-            title: "Desenho no Saco Sensorial",
-            description: "Coloque gel de cabelo ou tinta dentro de um saco plástico com fecho zip. A criança pode desenhar letras e formas com o dedo, trabalhando a motricidade fina de forma divertida e sensorial.",
-            materials: "Saco plástico tipo zip, gel de cabelo ou tinta.",
-          },
-        ],
-      },
-      {
-        name: "Planejamento Motor (Práxis) e Consciência Corporal",
-        activities: [
-          {
-            title: "Circuito de Obstáculos",
-            description: "Crie um percurso com almofadas para pular, túneis para atravessar e cadeiras para passar por baixo. A criança precisa planejar seus movimentos para completar o circuito.",
-            materials: "Almofadas, cadeiras, túneis de pano, bambolês.",
-          },
-          {
-            title: "Estátua de Imitação",
-            description: "Faça uma pose (ex: um braço para cima, uma perna dobrada) e peça para a criança imitar como se fosse um espelho. Isso trabalha a consciência corporal e o planejamento motor.",
-            materials: "Nenhum.",
+            name: "💬 Comportamento",
+            activities: [
+              { title: "Atividades de 'Trabalho Pesado'", description: "Antes de uma tarefa que exige foco, propor atividades que envolvam empurrar, puxar ou carregar objetos pesados (de forma segura) para ajudar a organizar o sistema nervoso e diminuir a inquietação.", materials: "Caixa com livros, fardos de garrafas pet." },
+            ],
           },
         ],
       },
       {
-        name: "Autonomia em Atividades de Vida Diária (AVDs)",
-        activities: [
+        name: "🌱 DI – Deficiência Intelectual",
+        icon: "🌱",
+        demands: [
           {
-            title: "Quadro de Rotina Visual",
-            description: "Crie um quadro com a sequência de uma AVD (ex: escovar os dentes: pegar a escova, por a pasta, etc.). As figuras ajudam na previsibilidade e na execução independente da tarefa.",
-            materials: "Cartolina, figuras representando os passos da tarefa, velcro.",
+            name: "🧠 Cognitivo e Aprendizagem",
+            activities: [
+              { title: "Análise de Tarefas para AVDs", description: "Dividir uma Atividade de Vida Diária (ex: escovar os dentes) em passos muito pequenos e visuais, ensinando um passo de cada vez até a criança dominar a sequência completa.", materials: "Quadro de rotina com figuras para cada passo." },
+            ],
           },
           {
-            title: "Treino de Vestir com Pistas",
-            description: "Use roupas um número maior e coloque etiquetas ou adesivos coloridos na parte da frente e de trás para ajudar a criança a se orientar. Pratique a sequência de vestir de forma lúdica.",
-            materials: "Roupas, etiquetas coloridas ou adesivos de tecido.",
+            name: "👂 Motor e Sensorial",
+            activities: [
+              { title: "Exploração de Texturas", description: "Criar um 'caminho sensorial' com diferentes texturas para a criança andar descalça, ou uma caixa com objetos de diferentes materiais para explorar com as mãos, estimulando a discriminação tátil.", materials: "Tapetes de texturas, bacias com grãos, esponjas, etc." },
+            ],
           },
         ],
       },
     ],
   },
   {
-    specialty: "Psicomotricidade",
-    icon: Footprints,
-    demands: [
+    specialty: "Fonoaudiologia",
+    icon: Mic,
+    diagnoses: [
       {
-        name: "Consciência e Esquema Corporal",
-        activities: [
+        name: "🧩 TEA – Transtorno do Espectro Autista",
+        icon: "🧩",
+        demands: [
           {
-            title: "Carimbo do Corpo",
-            description: "Passe tinta guache nas mãos e pés da criança e carimbe em um papel grande. Depois, nomeie as partes do corpo e desenhe o resto do 'boneco'.",
-            materials: "Papel pardo ou cartolina, tinta guache atóxica.",
-          },
-          {
-            title: "Onde a Bolinha Tocou?",
-            description: "Com a criança de olhos fechados, toque suavemente uma parte do corpo dela com uma bola macia. Ela deve adivinhar e apontar onde foi tocada, aumentando a percepção corporal.",
-            materials: "Bola macia ou de texturas.",
+            name: "💬 Comunicação e Linguagem",
+            activities: [
+              { title: "Caça ao Tesouro com CAA", description: "Esconder objetos e a criança deve usar seu sistema de comunicação alternativa (CAA) para pedir pistas ou nomear o objeto encontrado.", materials: "Sistema de CAA (fichas, tablet), objetos de interesse." },
+              { title: "Expansão e Reformulação", description: "Quando a criança usa uma palavra ou ecolalia, o terapeuta expande a frase. Se a criança diz 'bola', o terapeuta diz 'Ah, você quer a bola grande!'.", materials: "Brinquedos e objetos do cotidiano." },
+            ],
           },
         ],
       },
       {
-        name: "Regulação Tônico-Emocional",
-        activities: [
+        name: "🌱 DI – Deficiência Intelectual",
+        icon: "🌱",
+        demands: [
           {
-            title: "Estátua e Gelatina",
-            description: "Ao som de uma música, a criança se move. Quando a música para, ela vira uma 'estátua' (contração muscular). Quando a música volta, ela vira uma 'gelatina' (relaxamento). Ajuda a perceber e controlar o tônus.",
-            materials: "Aparelho de som.",
-          },
-          {
-            title: "Massagem com Bolinhas",
-            description: "Role bolinhas de texturas diferentes (cravos, lisas) pelos braços, pernas e costas da criança. Isso ajuda na regulação do tônus e na aceitação do toque.",
-            materials: "Bolinhas de massagem com diferentes texturas.",
-          },
-        ],
-      },
-    ],
-  },
-  {
-    specialty: "Psicopedagogia",
-    icon: BookOpen,
-    demands: [
-      {
-        name: "Funções Executivas (Planejamento e Organização)",
-        activities: [
-          {
-            title: "Receita de Massinha Caseira",
-            description: "Siga uma receita simples com a criança. A atividade exige seguir uma sequência, separar ingredientes (organização) e executar um plano para chegar ao resultado final.",
-            materials: "Ingredientes para massinha (farinha, sal, óleo, água, corante).",
-          },
-          {
-            title: "Montando um Calendário de Tarefas",
-            description: "Crie um calendário semanal visual com a criança, planejando as atividades escolares e terapêuticas. Use figuras e cores para representar cada tarefa.",
-            materials: "Cartolina, canetas, adesivos ou figuras.",
-          },
-        ],
-      },
-      {
-        name: "Atenção e Foco",
-        activities: [
-          {
-            title: "Jogo da Memória Temático",
-            description: "Use um jogo da memória com figuras do hiperfoco da criança (dinossauros, planetas, etc.). O interesse no tema ajuda a sustentar a atenção por mais tempo.",
-            materials: "Jogo da memória (comprado ou feito em casa).",
-          },
-          {
-            title: "Onde está o Wally?",
-            description: "Livros ou figuras de procurar objetos/personagens são excelentes para treinar a atenção seletiva e a varredura visual de forma estruturada e divertida.",
-            materials: "Livros do tipo 'Onde está o Wally?' ou figuras impressas da internet.",
-          },
-        ],
-      },
-    ],
-  },
-  {
-    specialty: "Nutrição",
-    icon: Salad,
-    demands: [
-      {
-        name: "Seletividade Alimentar e Neofobia",
-        activities: [
-          {
-            title: "Exploração Sensorial de Alimentos",
-            description: "Apresente um alimento novo sem a pressão de comer. Incentive a criança a tocar, cheirar, amassar, e descrever o alimento. É o primeiro passo da hierarquia da alimentação.",
-            materials: "Um alimento novo (ex: brócolis cozido, uma fatia de manga).",
-          },
-          {
-            title: "Culinária Terapêutica",
-            description: "Envolva a criança no preparo de uma receita simples (ex: espetinho de frutas, biscoitos). O contato com os alimentos em um contexto lúdico diminui a ansiedade e aumenta a chance de experimentar.",
-            materials: "Ingredientes da receita, utensílios seguros para crianças.",
+            name: "💬 Comunicação",
+            activities: [
+              { title: "Álbum de Figuras Funcionais", description: "Criar um álbum com figuras de pessoas, objetos e ações importantes do dia a dia da criança para estimular a nomeação e a construção de frases simples.", materials: "Álbum de fotos, figuras impressas e plastificadas." },
+              { title: "Música e Gestos", description: "Cantar músicas infantis que envolvam gestos (ex: 'Cabeça, Ombro, Joelho e Pé') para associar a palavra ao seu significado de forma lúdica e corporal.", materials: "Aparelho de som." },
+            ],
           },
         ],
       },
