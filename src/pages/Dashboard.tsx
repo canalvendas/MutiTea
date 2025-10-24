@@ -10,43 +10,89 @@ import { Appointment, Patient } from "@/types";
 import { format } from "date-fns";
 
 const Dashboard = () => {
-  const { user } = useAuth();
+  const { user, profile } = useAuth();
   const [nextAppointments, setNextAppointments] = useState<Appointment[]>([]);
   const [patientCount, setPatientCount] = useState(0);
   const [todayAppointmentCount, setTodayAppointmentCount] = useState(0);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!user) return;
-
-    const today = format(new Date(), "yyyy-MM-dd");
+    if (!user) {
+      setLoading(false);
+      return;
+    }
 
     const fetchDashboardData = async () => {
-      // Fetch appointments for today
-      const { data: appointmentsData, error: appointmentsError } = await supabase
-        .from("appointments")
-        .select("*, patients(name, avatar_url)")
-        .eq("user_id", user.id)
-        .eq("date", today)
-        .order("time", { ascending: true });
+      setLoading(true);
+      setError(null);
+      
+      try {
+        const today = format(new Date(), "yyyy-MM-dd");
 
-      if (appointmentsError) console.error("Error fetching appointments:", appointmentsError);
-      else {
-        setNextAppointments(appointmentsData as any);
-        setTodayAppointmentCount(appointmentsData.length);
+        // Fetch appointments for today
+        const { data: appointmentsData, error: appointmentsError } = await supabase
+          .from("appointments")
+          .select("*, patients(name, avatar_url)")
+          .eq("user_id", user.id)
+          .eq("date", today)
+          .order("time", { ascending: true });
+
+        if (appointmentsError) {
+          console.error("Error fetching appointments:", appointmentsError);
+          setError("Erro ao carregar agendamentos");
+        } else {
+          setNextAppointments(appointmentsData as any);
+          setTodayAppointmentCount(appointmentsData?.length || 0);
+        }
+
+        // Fetch total patient count
+        const { count, error: patientsError } = await supabase
+          .from("patients")
+          .select("*", { count: "exact", head: true })
+          .eq("user_id", user.id);
+
+        if (patientsError) {
+          console.error("Error fetching patient count:", patientsError);
+          setError("Erro ao carregar número de pacientes");
+        } else {
+          setPatientCount(count || 0);
+        }
+      } catch (err) {
+        console.error("Unexpected error:", err);
+        setError("Erro inesperado ao carregar dados");
+      } finally {
+        setLoading(false);
       }
-
-      // Fetch total patient count
-      const { count, error: patientsError } = await supabase
-        .from("patients")
-        .select("*", { count: "exact", head: true })
-        .eq("user_id", user.id);
-
-      if (patientsError) console.error("Error fetching patient count:", patientsError);
-      else setPatientCount(count || 0);
     };
 
     fetchDashboardData();
   }, [user]);
+
+  if (loading) {
+    return (
+      <div className="p-4 md:p-6 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
+          <p>Carregando dashboard...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="p-4 md:p-6 flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-red-500 mb-2">Erro ao carregar dados</p>
+          <p className="text-muted-foreground">{error}</p>
+          <Button onClick={() => window.location.reload()} className="mt-4">
+            Tentar novamente
+          </Button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="p-4 md:p-6 space-y-8">
