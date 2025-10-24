@@ -229,7 +229,7 @@ const Profile = () => {
 
     const file = event.target.files[0];
     const fileExt = file.name.split('.').pop();
-    const filePath = `${user.id}/${Math.random()}.${fileExt}`;
+    const filePath = `${user.id}/avatar.${fileExt}`;
     const toastId = toast.loading("Enviando avatar...");
 
     const { error: uploadError } = await supabase.storage
@@ -243,7 +243,7 @@ const Profile = () => {
     }
 
     const { data } = supabase.storage.from('avatars').getPublicUrl(filePath);
-    const newAvatarUrl = data.publicUrl;
+    const newAvatarUrl = `${data.publicUrl}?t=${new Date().getTime()}`;
 
     const { error: updateError } = await supabase
       .from('profiles')
@@ -263,8 +263,9 @@ const Profile = () => {
   const handleProfileUpdate = async (data: ProfileData) => {
     if (!user) return;
 
-    const [firstName, ...lastNameParts] = data.name.split(' ');
-    const lastName = lastNameParts.join(' ');
+    const nameParts = data.name.trim().split(/\s+/);
+    const firstName = nameParts.shift() || '';
+    const lastName = nameParts.join(' ');
 
     const { error } = await supabase
       .from('profiles')
