@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { EvolutionForm, EvolutionFormData } from "./EvolutionForm";
-import { SavedEvolution } from "@/pages/Profile";
+import { SavedEvolution, Patient } from "@/types";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
 interface EditEvolutionDialogProps {
@@ -16,12 +16,14 @@ interface EditEvolutionDialogProps {
   onClose: () => void;
   evolution: SavedEvolution | null;
   onSave: (data: EvolutionFormData) => void;
+  patients: Patient[];
 }
 
-export const EditEvolutionDialog = ({ isOpen, onClose, evolution, onSave }: EditEvolutionDialogProps) => {
+export const EditEvolutionDialog = ({ isOpen, onClose, evolution, onSave, patients }: EditEvolutionDialogProps) => {
   if (!evolution) return null;
 
   const formId = "edit-evolution-form";
+  const patientName = evolution.patients?.name || 'Paciente';
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -29,7 +31,7 @@ export const EditEvolutionDialog = ({ isOpen, onClose, evolution, onSave }: Edit
         <DialogHeader>
           <DialogTitle>Editar Registro de Evolução</DialogTitle>
           <DialogDescription>
-            Modifique os dados da evolução de {evolution.patientName}.
+            Modifique os dados da evolução de {patientName}.
           </DialogDescription>
         </DialogHeader>
         <ScrollArea className="max-h-[70vh] p-4 border rounded-md">
@@ -39,6 +41,7 @@ export const EditEvolutionDialog = ({ isOpen, onClose, evolution, onSave }: Edit
             initialData={evolution.data}
             onSave={onSave}
             hideButtons
+            patients={patients}
           />
         </ScrollArea>
         <DialogFooter>
