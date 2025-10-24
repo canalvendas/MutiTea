@@ -10,13 +10,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Trash2, Download } from "lucide-react";
-
-export interface SavedActivityPlan {
-  id: string;
-  patientName: string;
-  submissionDate: string;
-  content: string;
-}
+import { SavedActivityPlan } from "@/types";
 
 interface SavedActivityPlansListProps {
   plans: SavedActivityPlan[];
@@ -24,7 +18,8 @@ interface SavedActivityPlansListProps {
 }
 
 const PlanItem = ({ plan, onDelete }: { plan: SavedActivityPlan; onDelete: (id: string) => void; }) => {
-  
+  const patientName = plan.patients?.name || 'Paciente';
+
   const handleDownloadPDF = () => {
     toast.info("Gerando PDF do plano de atividades...");
     const doc = new jsPDF();
@@ -32,7 +27,7 @@ const PlanItem = ({ plan, onDelete }: { plan: SavedActivityPlan; onDelete: (id: 
     const pageWidth = doc.internal.pageSize.getWidth();
     const textLines = doc.splitTextToSize(plan.content, pageWidth - margin * 2);
     doc.text(textLines, margin, margin);
-    doc.save(`Plano_Atividades_${plan.patientName.replace(/\s+/g, '_')}.pdf`);
+    doc.save(`Plano_Atividades_${patientName.replace(/\s+/g, '_')}.pdf`);
     toast.success("PDF gerado com sucesso!");
   };
 
@@ -41,9 +36,9 @@ const PlanItem = ({ plan, onDelete }: { plan: SavedActivityPlan; onDelete: (id: 
       <AccordionTrigger>
         <div className="flex items-center justify-between w-full pr-4">
           <div className="text-left">
-            <p className="font-semibold">{plan.patientName}</p>
+            <p className="font-semibold">{patientName}</p>
             <p className="text-sm text-muted-foreground">
-              Data: {new Date(plan.submissionDate).toLocaleDateString('pt-BR')}
+              Data: {new Date(plan.created_at).toLocaleDateString('pt-BR')}
             </p>
           </div>
           <Badge variant="outline">Plano de Atividades</Badge>

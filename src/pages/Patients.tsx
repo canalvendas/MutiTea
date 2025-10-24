@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { MadeWithDyad } from "@/components/made-with-dyad";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -6,34 +6,73 @@ import { Search, Plus } from "lucide-react";
 import { PatientsList } from "@/components/PatientsList";
 import { AddPatientDialog } from "@/components/AddPatientDialog";
 import { toast } from "sonner";
-import { patientsData, Patient } from "@/data/patients";
+import { Patient } from "@/types";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/context/AuthContext";
 
 const Patients = () => {
+  const { user } = useAuth();
   const [isAddPatientDialogOpen, setIsAddPatientDialogOpen] = useState(false);
-  const [patients, setPatients] = useState<Patient[]>(patientsData);
+  const [patients, setPatients] = useState<Patient[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState("");
 
-  const handleAddPatient = (patientData: Omit<Patient, 'id' | 'avatarUrl'>) => {
-    const newPatient: Patient = {
-      id: String(patients.length + 1),
-      ...patientData,
-      avatarUrl: "/public/placeholder.svg",
+  useEffect(() => {
+    const fetchPatients = async () => {
+      if (!user) return;
+      setLoading(true);
+      const { data, error } = await supabase
+        .from("patients")
+        .select("*")
+        .eq("user_id", user.id)
+        .order("name", { ascending: true });
+
+      if (error) {
+        toast.error("Erro ao buscar pacientes.");
+        console.error(error);
+      } else {
+        setPatients(data as Patient[]);
+      }
+      setLoading(false);
     };
-    setPatients((prevPatients) => [...prevPatients, newPatient]);
-    toast.success(`Paciente ${patientData.name} adicionado com sucesso!`);
+
+    fetchPatients();
+  }, [user]);
+
+  const handleAddPatient = async (patientData: { name: string; birth_date: string; diagnosis: string; mother_name: string; phone: string; }) => {
+    if (!user) return;
+
+    const { data, error } = await supabase
+      .from("patients")
+      .insert([{ ...patientData, user_id: user.id, avatar_url: "/placeholder.svg" }])
+      .select();
+
+    if (error) {
+      toast.error(`Erro ao adicionar paciente ${patientData.name}.`);
+      console.error(error);
+    } else if (data) {
+      setPatients((prevPatients) => [...prevPatients, data[0] as Patient].sort((a, b) => a.name.localeCompare(b.name)));
+      toast.success(`Paciente ${patientData.name} adicionado com sucesso!`);
+    }
   };
+
+  const filteredPatients = patients.filter((patient) =>
+    patient.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <div className="p-4 md:p-6">
       <h1 className="text-3xl font-bold mb-8">Pacientes</h1>
 
-      {/* Search and Add Patient Section */}
       <div className="flex flex-col md:flex-row items-center justify-between mb-8 space-y-4 md:space-y-0 md:space-x-4">
         <div className="relative w-full md:flex-1">
           <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
           <Input
             type="text"
-            placeholder="Buscar paciente por nome, CPF ou especialidade..."
+            placeholder="Buscar paciente por nome..."
             className="pl-11 pr-4 py-3 text-base rounded-lg shadow-sm"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
           />
         </div>
         <Button className="w-full md:w-auto py-3 text-base rounded-lg shadow-sm" onClick={() => setIsAddPatientDialogOpen(true)}>
@@ -41,10 +80,8 @@ const Patients = () => {
         </Button>
       </div>
 
-      {/* Patients List */}
-      <PatientsList patients={patients} />
+      {loading ? <p>Carregando pacientes...</p> : <PatientsList patients={filteredPatients} />}
 
-      {/* Add Patient Dialog */}
       <AddPatientDialog
         isOpen={isAddPatientDialogOpen}
         onClose={() => setIsAddPatientDialogOpen(false)}

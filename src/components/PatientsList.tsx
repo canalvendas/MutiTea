@@ -2,13 +2,17 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { MoreVertical } from "lucide-react";
-import { Patient } from "@/data/patients";
+import { Patient } from "@/types";
 
 interface PatientsListProps {
   patients: Patient[];
 }
 
 export const PatientsList = ({ patients }: PatientsListProps) => {
+  if (patients.length === 0) {
+    return <p className="text-muted-foreground text-center">Nenhum paciente encontrado.</p>;
+  }
+
   return (
     <div className="space-y-4">
       {patients.map((patient) => (
@@ -16,7 +20,7 @@ export const PatientsList = ({ patients }: PatientsListProps) => {
           <CardContent className="p-4 flex items-center justify-between">
             <div className="flex items-center space-x-4">
               <Avatar className="h-14 w-14">
-                <AvatarImage src={patient.avatarUrl || "/placeholder.svg"} alt={patient.name} />
+                <AvatarImage src={patient.avatar_url || "/placeholder.svg"} alt={patient.name} />
                 <AvatarFallback>{patient.name.charAt(0)}</AvatarFallback>
               </Avatar>
               <div>

@@ -8,19 +8,20 @@ import { Textarea } from "@/components/ui/textarea";
 import { Download, Sparkles, Save } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
-import { patientsData } from "@/data/patients";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Demand, Diagnosis } from "@/data/activities";
+import { Patient } from "@/types";
 
 interface ActivityPlanFormProps {
-  onSavePlan: (data: { patientName: string; content: string }) => void;
+  onSavePlan: (data: { patientId: string; content: string }) => void;
   diagnoses: Diagnosis[];
+  patients: Patient[];
 }
 
-export const ActivityPlanForm = ({ onSavePlan, diagnoses }: ActivityPlanFormProps) => {
+export const ActivityPlanForm = ({ onSavePlan, diagnoses, patients }: ActivityPlanFormProps) => {
   const [planContent, setPlanContent] = useState("");
-  const [selectedPatient, setSelectedPatient] = useState("");
+  const [selectedPatientId, setSelectedPatientId] = useState("");
   const [selectedDemands, setSelectedDemands] = useState<Demand[]>([]);
 
   const handleDemandChange = (demand: Demand) => {
@@ -32,7 +33,7 @@ export const ActivityPlanForm = ({ onSavePlan, diagnoses }: ActivityPlanFormProp
   };
 
   const generatePlan = () => {
-    if (!selectedPatient) {
+    if (!selectedPatientId) {
       toast.error("Por favor, selecione um paciente primeiro.");
       return;
     }
@@ -41,8 +42,9 @@ export const ActivityPlanForm = ({ onSavePlan, diagnoses }: ActivityPlanFormProp
       return;
     }
 
+    const patientName = patients.find(p => p.id === selectedPatientId)?.name || "";
     let content = `PLANO DE ATIVIDADES SUGERIDAS\n\n`;
-    content += `Paciente: ${selectedPatient}\n`;
+    content += `Paciente: ${patientName}\n`;
     content += `Data: ${new Date().toLocaleDateString('pt-BR')}\n`;
     content += `Foco Terapêutico: ${selectedDemands.map(d => d.name).join(', ')}\n\n`;
     content += `--------------------------------------------------\n\n`;
@@ -62,15 +64,15 @@ export const ActivityPlanForm = ({ onSavePlan, diagnoses }: ActivityPlanFormProp
   };
 
   const handleSave = () => {
-    if (!selectedPatient || !planContent.trim()) {
+    if (!selectedPatientId || !planContent.trim()) {
       toast.error("Selecione um paciente e gere o conteúdo antes de salvar.");
       return;
     }
     onSavePlan({
-      patientName: selectedPatient,
+      patientId: selectedPatientId,
       content: planContent,
     });
-    setSelectedPatient("");
+    setSelectedPatientId("");
     setSelectedDemands([]);
     setPlanContent("");
   };
@@ -80,13 +82,14 @@ export const ActivityPlanForm = ({ onSavePlan, diagnoses }: ActivityPlanFormProp
       toast.error("Gere um plano de atividades antes de baixar o PDF.");
       return;
     }
+    const patientName = patients.find(p => p.id === selectedPatientId)?.name || "paciente";
     toast.info("Gerando PDF...");
     const doc = new jsPDF();
     const margin = 15;
     const pageWidth = doc.internal.pageSize.getWidth();
     const textLines = doc.splitTextToSize(planContent, pageWidth - margin * 2);
     doc.text(textLines, margin, margin);
-    doc.save(`Plano_Atividades_${selectedPatient.replace(/\s+/g, '_')}.pdf`);
+    doc.save(`Plano_Atividades_${patientName.replace(/\s+/g, '_')}.pdf`);
     toast.success("PDF gerado com sucesso!");
   };
 
@@ -95,9 +98,9 @@ export const ActivityPlanForm = ({ onSavePlan, diagnoses }: ActivityPlanFormProp
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="space-y-2">
           <Label className="font-bold text-lg">1. Nome do Paciente</Label>
-          <Select onValueChange={setSelectedPatient} value={selectedPatient}>
+          <Select onValueChange={setSelectedPatientId} value={selectedPatientId}>
             <SelectTrigger><SelectValue placeholder="Selecione um paciente" /></SelectTrigger>
-            <SelectContent>{patientsData.map(p => <SelectItem key={p.id} value={p.name}>{p.name}</SelectItem>)}</SelectContent>
+            <SelectContent>{patients.map(p => <SelectItem key={p.id} value={p.id}>{p.name}</SelectItem>)}</SelectContent>
           </Select>
         </div>
         <div className="space-y-2">

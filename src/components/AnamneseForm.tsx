@@ -30,7 +30,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { patientsData } from "@/data/patients";
+import { Patient } from "@/types";
 
 // Definição de tipos para os campos do formulário
 type AnamneseField = {
@@ -278,7 +278,7 @@ const anamneseModels: Record<string, AnamneseField[]> = {
 };
 
 const dynamicSchemaDef = {
-  patientName: z.string().min(1, { message: "O nome do paciente é obrigatório." }),
+  patientId: z.string().min(1, { message: "O paciente é obrigatório." }),
   ...Object.values(anamneseModels).flat().reduce((acc, field) => {
     if (field.type !== "section-header") {
       let fieldSchema: z.ZodType<any, any, any>;
@@ -303,16 +303,17 @@ interface AnamneseFormProps {
   onSave: (data: AnamneseFormData) => void;
   initialData?: AnamneseFormData | null;
   hideButtons?: boolean;
+  patients: Patient[];
 }
 
-export const AnamneseForm = ({ id, specialty, onSave, initialData = null, hideButtons = false }: AnamneseFormProps) => {
+export const AnamneseForm = ({ id, specialty, onSave, initialData = null, hideButtons = false, patients }: AnamneseFormProps) => {
   const formRef = useRef<HTMLFormElement>(null);
   const currentModel = anamneseModels[specialty] || anamneseModels["Padrão"];
 
   const form = useForm<AnamneseFormData>({
     resolver: zodResolver(dynamicSchema),
     defaultValues: initialData || {
-      patientName: "",
+      patientId: "",
       ...currentModel.reduce((acc, field) => {
         acc[field.id as keyof AnamneseFormData] = field.defaultValue !== undefined ? field.defaultValue : (field.type === 'checkbox-group' ? [] : "");
         return acc;
@@ -330,15 +331,16 @@ export const AnamneseForm = ({ id, specialty, onSave, initialData = null, hideBu
     onSave(data);
     if (!initialData) {
       toast.success("Anamnese salva com sucesso!");
-      form.reset({ patientName: "", ...Object.fromEntries(Object.keys(form.getValues()).map(key => [key, ''])) });
+      form.reset({ patientId: "", ...Object.fromEntries(Object.keys(form.getValues()).map(key => [key, ''])) });
     }
   };
 
   const handleDownloadPDF = () => {
     if (!formRef.current) return;
-    const patientName = form.getValues("patientName") || "Paciente";
-    if (!patientName.trim()) {
-      toast.error("Por favor, preencha o nome do paciente antes de baixar o PDF.");
+    const patientId = form.getValues("patientId");
+    const patientName = patients.find(p => p.id === patientId)?.name || "Paciente";
+    if (!patientId) {
+      toast.error("Por favor, selecione um paciente antes de baixar o PDF.");
       return;
     }
     toast.info("Gerando PDF da Anamnese...");
@@ -382,7 +384,7 @@ export const AnamneseForm = ({ id, specialty, onSave, initialData = null, hideBu
       <form id={id} ref={formRef} onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
         <FormField
           control={form.control}
-          name="patientName"
+          name="patientId"
           render={({ field }) => (
             <FormItem>
               <FormLabel className="font-bold text-lg">Nome do Paciente</FormLabel>
@@ -393,8 +395,8 @@ export const AnamneseForm = ({ id, specialty, onSave, initialData = null, hideBu
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  {patientsData.map((patient) => (
-                    <SelectItem key={patient.id} value={patient.name}>
+                  {patients.map((patient) => (
+                    <SelectItem key={patient.id} value={patient.id}>
                       {patient.name}
                     </SelectItem>
                   ))}

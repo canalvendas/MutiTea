@@ -16,9 +16,9 @@ interface AddPatientDialogProps {
   onClose: () => void;
   onAddPatient: (patientData: {
     name: string;
-    birthDate: string;
+    birth_date: string;
     diagnosis: string;
-    motherName: string;
+    mother_name: string;
     phone: string;
   }) => void;
 }
@@ -32,7 +32,7 @@ export const AddPatientDialog = ({ isOpen, onClose, onAddPatient }: AddPatientDi
 
   const handleSubmit = () => {
     if (name.trim() && birthDate.trim() && diagnosis.trim() && motherName.trim() && phone.trim()) {
-      onAddPatient({ name, birthDate, diagnosis, motherName, phone });
+      onAddPatient({ name, birth_date: birthDate, diagnosis, mother_name: motherName, phone });
       setName("");
       setBirthDate("");
       setDiagnosis("");

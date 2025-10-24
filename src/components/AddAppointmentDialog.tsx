@@ -10,22 +10,26 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Patient } from "@/types";
 
 interface AddAppointmentDialogProps {
   isOpen: boolean;
   onClose: () => void;
-  onAddAppointment: (patientName: string, time: string, specialty: string) => void;
+  onAddAppointment: (patientId: string, time: string, specialty: string, date: Date) => void;
+  patients: Patient[];
+  selectedDate: Date;
 }
 
-export const AddAppointmentDialog = ({ isOpen, onClose, onAddAppointment }: AddAppointmentDialogProps) => {
-  const [patientName, setPatientName] = useState("");
+export const AddAppointmentDialog = ({ isOpen, onClose, onAddAppointment, patients, selectedDate }: AddAppointmentDialogProps) => {
+  const [patientId, setPatientId] = useState("");
   const [time, setTime] = useState("");
   const [specialty, setSpecialty] = useState("");
 
   const handleSubmit = () => {
-    if (patientName.trim() && time.trim() && specialty.trim()) {
-      onAddAppointment(patientName, time, specialty);
-      setPatientName("");
+    if (patientId && time.trim() && specialty.trim()) {
+      onAddAppointment(patientId, time, specialty, selectedDate);
+      setPatientId("");
       setTime("");
       setSpecialty("");
       onClose();
@@ -46,12 +50,20 @@ export const AddAppointmentDialog = ({ isOpen, onClose, onAddAppointment }: AddA
             <Label htmlFor="patientName" className="text-left sm:text-right">
               Paciente
             </Label>
-            <Input
-              id="patientName"
-              value={patientName}
-              onChange={(e) => setPatientName(e.target.value)}
-              className="col-span-full sm:col-span-3"
-            />
+            <div className="col-span-full sm:col-span-3">
+              <Select onValueChange={setPatientId} value={patientId}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Selecione um paciente" />
+                </SelectTrigger>
+                <SelectContent>
+                  {patients.map((patient) => (
+                    <SelectItem key={patient.id} value={patient.id}>
+                      {patient.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-4 items-center gap-4">
             <Label htmlFor="time" className="text-left sm:text-right">

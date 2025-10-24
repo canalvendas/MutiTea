@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { MadeWithDyad } from "@/components/made-with-dyad";
 import { ProfileHeader } from "@/components/ProfileHeader";
 import { ProfileTabs } from "@/components/ProfileTabs";
@@ -10,6 +10,7 @@ import { toast } from "sonner";
 import { ReportWizardData } from "@/components/ReportWizard";
 import { useAuth } from "@/context/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
+import { Patient, SavedAnamnese, SavedDevolutiva, SavedEvolution, SavedReport, SavedTherapeuticPlan } from "@/types";
 
 export interface ProfileData {
   firstName: string;
@@ -22,315 +23,176 @@ export interface ProfileData {
   avatarUrl?: string;
 }
 
-export interface SavedAnamnese {
-  id: string;
-  patientName: string;
-  submissionDate: string;
-  specialty: string;
-  data: AnamneseFormData;
-}
-
-export interface SavedEvolution {
-  id: string;
-  patientName: string;
-  submissionDate: string;
-  specialty: string;
-  data: EvolutionFormData;
-}
-
-export interface SavedReport {
-  id: string;
-  patientName: string;
-  submissionDate: string;
-  specialty: string;
-  data: ReportWizardData;
-}
-
-export interface SavedTherapeuticPlan {
-  id: string;
-  patientName: string;
-  submissionDate: string;
-  specialty: string;
-  planContent: string;
-}
-
-export interface SavedDevolutiva {
-  id: string;
-  patientName: string;
-  submissionDate: string;
-  specialty: string;
-  content: string;
-}
-
 const Profile = () => {
   const { user, profile, refreshProfile, loading } = useAuth();
   const [isEditing, setIsEditing] = useState(false);
+  const [patients, setPatients] = useState<Patient[]>([]);
 
-  // Anamnese State
   const [savedAnamneses, setSavedAnamneses] = useState<SavedAnamnese[]>([]);
   const [isEditAnamneseDialogOpen, setIsEditAnamneseDialogOpen] = useState(false);
   const [currentAnamnese, setCurrentAnamnese] = useState<SavedAnamnese | null>(null);
 
-  // Evolution State
   const [savedEvolutions, setSavedEvolutions] = useState<SavedEvolution[]>([]);
   const [isEditEvolutionDialogOpen, setIsEditEvolutionDialogOpen] = useState(false);
   const [currentEvolution, setCurrentEvolution] = useState<SavedEvolution | null>(null);
 
-  // Report State
   const [savedReports, setSavedReports] = useState<SavedReport[]>([]);
-
-  // Therapeutic Plan State
   const [savedPlans, setSavedPlans] = useState<SavedTherapeuticPlan[]>([]);
-
-  // Devolutiva State
   const [savedDevolutivas, setSavedDevolutivas] = useState<SavedDevolutiva[]>([]);
 
-  // Anamnese Handlers
-  const handleSaveAnamnese = (formData: AnamneseFormData) => {
-    const newAnamnese: SavedAnamnese = {
-      id: new Date().toISOString(),
-      patientName: formData.patientName,
-      submissionDate: new Date().toISOString().split('T')[0],
-      specialty: profile?.specialty || "Padrão",
-      data: formData,
+  useEffect(() => {
+    if (!user) return;
+
+    const fetchData = async () => {
+      const { data: patientsData, error: patientsError } = await supabase.from('patients').select('*').eq('user_id', user.id);
+      if (patientsError) toast.error("Erro ao buscar pacientes."); else setPatients(patientsData as Patient[]);
+
+      const { data: anamnesesData, error: anamnesesError } = await supabase.from('anamneses').select('*, patients(name)').eq('user_id', user.id).order('created_at', { ascending: false });
+      if (anamnesesError) toast.error("Erro ao buscar anamneses."); else setSavedAnamneses(anamnesesData as any);
+
+      const { data: evolutionsData, error: evolutionsError } = await supabase.from('evolutions').select('*, patients(name)').eq('user_id', user.id).order('created_at', { ascending: false });
+      if (evolutionsError) toast.error("Erro ao buscar evoluções."); else setSavedEvolutions(evolutionsData as any);
+
+      const { data: reportsData, error: reportsError } = await supabase.from('reports').select('*, patients(name)').eq('user_id', user.id).order('created_at', { ascending: false });
+      if (reportsError) toast.error("Erro ao buscar relatórios."); else setSavedReports(reportsData as any);
+
+      const { data: plansData, error: plansError } = await supabase.from('therapeutic_plans').select('*, patients(name)').eq('user_id', user.id).order('created_at', { ascending: false });
+      if (plansError) toast.error("Erro ao buscar planos terapêuticos."); else setSavedPlans(plansData as any);
+
+      const { data: devolutivasData, error: devolutivasError } = await supabase.from('devolutivas').select('*, patients(name)').eq('user_id', user.id).order('created_at', { ascending: false });
+      if (devolutivasError) toast.error("Erro ao buscar devolutivas."); else setSavedDevolutivas(devolutivasData as any);
     };
-    setSavedAnamneses(prev => [newAnamnese, ...prev]);
+
+    fetchData();
+  }, [user]);
+
+  const handleSaveAnamnese = async (formData: AnamneseFormData) => {
+    if (!user || !profile?.specialty) return;
+    const { data, error } = await supabase.from('anamneses').insert([{ user_id: user.id, patient_id: formData.patientId, specialty: profile.specialty, data: formData }]).select('*, patients(name)');
+    if (error) toast.error("Erro ao salvar anamnese."); else if (data) setSavedAnamneses(prev => [data[0] as any, ...prev]);
   };
 
-  const handleEditAnamnese = (id: string) => {
-    const anamneseToEdit = savedAnamneses.find((a) => a.id === id);
-    if (anamneseToEdit) {
-      setCurrentAnamnese(anamneseToEdit);
-      setIsEditAnamneseDialogOpen(true);
-    }
+  const handleDeleteAnamnese = async (id: string) => {
+    if (!window.confirm("Tem certeza?")) return;
+    const { error } = await supabase.from('anamneses').delete().eq('id', id);
+    if (error) toast.error("Erro ao excluir anamnese."); else { setSavedAnamneses(p => p.filter(a => a.id !== id)); toast.success("Anamnese excluída."); }
   };
 
-  const handleDeleteAnamnese = (id: string) => {
-    if (window.confirm("Tem certeza que deseja excluir esta anamnese?")) {
-      setSavedAnamneses((prev) => prev.filter((a) => a.id !== id));
-      toast.success("Anamnese excluída com sucesso.");
-    }
-  };
-
-  const handleUpdateAnamnese = (updatedData: AnamneseFormData) => {
+  const handleUpdateAnamnese = async (updatedData: AnamneseFormData) => {
     if (!currentAnamnese) return;
-    setSavedAnamneses((prev) =>
-      prev.map((a) =>
-        a.id === currentAnamnese.id
-          ? { ...a, data: updatedData, patientName: updatedData.patientName }
-          : a
-      )
-    );
-    toast.success("Anamnese atualizada com sucesso!");
-    setIsEditAnamneseDialogOpen(false);
-    setCurrentAnamnese(null);
-  };
-
-  // Evolution Handlers
-  const handleSaveEvolution = (formData: EvolutionFormData) => {
-    const newEvolution: SavedEvolution = {
-      id: new Date().toISOString(),
-      patientName: formData.patientName,
-      submissionDate: formData.sessionDate || new Date().toISOString().split('T')[0],
-      specialty: profile?.specialty || "Padrão",
-      data: formData,
-    };
-    setSavedEvolutions(prev => [newEvolution, ...prev]);
-  };
-
-  const handleEditEvolution = (id: string) => {
-    const evolutionToEdit = savedEvolutions.find((e) => e.id === id);
-    if (evolutionToEdit) {
-      setCurrentEvolution(evolutionToEdit);
-      setIsEditEvolutionDialogOpen(true);
+    const { data, error } = await supabase.from('anamneses').update({ data: updatedData, patient_id: updatedData.patientId }).eq('id', currentAnamnese.id).select('*, patients(name)');
+    if (error) toast.error("Erro ao atualizar."); else if (data) {
+      setSavedAnamneses(p => p.map(a => a.id === currentAnamnese.id ? data[0] as any : a));
+      toast.success("Anamnese atualizada.");
+      setIsEditAnamneseDialogOpen(false);
+      setCurrentAnamnese(null);
     }
   };
 
-  const handleDeleteEvolution = (id: string) => {
-    if (window.confirm("Tem certeza que deseja excluir este registro de evolução?")) {
-      setSavedEvolutions((prev) => prev.filter((e) => e.id !== id));
-      toast.success("Registro de evolução excluído com sucesso.");
-    }
+  const handleSaveEvolution = async (formData: EvolutionFormData) => {
+    if (!user || !profile?.specialty) return;
+    const { data, error } = await supabase.from('evolutions').insert([{ user_id: user.id, patient_id: formData.patientId, specialty: profile.specialty, data: formData, created_at: formData.sessionDate }]).select('*, patients(name)');
+    if (error) toast.error("Erro ao salvar evolução."); else if (data) setSavedEvolutions(prev => [data[0] as any, ...prev]);
   };
 
-  const handleUpdateEvolution = (updatedData: EvolutionFormData) => {
+  const handleDeleteEvolution = async (id: string) => {
+    if (!window.confirm("Tem certeza?")) return;
+    const { error } = await supabase.from('evolutions').delete().eq('id', id);
+    if (error) toast.error("Erro ao excluir evolução."); else { setSavedEvolutions(p => p.filter(e => e.id !== id)); toast.success("Evolução excluída."); }
+  };
+
+  const handleUpdateEvolution = async (updatedData: EvolutionFormData) => {
     if (!currentEvolution) return;
-    setSavedEvolutions((prev) =>
-      prev.map((e) =>
-        e.id === currentEvolution.id
-          ? { ...e, data: updatedData, patientName: updatedData.patientName }
-          : e
-      )
-    );
-    toast.success("Registro de evolução atualizado com sucesso!");
-    setIsEditEvolutionDialogOpen(false);
-    setCurrentEvolution(null);
-  };
-
-  // Report Handlers
-  const handleSaveReport = (reportData: ReportWizardData) => {
-    const newReport: SavedReport = {
-      id: new Date().toISOString(),
-      patientName: reportData.patientName,
-      submissionDate: new Date().toISOString().split('T')[0],
-      specialty: profile?.specialty || "Padrão",
-      data: reportData,
-    };
-    setSavedReports(prev => [newReport, ...prev]);
-    toast.success("Relatório salvo com sucesso no sistema!");
-  };
-
-  const handleDeleteReport = (id: string) => {
-    if (window.confirm("Tem certeza que deseja excluir este relatório?")) {
-      setSavedReports((prev) => prev.filter((r) => r.id !== id));
-      toast.success("Relatório excluído com sucesso.");
+    const { data, error } = await supabase.from('evolutions').update({ data: updatedData, patient_id: updatedData.patientId, created_at: updatedData.sessionDate }).eq('id', currentEvolution.id).select('*, patients(name)');
+    if (error) toast.error("Erro ao atualizar."); else if (data) {
+      setSavedEvolutions(p => p.map(e => e.id === currentEvolution.id ? data[0] as any : e));
+      toast.success("Evolução atualizada.");
+      setIsEditEvolutionDialogOpen(false);
+      setCurrentEvolution(null);
     }
   };
 
-  // Therapeutic Plan Handlers
-  const handleSavePlan = (planData: { patientName: string; specialty: string; planContent: string }) => {
-    const newPlan: SavedTherapeuticPlan = {
-      id: new Date().toISOString(),
-      submissionDate: new Date().toISOString().split('T')[0],
-      ...planData,
-    };
-    setSavedPlans(prev => [newPlan, ...prev]);
-    toast.success("Plano Terapêutico salvo com sucesso!");
+  const handleSaveReport = async (reportData: ReportWizardData) => {
+    if (!user || !profile?.specialty) return;
+    const { data, error } = await supabase.from('reports').insert([{ user_id: user.id, patient_id: reportData.patientId, specialty: profile.specialty, data: reportData }]).select('*, patients(name)');
+    if (error) toast.error("Erro ao salvar relatório."); else if (data) { setSavedReports(prev => [data[0] as any, ...prev]); toast.success("Relatório salvo."); }
   };
 
-  const handleDeletePlan = (id: string) => {
-    if (window.confirm("Tem certeza que deseja excluir este plano terapêutico?")) {
-      setSavedPlans(prev => prev.filter(p => p.id !== id));
-      toast.success("Plano Terapêutico excluído com sucesso.");
-    }
+  const handleDeleteReport = async (id: string) => {
+    if (!window.confirm("Tem certeza?")) return;
+    const { error } = await supabase.from('reports').delete().eq('id', id);
+    if (error) toast.error("Erro ao excluir relatório."); else { setSavedReports(p => p.filter(r => r.id !== id)); toast.success("Relatório excluído."); }
   };
 
-  // Devolutiva Handlers
-  const handleSaveDevolutiva = (data: { patientName: string; specialty: string; content: string }) => {
-    const newDevolutiva: SavedDevolutiva = {
-      id: new Date().toISOString(),
-      submissionDate: new Date().toISOString().split('T')[0],
-      ...data,
-    };
-    setSavedDevolutivas(prev => [newDevolutiva, ...prev]);
-    toast.success("Devolutiva salva com sucesso!");
+  const handleSavePlan = async (planData: { patientName: string; specialty: string; planContent: string; patientId: string }) => {
+    if (!user) return;
+    const { data, error } = await supabase.from('therapeutic_plans').insert([{ user_id: user.id, patient_id: planData.patientId, specialty: planData.specialty, plan_content: planData.planContent }]).select('*, patients(name)');
+    if (error) toast.error("Erro ao salvar plano."); else if (data) { setSavedPlans(prev => [data[0] as any, ...prev]); toast.success("Plano salvo."); }
   };
 
-  const handleDeleteDevolutiva = (id: string) => {
-    if (window.confirm("Tem certeza que deseja excluir esta devolutiva?")) {
-      setSavedDevolutivas(prev => prev.filter(d => d.id !== id));
-      toast.success("Devolutiva excluída com sucesso.");
-    }
+  const handleDeletePlan = async (id: string) => {
+    if (!window.confirm("Tem certeza?")) return;
+    const { error } = await supabase.from('therapeutic_plans').delete().eq('id', id);
+    if (error) toast.error("Erro ao excluir plano."); else { setSavedPlans(p => p.filter(plan => plan.id !== id)); toast.success("Plano excluído."); }
+  };
+
+  const handleSaveDevolutiva = async (data: { patientName: string; specialty: string; content: string; patientId: string }) => {
+    if (!user) return;
+    const { data: dbData, error } = await supabase.from('devolutivas').insert([{ user_id: user.id, patient_id: data.patientId, specialty: data.specialty, content: data.content }]).select('*, patients(name)');
+    if (error) toast.error("Erro ao salvar devolutiva."); else if (dbData) { setSavedDevolutivas(prev => [dbData[0] as any, ...prev]); toast.success("Devolutiva salva."); }
+  };
+
+  const handleDeleteDevolutiva = async (id: string) => {
+    if (!window.confirm("Tem certeza?")) return;
+    const { error } = await supabase.from('devolutivas').delete().eq('id', id);
+    if (error) toast.error("Erro ao excluir devolutiva."); else { setSavedDevolutivas(p => p.filter(d => d.id !== id)); toast.success("Devolutiva excluída."); }
   };
 
   const handleAvatarChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (!event.target.files || event.target.files.length === 0 || !user) {
-      return;
-    }
-
+    if (!event.target.files || event.target.files.length === 0 || !user) return;
     const file = event.target.files[0];
     const fileExt = file.name.split('.').pop();
     const filePath = `${user.id}/avatar.${fileExt}`;
     const toastId = toast.loading("Enviando avatar...");
-
-    const { error: uploadError } = await supabase.storage
-      .from('avatars')
-      .upload(filePath, file, { upsert: true });
-
-    if (uploadError) {
-      toast.error("Erro ao enviar o avatar.", { id: toastId });
-      console.error(uploadError);
-      return;
-    }
-
+    const { error: uploadError } = await supabase.storage.from('avatars').upload(filePath, file, { upsert: true });
+    if (uploadError) { toast.error("Erro ao enviar o avatar.", { id: toastId }); return; }
     const { data } = supabase.storage.from('avatars').getPublicUrl(filePath);
     const newAvatarUrl = `${data.publicUrl}?t=${new Date().getTime()}`;
-
-    const { error: updateError } = await supabase
-      .from('profiles')
-      .update({ avatar_url: newAvatarUrl })
-      .eq('id', user.id);
-
-    if (updateError) {
-      toast.error("Erro ao atualizar o perfil.", { id: toastId });
-      console.error(updateError);
-      return;
-    }
-
+    const { error: updateError } = await supabase.from('profiles').update({ avatar_url: newAvatarUrl }).eq('id', user.id);
+    if (updateError) { toast.error("Erro ao atualizar o perfil.", { id: toastId }); return; }
     await refreshProfile();
     toast.success("Avatar atualizado com sucesso!", { id: toastId });
   };
 
   const handleProfileUpdate = async (data: ProfileData) => {
     if (!user) return;
-
-    const { error } = await supabase
-      .from('profiles')
-      .update({
-        first_name: data.firstName,
-        last_name: data.lastName,
-        phone: data.phone,
-        address: data.address,
-        specialty: data.specialty,
-        crp: data.crp,
-      })
-      .eq('id', user.id);
-
-    if (error) {
-      toast.error("Erro ao atualizar o perfil.");
-      console.error(error);
-    } else {
-      await refreshProfile();
-      toast.success("Dados cadastrais atualizados com sucesso!");
-      setIsEditing(false);
-    }
+    const { error } = await supabase.from('profiles').update({ first_name: data.firstName, last_name: data.lastName, phone: data.phone, address: data.address, specialty: data.specialty, crp: data.crp }).eq('id', user.id);
+    if (error) toast.error("Erro ao atualizar o perfil."); else { await refreshProfile(); toast.success("Dados cadastrais atualizados!"); setIsEditing(false); }
   };
 
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center h-full">
-        <p>Carregando perfil...</p>
-      </div>
-    );
-  }
+  if (loading) return <div className="flex items-center justify-center h-full"><p>Carregando perfil...</p></div>;
 
   const displayName = profile ? `${profile.firstName || ''} ${profile.lastName || ''}`.trim() : user?.email || 'Usuário';
   const displaySpecialty = profile?.specialty || 'Especialidade';
-
-  const profileFormData: ProfileData = {
-    firstName: profile?.firstName || '',
-    lastName: profile?.lastName || '',
-    email: user?.email || '',
-    phone: profile?.phone || '',
-    address: profile?.address || '',
-    specialty: profile?.specialty || '',
-    crp: profile?.crp || '',
-    avatarUrl: profile?.avatarUrl || '',
-  };
+  const profileFormData: ProfileData = { firstName: profile?.firstName || '', lastName: profile?.lastName || '', email: user?.email || '', phone: profile?.phone || '', address: profile?.address || '', specialty: profile?.specialty || '', crp: profile?.crp || '', avatarUrl: profile?.avatarUrl || '' };
 
   return (
     <div className="p-4 md:p-6">
       <h1 className="text-3xl font-bold mb-8">Perfil do Terapeuta</h1>
-      <ProfileHeader
-        name={displayName}
-        specialty={displaySpecialty}
-        avatarUrl={profile?.avatarUrl}
-        isEditing={isEditing}
-        setIsEditing={setIsEditing}
-        onAvatarChange={handleAvatarChange}
-      />
+      <ProfileHeader name={displayName} specialty={displaySpecialty} avatarUrl={profile?.avatarUrl} isEditing={isEditing} setIsEditing={setIsEditing} onAvatarChange={handleAvatarChange} />
       <ProfileTabs
         isEditing={isEditing}
         setIsEditing={setIsEditing}
         profileData={profileFormData}
         onProfileUpdate={handleProfileUpdate}
+        patients={patients}
         savedAnamneses={savedAnamneses}
         onSaveAnamnese={handleSaveAnamnese}
-        onEditAnamnese={handleEditAnamnese}
+        onEditAnamnese={(id) => { const a = savedAnamneses.find(a => a.id === id); if (a) { setCurrentAnamnese(a); setIsEditAnamneseDialogOpen(true); }}}
         onDeleteAnamnese={handleDeleteAnamnese}
         savedEvolutions={savedEvolutions}
         onSaveEvolution={handleSaveEvolution}
-        onEditEvolution={handleEditEvolution}
+        onEditEvolution={(id) => { const e = savedEvolutions.find(e => e.id === id); if (e) { setCurrentEvolution(e); setIsEditEvolutionDialogOpen(true); }}}
         onDeleteEvolution={handleDeleteEvolution}
         savedReports={savedReports}
         onSaveReport={handleSaveReport}
@@ -342,18 +204,8 @@ const Profile = () => {
         onSaveDevolutiva={handleSaveDevolutiva}
         onDeleteDevolutiva={handleDeleteDevolutiva}
       />
-      <EditAnamneseDialog
-        isOpen={isEditAnamneseDialogOpen}
-        onClose={() => setIsEditAnamneseDialogOpen(false)}
-        anamnese={currentAnamnese}
-        onSave={handleUpdateAnamnese}
-      />
-      <EditEvolutionDialog
-        isOpen={isEditEvolutionDialogOpen}
-        onClose={() => setIsEditEvolutionDialogOpen(false)}
-        evolution={currentEvolution}
-        onSave={handleUpdateEvolution}
-      />
+      <EditAnamneseDialog isOpen={isEditAnamneseDialogOpen} onClose={() => setIsEditAnamneseDialogOpen(false)} anamnese={currentAnamnese} onSave={handleUpdateAnamnese} patients={patients} />
+      <EditEvolutionDialog isOpen={isEditEvolutionDialogOpen} onClose={() => setIsEditEvolutionDialogOpen(false)} evolution={currentEvolution} onSave={handleUpdateEvolution} patients={patients} />
       <MadeWithDyad />
     </div>
   );

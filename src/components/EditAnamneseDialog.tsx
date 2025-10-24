@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { AnamneseForm, AnamneseFormData } from "./AnamneseForm";
-import { SavedAnamnese } from "@/pages/Profile";
+import { SavedAnamnese, Patient } from "@/types";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
 interface EditAnamneseDialogProps {
@@ -16,12 +16,14 @@ interface EditAnamneseDialogProps {
   onClose: () => void;
   anamnese: SavedAnamnese | null;
   onSave: (data: AnamneseFormData) => void;
+  patients: Patient[];
 }
 
-export const EditAnamneseDialog = ({ isOpen, onClose, anamnese, onSave }: EditAnamneseDialogProps) => {
+export const EditAnamneseDialog = ({ isOpen, onClose, anamnese, onSave, patients }: EditAnamneseDialogProps) => {
   if (!anamnese) return null;
 
   const formId = "edit-anamnese-form";
+  const patientName = anamnese.patients?.name || 'Paciente';
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -29,7 +31,7 @@ export const EditAnamneseDialog = ({ isOpen, onClose, anamnese, onSave }: EditAn
         <DialogHeader>
           <DialogTitle>Editar Anamnese</DialogTitle>
           <DialogDescription>
-            Modifique os dados da anamnese de {anamnese.patientName}.
+            Modifique os dados da anamnese de {patientName}.
           </DialogDescription>
         </DialogHeader>
         <ScrollArea className="max-h-[70vh] p-4 border rounded-md">
@@ -39,6 +41,7 @@ export const EditAnamneseDialog = ({ isOpen, onClose, anamnese, onSave }: EditAn
             initialData={anamnese.data}
             onSave={onSave}
             hideButtons
+            patients={patients}
           />
         </ScrollArea>
         <DialogFooter>

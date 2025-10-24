@@ -8,7 +8,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { SavedAnamnese } from "@/pages/Profile";
+import { SavedAnamnese } from "@/types";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Edit, Trash2, Eye, Download } from "lucide-react";
@@ -20,12 +20,14 @@ interface SavedAnamnesesListProps {
 }
 
 const formatLabel = (key: string) => {
+  if (key === 'patientId') return 'Paciente';
   const result = key.replace(/([A-Z])/g, " $1");
   return result.charAt(0).toUpperCase() + result.slice(1);
 };
 
 const AnamneseItem = ({ anamnese, onEdit, onDelete }: { anamnese: SavedAnamnese; onEdit: (id: string) => void; onDelete: (id: string) => void; }) => {
   const contentRef = useRef<HTMLDivElement>(null);
+  const patientName = anamnese.patients?.name || 'Paciente';
 
   const handleDownloadPDF = () => {
     if (!contentRef.current) {
@@ -59,7 +61,7 @@ const AnamneseItem = ({ anamnese, onEdit, onDelete }: { anamnese: SavedAnamnese;
         heightLeft -= pdf.internal.pageSize.getHeight();
       }
       
-      pdf.save(`Anamnese_${anamnese.specialty}_${anamnese.patientName.replace(/\s+/g, '_')}.pdf`);
+      pdf.save(`Anamnese_${anamnese.specialty}_${patientName.replace(/\s+/g, '_')}.pdf`);
       toast.success("PDF gerado com sucesso!");
 
     }).catch(err => {
@@ -74,9 +76,9 @@ const AnamneseItem = ({ anamnese, onEdit, onDelete }: { anamnese: SavedAnamnese;
       <AccordionTrigger>
         <div className="flex items-center justify-between w-full pr-4">
           <div className="text-left">
-            <p className="font-semibold">{anamnese.patientName}</p>
+            <p className="font-semibold">{patientName}</p>
             <p className="text-sm text-muted-foreground">
-              Data: {new Date(anamnese.submissionDate).toLocaleDateString('pt-BR')}
+              Data: {new Date(anamnese.created_at).toLocaleDateString('pt-BR')}
             </p>
           </div>
           <div className="flex items-center gap-4">
@@ -91,7 +93,7 @@ const AnamneseItem = ({ anamnese, onEdit, onDelete }: { anamnese: SavedAnamnese;
       <AccordionContent>
         <div ref={contentRef} className="p-4">
           {Object.entries(anamnese.data).map(([key, value]) => {
-            if (key === 'patientName' || !value || (Array.isArray(value) && value.length === 0)) {
+            if (key === 'patientId' || !value || (Array.isArray(value) && value.length === 0)) {
               return null;
             }
             return (
