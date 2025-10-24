@@ -28,7 +28,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { patientsData } from "@/data/patients";
+import { Patient } from "@/types";
 
 type EvolutionField = {
   id: string;
@@ -117,7 +117,7 @@ evolutionModels["Psicopedagogia"] = evolutionModels["Psicologia"];
 evolutionModels["Fisioterapia"] = evolutionModels["Terapia Ocupacional"];
 
 const createEvolutionSchema = (model: EvolutionField[]) => z.object({
-  patientName: z.string().min(1, { message: "O nome do paciente é obrigatório." }),
+  patientId: z.string().min(1, { message: "O nome do paciente é obrigatório." }),
   ...model.reduce((acc, field) => {
     if (field.type !== "section-header") {
       return { ...acc, [field.id]: z.string().optional() };
@@ -134,9 +134,10 @@ interface EvolutionFormProps {
   onSave: (data: EvolutionFormData) => void;
   initialData?: EvolutionFormData | null;
   hideButtons?: boolean;
+  patients: Patient[];
 }
 
-export const EvolutionForm = ({ id, specialty, onSave, initialData = null, hideButtons = false }: EvolutionFormProps) => {
+export const EvolutionForm = ({ id, specialty, onSave, initialData = null, hideButtons = false, patients }: EvolutionFormProps) => {
   const formRef = useRef<HTMLFormElement>(null);
   const currentModel = evolutionModels[specialty] || evolutionModels["Padrão"];
   const evolutionSchema = createEvolutionSchema(currentModel);
@@ -144,7 +145,7 @@ export const EvolutionForm = ({ id, specialty, onSave, initialData = null, hideB
   const form = useForm<EvolutionFormData>({
     resolver: zodResolver(evolutionSchema),
     defaultValues: initialData || {
-      patientName: "",
+      patientId: "",
       ...currentModel.reduce((acc, field) => {
         if (field.type !== "section-header") {
           acc[field.id as keyof EvolutionFormData] = field.defaultValue || "";
@@ -171,7 +172,7 @@ export const EvolutionForm = ({ id, specialty, onSave, initialData = null, hideB
     if (!initialData) {
       toast.success("Registro de evolução salvo com sucesso!");
       form.reset({
-        patientName: "",
+        patientId: "",
         ...currentModel.reduce((acc, field) => {
           if (field.type !== "section-header") {
             acc[field.id as keyof EvolutionFormData] = field.defaultValue || "";
@@ -184,7 +185,8 @@ export const EvolutionForm = ({ id, specialty, onSave, initialData = null, hideB
 
   const handleDownloadPDF = () => {
     const formData = form.getValues();
-    const patientName = formData.patientName;
+    const patient = patients.find(p => p.id === formData.patientId);
+    const patientName = patient?.name;
 
     if (!patientName || !patientName.trim()) {
       toast.error("Por favor, selecione um paciente antes de baixar o PDF.");
@@ -221,7 +223,7 @@ export const EvolutionForm = ({ id, specialty, onSave, initialData = null, hideB
     doc.setTextColor(28, 25, 23);
 
     currentModel.forEach(field => {
-      if (field.type === 'section-header' || field.id === 'patientName' || field.id === 'sessionDate') {
+      if (field.type === 'section-header' || field.id === 'patientId' || field.id === 'sessionDate') {
         return;
       }
 
@@ -281,7 +283,7 @@ export const EvolutionForm = ({ id, specialty, onSave, initialData = null, hideB
       <form id={id} ref={formRef} onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
         <FormField
           control={form.control}
-          name="patientName"
+          name="patientId"
           render={({ field }) => (
             <FormItem>
               <FormLabel className="font-bold text-lg">Nome do Paciente</FormLabel>
@@ -292,8 +294,8 @@ export const EvolutionForm = ({ id, specialty, onSave, initialData = null, hideB
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  {patientsData.map((patient) => (
-                    <SelectItem key={patient.id} value={patient.name}>
+                  {patients.map((patient) => (
+                    <SelectItem key={patient.id} value={patient.id}>
                       {patient.name}
                     </SelectItem>
                   ))}

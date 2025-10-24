@@ -14,7 +14,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
-import { patientsData } from "@/data/patients";
+import { Patient } from "@/types";
 
 const devolutivaTemplates: Record<string, string> = {
   Psicologia: `
@@ -279,21 +279,23 @@ interface DevolutivaFormProps {
   specialty: string;
   therapistName: string;
   therapistCouncil: string;
-  onSave: (data: { patientName: string; specialty: string; content: string }) => void;
+  onSave: (data: { patientName: string; specialty: string; content: string; patientId: string; }) => void;
+  patients: Patient[];
 }
 
-export const DevolutivaForm = ({ specialty, therapistName, therapistCouncil, onSave }: DevolutivaFormProps) => {
+export const DevolutivaForm = ({ specialty, therapistName, therapistCouncil, onSave, patients }: DevolutivaFormProps) => {
   const [content, setContent] = useState("");
-  const [selectedPatient, setSelectedPatient] = useState("");
+  const [selectedPatientId, setSelectedPatientId] = useState("");
 
   const generateModel = () => {
-    if (!selectedPatient) {
+    if (!selectedPatientId) {
       toast.error("Por favor, selecione um paciente para gerar o modelo.");
       return;
     }
+    const patientName = patients.find(p => p.id === selectedPatientId)?.name || "";
     const baseTemplate = devolutivaTemplates[specialty] || devolutivaTemplates.Psicologia;
     const personalizedTemplate = baseTemplate
-      .replace(/\[NOME DO PACIENTE\]/g, selectedPatient)
+      .replace(/\[NOME DO PACIENTE\]/g, patientName)
       .replace(/\[SEU NOME\]/g, therapistName)
       .replace(/\[SEU CONSELHO\]/g, therapistCouncil);
     
@@ -302,17 +304,19 @@ export const DevolutivaForm = ({ specialty, therapistName, therapistCouncil, onS
   };
 
   const handleSave = () => {
-    if (!selectedPatient || !content.trim()) {
+    if (!selectedPatientId || !content.trim()) {
       toast.error("Selecione um paciente e gere o conteúdo antes de salvar.");
       return;
     }
+    const patientName = patients.find(p => p.id === selectedPatientId)?.name || "";
     onSave({
-      patientName: selectedPatient,
+      patientId: selectedPatientId,
+      patientName: patientName,
       specialty,
       content,
     });
     setContent("");
-    setSelectedPatient("");
+    setSelectedPatientId("");
   };
 
   const handleDownloadPDF = () => {
@@ -320,13 +324,14 @@ export const DevolutivaForm = ({ specialty, therapistName, therapistCouncil, onS
       toast.error("Gere um modelo de devolutiva antes de baixar o PDF.");
       return;
     }
+    const patientName = patients.find(p => p.id === selectedPatientId)?.name || "paciente";
     toast.info("Gerando PDF...");
     const doc = new jsPDF();
     const margin = 15;
     const pageWidth = doc.internal.pageSize.getWidth();
     const textLines = doc.splitTextToSize(content, pageWidth - margin * 2);
     doc.text(textLines, margin, margin);
-    doc.save(`Devolutiva_${selectedPatient.replace(/\s+/g, '_')}.pdf`);
+    doc.save(`Devolutiva_${patientName.replace(/\s+/g, '_')}.pdf`);
     toast.success("PDF gerado com sucesso!");
   };
 
@@ -335,9 +340,9 @@ export const DevolutivaForm = ({ specialty, therapistName, therapistCouncil, onS
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="space-y-2">
           <Label>Paciente</Label>
-          <Select onValueChange={setSelectedPatient} value={selectedPatient}>
+          <Select onValueChange={setSelectedPatientId} value={selectedPatientId}>
             <SelectTrigger><SelectValue placeholder="Selecione um paciente" /></SelectTrigger>
-            <SelectContent>{patientsData.map(p => <SelectItem key={p.id} value={p.name}>{p.name}</SelectItem>)}</SelectContent>
+            <SelectContent>{patients.map(p => <SelectItem key={p.id} value={p.id}>{p.name}</SelectItem>)}</SelectContent>
           </Select>
         </div>
       </div>

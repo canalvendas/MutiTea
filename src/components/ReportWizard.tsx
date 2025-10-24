@@ -9,13 +9,13 @@ import { Download, Upload, Save, BrainCircuit, ArrowLeft, ArrowRight, Trash2, Lo
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { patientsData } from "@/data/patients";
 import { ProfileData } from "@/pages/Profile";
 import { Separator } from "@/components/ui/separator";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Progress } from "@/components/ui/progress";
 import { organizeWithAI } from "@/lib/ai";
+import { Patient } from "@/types";
 
 // Data structure for the quiz-like report generator
 const reportQuizData: Record<string, Record<string, { prompt: string; options: string[]; allowCustom: boolean; }>> = {
@@ -708,6 +708,7 @@ const reportSections = [
 ];
 
 export interface ReportWizardData {
+  patientId: string;
   patientName: string;
   startDate: string;
   endDate: string;
@@ -718,14 +719,15 @@ interface ReportWizardProps {
   specialty: string;
   profileData: ProfileData;
   onSaveReport: (data: ReportWizardData) => void;
+  patients: Patient[];
 }
 
-export const ReportWizard = ({ specialty, profileData, onSaveReport }: ReportWizardProps) => {
+export const ReportWizard = ({ specialty, profileData, onSaveReport, patients }: ReportWizardProps) => {
   const [currentStep, setCurrentStep] = useState(0);
   const [logo, setLogo] = useState<string | null>(null);
   const [signature, setSignature] = useState<string | null>(null);
   const [stamp, setStamp] = useState<string | null>(null);
-  const [selectedPatient, setSelectedPatient] = useState("");
+  const [selectedPatientId, setSelectedPatientId] = useState("");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [quizAnswers, setQuizAnswers] = useState<Record<string, { selected: string[], custom: string }>>({});
@@ -773,12 +775,14 @@ export const ReportWizard = ({ specialty, profileData, onSaveReport }: ReportWiz
   };
 
   const handleSave = () => {
-    if (!selectedPatient) {
+    if (!selectedPatientId) {
       toast.error("Por favor, selecione um paciente para salvar o relatório.");
       return;
     }
+    const patientName = patients.find(p => p.id === selectedPatientId)?.name || "";
     onSaveReport({
-      patientName: selectedPatient,
+      patientId: selectedPatientId,
+      patientName: patientName,
       startDate: startDate,
       endDate: endDate,
       content: reportContent,
@@ -786,10 +790,11 @@ export const ReportWizard = ({ specialty, profileData, onSaveReport }: ReportWiz
   };
 
   const handleOrganizeWithAI = async () => {
-    if (!selectedPatient) {
+    if (!selectedPatientId) {
       toast.error("Por favor, selecione um paciente primeiro.");
       return;
     }
+    const patientName = patients.find(p => p.id === selectedPatientId)?.name || "";
 
     setIsOrganizing(true);
     const toastId = toast.loading("Organizando relatório com IA...");
@@ -798,7 +803,7 @@ export const ReportWizard = ({ specialty, profileData, onSaveReport }: ReportWiz
       const organizedContent = await organizeWithAI(
         specialty,
         reportContent,
-        selectedPatient,
+        patientName,
         startDate,
         endDate
       );
@@ -822,10 +827,11 @@ export const ReportWizard = ({ specialty, profileData, onSaveReport }: ReportWiz
   };
 
   const handleDownloadPDF = () => {
-    if (!selectedPatient) {
+    if (!selectedPatientId) {
       toast.error("Por favor, selecione um paciente para gerar o relatório.");
       return;
     }
+    const patientName = patients.find(p => p.id === selectedPatientId)?.name || "";
     toast.info("Gerando PDF do relatório...");
 
     const doc = new jsPDF('p', 'mm', 'a4');
@@ -893,7 +899,7 @@ export const ReportWizard = ({ specialty, profileData, onSaveReport }: ReportWiz
     doc.setFontSize(12);
     doc.setTextColor(textColor);
     doc.setFont("helvetica", "bold");
-    doc.text(selectedPatient, margin + 5, y + 14);
+    doc.text(patientName, margin + 5, y + 14);
     const period = (startDate && endDate) 
         ? `${new Date(startDate).toLocaleDateString('pt-BR', { timeZone: 'UTC' })} a ${new Date(endDate).toLocaleDateString('pt-BR', { timeZone: 'UTC' })}`
         : "Não especificado";
@@ -974,7 +980,7 @@ export const ReportWizard = ({ specialty, profileData, onSaveReport }: ReportWiz
         );
     }
 
-    doc.save(`Relatorio_${specialty}_${selectedPatient.replace(/\s+/g, '_')}.pdf`);
+    doc.save(`Relatorio_${specialty}_${patientName.replace(/\s+/g, '_')}.pdf`);
     toast.success("PDF gerado com sucesso!");
   };
 
@@ -986,9 +992,9 @@ export const ReportWizard = ({ specialty, profileData, onSaveReport }: ReportWiz
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="space-y-2">
               <Label>Paciente</Label>
-              <Select onValueChange={setSelectedPatient} value={selectedPatient}>
+              <Select onValueChange={setSelectedPatientId} value={selectedPatientId}>
                 <SelectTrigger><SelectValue placeholder="Selecione um paciente" /></SelectTrigger>
-                <SelectContent>{patientsData.map(p => <SelectItem key={p.id} value={p.name}>{p.name}</SelectItem>)}</SelectContent>
+                <SelectContent>{patients.map(p => <SelectItem key={p.id} value={p.id}>{p.name}</SelectItem>)}</SelectContent>
               </Select>
             </div>
             <div className="space-y-2">

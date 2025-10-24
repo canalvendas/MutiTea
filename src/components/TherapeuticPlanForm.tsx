@@ -15,8 +15,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
-import { patientsData } from "@/data/patients";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Patient } from "@/types";
 
 // --- Estrutura de Dados para o Novo Gerador ---
 
@@ -410,12 +410,13 @@ const specialtyMapping = {
 interface TherapeuticPlanFormProps {
   specialty: string;
   therapistName: string;
-  onSavePlan: (data: { patientName: string; specialty: string; planContent: string }) => void;
+  onSavePlan: (data: { patientName: string; specialty: string; planContent: string; patientId: string; }) => void;
+  patients: Patient[];
 }
 
-export const TherapeuticPlanForm = ({ specialty, therapistName, onSavePlan }: TherapeuticPlanFormProps) => {
+export const TherapeuticPlanForm = ({ specialty, therapistName, onSavePlan, patients }: TherapeuticPlanFormProps) => {
   const [planContent, setPlanContent] = useState("");
-  const [selectedPatient, setSelectedPatient] = useState("");
+  const [selectedPatientId, setSelectedPatientId] = useState("");
   const [selectedDemands, setSelectedDemands] = useState<string[]>([]);
 
   const handleDemandChange = (demandId: string) => {
@@ -427,7 +428,7 @@ export const TherapeuticPlanForm = ({ specialty, therapistName, onSavePlan }: Th
   };
 
   const generatePlan = () => {
-    if (!selectedPatient) {
+    if (!selectedPatientId) {
       toast.error("Por favor, selecione um paciente primeiro.");
       return;
     }
@@ -436,6 +437,7 @@ export const TherapeuticPlanForm = ({ specialty, therapistName, onSavePlan }: Th
       return;
     }
 
+    const patientName = patients.find(p => p.id === selectedPatientId)?.name || "";
     const mappedSpecialty = specialtyMapping[specialty as keyof typeof specialtyMapping] || specialty;
     let template = baseTemplates[mappedSpecialty as keyof typeof baseTemplates] || baseTemplates.Psicologia;
 
@@ -459,7 +461,7 @@ export const TherapeuticPlanForm = ({ specialty, therapistName, onSavePlan }: Th
       : "   - (Nenhum objetivo de médio prazo gerado para as demandas selecionadas)";
 
     const personalizedTemplate = template
-      .replace(/\[NOME DO PACIENTE\]/g, selectedPatient)
+      .replace(/\[NOME DO PACIENTE\]/g, patientName)
       .replace(/\[DATA\]/g, new Date().toLocaleDateString('pt-BR'))
       .replace(/\[SEU NOME\]/g, therapistName)
       .replace('[OBJETIVOS_CURTO_PRAZO]', formattedShortTermGoals)
@@ -470,7 +472,7 @@ export const TherapeuticPlanForm = ({ specialty, therapistName, onSavePlan }: Th
   };
 
   const handleSave = () => {
-    if (!selectedPatient) {
+    if (!selectedPatientId) {
       toast.error("Por favor, selecione um paciente para salvar o plano.");
       return;
     }
@@ -478,13 +480,15 @@ export const TherapeuticPlanForm = ({ specialty, therapistName, onSavePlan }: Th
       toast.error("O conteúdo do plano não pode estar vazio para ser salvo.");
       return;
     }
+    const patientName = patients.find(p => p.id === selectedPatientId)?.name || "";
     onSavePlan({
-      patientName: selectedPatient,
+      patientId: selectedPatientId,
+      patientName: patientName,
       specialty: specialty,
       planContent: planContent,
     });
     // Limpa o formulário após salvar
-    setSelectedPatient("");
+    setSelectedPatientId("");
     setSelectedDemands([]);
     setPlanContent("");
   };
@@ -494,10 +498,11 @@ export const TherapeuticPlanForm = ({ specialty, therapistName, onSavePlan }: Th
       toast.error("Gere ou preencha o plano antes de baixar o PDF.");
       return;
     }
-    if (!selectedPatient) {
+    if (!selectedPatientId) {
       toast.error("Por favor, selecione um paciente para nomear o arquivo PDF.");
       return;
     }
+    const patientName = patients.find(p => p.id === selectedPatientId)?.name || "paciente";
     toast.info("Gerando PDF do Plano Terapêutico...");
 
     const pdfContainer = document.createElement('div');
@@ -588,7 +593,7 @@ export const TherapeuticPlanForm = ({ specialty, therapistName, onSavePlan }: Th
         heightLeft -= pdfHeight;
       }
       
-      pdf.save(`Plano_Terapeutico_${specialty}_${selectedPatient.replace(/\s+/g, '_')}.pdf`);
+      pdf.save(`Plano_Terapeutico_${specialty}_${patientName.replace(/\s+/g, '_')}.pdf`);
       toast.success("PDF gerado com sucesso!");
     } catch (err) {
       console.error("Erro ao gerar PDF:", err);
@@ -603,13 +608,13 @@ export const TherapeuticPlanForm = ({ specialty, therapistName, onSavePlan }: Th
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="space-y-2">
           <Label className="font-bold text-lg">1. Nome do Paciente</Label>
-          <Select onValueChange={setSelectedPatient} value={selectedPatient}>
+          <Select onValueChange={setSelectedPatientId} value={selectedPatientId}>
             <SelectTrigger>
               <SelectValue placeholder="Selecione um paciente" />
             </SelectTrigger>
             <SelectContent>
-              {patientsData.map((patient) => (
-                <SelectItem key={patient.id} value={patient.name}>
+              {patients.map((patient) => (
+                <SelectItem key={patient.id} value={patient.id}>
                   {patient.name}
                 </SelectItem>
               ))}
