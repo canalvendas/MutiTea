@@ -35,30 +35,33 @@ export const activitiesData: SpecialtyActivities[] = [
           {
             name: "💬 Comunicação e Linguagem",
             activities: [
-              { title: "Histórias Sociais para Conversas", description: "Criar histórias sociais focadas em 'scripts' de conversação: como iniciar um papo (ex: 'Oi, tudo bem?'), como pedir para brincar, e como responder a perguntas simples.", materials: "Figuras, fotos, software de criação de histórias." },
-              { title: "Role-playing de Turnos", description: "Usar fantoches ou bonecos para encenar diálogos. Utilizar um 'objeto da fala' (quem segura, fala) para treinar a espera e a troca de turnos na conversa.", materials: "Fantoches, bonecos, um objeto pequeno." },
-              { title: "Dando Função à Ecolalia", description: "Quando a criança repetir uma pergunta (ex: 'Você quer suco?'), responda a pergunta como se ela a tivesse feito ('Sim, eu quero suco!') e depois modele a resposta dela ('Eu quero').", materials: "Objetos do cotidiano (suco, brinquedos)." },
+              { title: "Caixa de Iniciar Conversa", description: "Crie uma caixa com cartões contendo figuras ou palavras-chave (ex: 'brinquedo favorito', 'o que você comeu?'). A criança sorteia um cartão e é incentivada a iniciar uma conversa sobre o tema com o terapeuta.", materials: "Caixa, cartões com figuras ou palavras." },
+              { title: "Eco com Sentido", description: "Quando a criança apresentar ecolalia (ex: repetir 'quer água?'), valide a comunicação dando a ela a água e modelando a resposta funcional: 'Ah, você quer água! Você pode dizer 'eu quero água''.", materials: "Objetos do contexto diário." },
+              { title: "Diário Terapêutico com CAA", description: "Ao final da sessão, a criança usa seu sistema de CAA (figuras, tablet) para escolher 1 ou 2 figuras que representem o que ela mais gostou de fazer, construindo uma narrativa simples sobre a sessão.", materials: "Sistema de CAA, caderno." },
             ],
           },
           {
             name: "🧠 Cognição e Aprendizagem",
             activities: [
-              { title: "Jogo da Generalização", description: "Ensinar um conceito (ex: 'vermelho') com um objeto (bloco vermelho) e depois praticar a identificação da cor em outros contextos (roupa, fruta, caneta).", materials: "Objetos variados da mesma cor." },
-              { title: "Mapa Mental de Rotinas", description: "Criar um mapa visual para uma tarefa complexa (ex: arrumar a mochila), quebrando-a em passos menores e concretos para facilitar a execução.", materials: "Cartolina, canetas coloridas, figuras adesivas." },
+              { title: "Escada da Abstração", description: "Para ensinar um conceito (ex: 'cachorro'), comece com o concreto (um cachorro de brinquedo), passe para uma foto, depois um desenho estilizado e, por fim, a palavra escrita. Suba os 'degraus' da abstração gradualmente.", materials: "Objeto real ou miniatura, foto, desenho, palavra escrita." },
+              { title: "Missão Generalização", description: "Após aprender uma habilidade (ex: pedir ajuda), crie uma 'missão' para a criança: 'Sua missão hoje é pedir ajuda para a mamãe para abrir um pote'. Isso transforma a generalização em um jogo.", materials: "Cartão de 'missão'." },
+              { title: "Aprendizagem em Estações", description: "Organize a sala em 3 estações com atividades de diferentes níveis de dificuldade. Permita que a criança escolha a ordem e passe mais tempo na estação que a desafia na medida certa, respeitando seu ritmo.", materials: "Materiais para 3 atividades diferentes." },
             ],
           },
           {
             name: "💞 Socioemocional",
             activities: [
-              { title: "Baralho das Emoções", description: "Usar cartas com expressões faciais para que a criança identifique, nomeie e imite as emoções, associando-as a situações do dia a dia.", materials: "Cartas com fotos ou desenhos de emoções." },
-              { title: "Termômetro da Raiva", description: "Criar um 'termômetro' visual que ajuda a criança a identificar os níveis de sua raiva ou ansiedade e associar estratégias de calma para cada nível.", materials: "Cartolina, canetas, velcro." },
+              { title: "Vídeo-Modelagem Social", description: "Assista a vídeos curtos de interações sociais (ex: crianças compartilhando um brinquedo). Pause o vídeo e pergunte: 'O que ele está sentindo? Como você sabe?'. Ajude a criança a identificar as pistas nas expressões faciais e linguagem corporal.", materials: "Tablet ou TV com vídeos curtos." },
+              { title: "Quadro de Rotina Interativo", description: "Crie um quadro de rotina visual para a sessão ou para o dia. Use velcro para que a criança possa mover a figura da atividade concluída para uma caixa de 'terminado'. Isso oferece previsibilidade e uma sensação de controle.", materials: "Quadro, figuras de atividades com velcro." },
+              { title: "Contador de Transição", description: "Use um timer visual (ampulheta, timer de cozinha) para mostrar quanto tempo falta para uma atividade acabar. Anuncie verbalmente: 'Em 5 minutos, vamos guardar a massinha'. Isso torna a transição previsível e menos ansiogênica.", materials: "Timer visual." },
             ],
           },
           {
             name: "👂 Sensorial e Motor",
             activities: [
-              { title: "Mapeamento Sensorial Lúdico", description: "Investigar o perfil sensorial da criança através de brincadeiras, observando reações a diferentes estímulos e ajudando-a a nomear suas sensações.", materials: "Caixa com diferentes texturas, sons variados, lanternas." },
-              { title: "Técnicas de Acalmar o Corpo", description: "Ensinar estratégias de autorregulação que envolvem o corpo, como respiração profunda ('cheirar a flor, soprar a vela') ou pressão profunda (abraço de urso).", materials: "Almofadas, cobertores." },
+              { title: "Kit de Ferramentas Sensoriais", description: "Crie junto com a criança uma 'caixa de calma' pessoal com itens que a ajudem a se regular (mordedor, fone abafador, massinha, objeto de textura preferida). Ensine-a a pegar o kit quando se sentir sobrecarregada.", materials: "Caixa, itens sensoriais variados." },
+              { title: "Substituição Funcional da Estereotipia", description: "Observe a função da estereotipia (ex: balançar o corpo para se acalmar). Ofereça uma alternativa mais socialmente aceitável que cumpra a mesma função, como sentar-se em uma cadeira de balanço ou usar um balanço de rede.", materials: "Cadeira de balanço, balanço de rede, colete de peso." },
+              { title: "Cantinho da Calma", description: "Designe um espaço na sala com poucos estímulos (uma cabana, um canto com almofadas e luz baixa) onde a criança pode ir voluntariamente para se regular quando o ambiente estiver muito estimulante.", materials: "Cabana de tecido, almofadas, luz suave." },
             ],
           },
         ],
@@ -143,28 +146,33 @@ export const activitiesData: SpecialtyActivities[] = [
           {
             name: "💬 Comunicação e Linguagem",
             activities: [
-              { title: "Cozinha Terapêutica com CAA", description: "Durante o preparo de um lanche, a criança usa um sistema de comunicação alternativa (figuras, app) para pedir ingredientes, escolher sabores ou comentar sobre a atividade.", materials: "Ingredientes para lanche, sistema de CAA." },
-              { title: "Circuito Motor com Pedidos", description: "Em cada estação do circuito, a criança precisa iniciar uma comunicação (verbal ou com CAA) para pedir o próximo item. Ex: 'bola', 'pular', 'túnel'.", materials: "Bola, pula-pula, túnel, sistema de CAA." },
-              { title: "Brincar Simbólico com Script", description: "Estruturar uma brincadeira de faz de conta (ex: médico) com cartões de script para cada participante, incentivando a troca de turnos e a manutenção do diálogo.", materials: "Kit de médico de brinquedo, cartões com frases." },
+              { title: "Circuito Motor com Pedidos (CAA)", description: "Em cada estação do circuito (pular, rolar), a criança deve usar seu sistema de CAA para pedir o próximo equipamento ou ação. A comunicação se torna a chave para avançar na brincadeira.", materials: "Equipamentos de circuito (cones, túnel), sistema de CAA." },
+              { title: "Construção em Dupla com Comunicação", description: "Propor a construção de uma torre de blocos em dupla. Forneça um conjunto de blocos para cada um e um 'plano de construção' visual. Eles precisam se comunicar (verbalmente ou com CAA) para pedir os blocos um do outro e seguir o plano.", materials: "Blocos de montar, plano visual." },
+              { title: "Lanche Terapêutico com Escolhas", description: "Ofereça opções de lanche através de um cardápio com figuras (PECS). A criança precisa montar a frase 'Eu quero...' usando as figuras para receber o alimento, trabalhando a iniciação e a estruturação da linguagem.", materials: "Cardápio com figuras (PECS), alimentos." },
             ],
           },
           {
             name: "🧠 Cognição e Aprendizagem",
             activities: [
-              { title: "Sequenciamento de AVDs", description: "Usar cartões com figuras para que a criança organize a sequência de uma Atividade de Vida Diária (ex: vestir-se) antes de executá-la.", materials: "Cartões de sequência para AVDs." },
+              { title: "AVD em Diferentes Cenários", description: "Pratique uma habilidade de vida diária (ex: amarrar o cadarço) em diferentes contextos para promover a generalização: primeiro em um tênis grande de brinquedo, depois no tênis do terapeuta, e finalmente no próprio tênis.", materials: "Tênis de brinquedo, tênis reais." },
+              { title: "Brincadeira de faz de conta com roteiro", description: "Estruture uma brincadeira (ex: ir ao supermercado) com um roteiro visual passo a passo. Isso ajuda a criança a entender a sequência de ações e o pensamento abstrato por trás da atividade.", materials: "Comida de brinquedo, caixa registradora, dinheiro de mentira." },
+              { title: "Caixa Surpresa de Categorias", description: "Tenha caixas temáticas (ex: 'coisas macias', 'coisas que rolam'). A criança explora os objetos de uma caixa e ajuda a nomear a categoria, trabalhando o pensamento abstrato a partir da experiência sensorial.", materials: "Caixas, objetos variados." },
             ],
           },
           {
             name: "💞 Socioemocional",
             activities: [
-              { title: "Brincar de Faz de Conta", description: "Estruturar brincadeiras simbólicas (cozinhar, cuidar de um boneco) para trabalhar a imitação, a reciprocidade e a compreensão de papéis sociais.", materials: "Cozinha de brinquedo, bonecos, fantasias." },
+              { title: "Jogo das Expressões no Espelho", description: "Faça uma expressão facial (alegre, triste) no espelho e peça para a criança imitar. Depois, associe a expressão a uma situação e a uma sensação corporal ('Quando estou feliz, meu corpo fica leve').", materials: "Espelho." },
+              { title: "Calendário de Previsibilidade Semanal", description: "Crie um calendário visual da semana com as principais atividades (terapia, escola, parque). Se houver uma mudança, mova a figura junto com a criança, explicando a nova sequência. Isso dá segurança e ajuda a lidar com a ansiedade.", materials: "Calendário grande, figuras de atividades." },
+              { title: "Termômetro de Regulação", description: "Use um 'termômetro' visual com cores (verde=calmo, amarelo=alerta, vermelho=nervoso). Ajude a criança a identificar em que 'cor' ela está e qual 'ferramenta' sensorial do seu kit pode ajudá-la a voltar para o verde.", materials: "Termômetro de emoções, kit sensorial." },
             ],
           },
           {
             name: "👂 Sensorial e Motor",
             activities: [
-              { title: "Dieta Sensorial", description: "Criar um 'cardápio' de atividades sensoriais (pular, balançar, usar colete pesado) para ajudar a criança a se regular ao longo do dia.", materials: "Balanço, cama elástica, colete ponderado, massinha." },
-              { title: "Circuito Motor", description: "Montar um percurso com diferentes desafios motores e sensoriais (passar por túneis, pular em almofadas, equilibrar-se) para trabalhar o planejamento motor e a consciência corporal.", materials: "Túnel de pano, almofadas, bambolês." },
+              { title: "Caminho Sensorial Tátil", description: "Crie um percurso para a criança andar descalça sobre diferentes texturas (tapetes, plástico bolha, grama sintética, almofadas). Isso ajuda a modular a sensibilidade tátil nos pés.", materials: "Materiais com diferentes texturas." },
+              { title: "Balanço Regulatório", description: "Use um balanço de lycra ou rede para fornecer estímulos vestibulares e proprioceptivos. Movimentos lineares e lentos acalmam, enquanto movimentos mais rápidos e rotatórios alertam. Use de acordo com a necessidade da criança.", materials: "Balanço de lycra ou rede." },
+              { title: "Paredes de Escalada ou 'Trabalho Pesado'", description: "Atividades que exigem força (escalar, empurrar caixas pesadas, carregar cestos) fornecem estímulos proprioceptivos intensos que ajudam a organizar o corpo e a diminuir a necessidade de estereotipias.", materials: "Pequena parede de escalada, caixas com peso." },
             ],
           },
         ],
@@ -244,27 +252,33 @@ export const activitiesData: SpecialtyActivities[] = [
           {
             name: "💬 Comunicação e Linguagem",
             activities: [
-              { title: "Caça ao Tesouro com CAA", description: "Esconder objetos e a criança deve usar seu sistema de comunicação alternativa (CAA) para pedir pistas ou nomear o objeto encontrado, focando na iniciação de pedidos.", materials: "Sistema de CAA (fichas, tablet), objetos de interesse." },
-              { title: "Expansão e Reformulação da Ecolalia", description: "Quando a criança repetir uma frase (ecolalia), o terapeuta a aceita e a expande, adicionando uma nova informação para manter a 'conversa'. Ex: Criança: 'Carro azul'. Terapeuta: 'Sim, o carro azul é rápido!'.", materials: "Brinquedos e objetos do cotidiano." },
-              { title: "Jogo de Tabuleiro Conversacional", description: "Criar um tabuleiro simples onde cada casa tem uma instrução como 'Faça uma pergunta', 'Conte algo sobre seu dia', para praticar a iniciação e manutenção de conversas.", materials: "Tabuleiro, dado, pinos." },
+              { title: "Cardápio de Brincadeiras com PECS/CAA", description: "Crie um 'cardápio' com figuras das brincadeiras disponíveis. A criança deve iniciar a interação entregando a figura da brincadeira que deseja, trabalhando a iniciação comunicativa.", materials: "Fichas com figuras (PECS), tablet com app de CAA." },
+              { title: "Eco Expandido", description: "Quando a criança apresentar ecolalia, repita a frase dela (validando) e adicione uma nova informação. Criança: 'É um carro azul'. Fono: 'É um carro azul. O carro azul faz vrum vrum!'. Isso modela a expansão da linguagem.", materials: "Brinquedos variados." },
+              { title: "Jogo do Repórter", description: "Use um microfone de brinquedo. Quem está com o microfone faz uma pergunta, e o outro responde. Troquem os papéis. Isso estrutura a troca de turnos e a manutenção do tópico conversacional.", materials: "Microfone de brinquedo." },
             ],
           },
           {
             name: "🧠 Cognição e Aprendizagem",
             activities: [
-              { title: "Jogo de Categorias Visuais", description: "Usar figuras para que a criança agrupe itens por categoria (comida, animais, roupas), trabalhando o vocabulário e o pensamento abstrato.", materials: "Cartões com figuras de diferentes categorias." },
+              { title: "O que não pertence?", description: "Apresente 3 figuras de uma categoria (ex: frutas) e uma que não pertence (ex: um carro). A criança deve identificar o intruso. Isso trabalha o pensamento abstrato de categorização.", materials: "Cartões com figuras." },
+              { title: "Histórias com Sequência Lógica", description: "Use 3 ou 4 cartões com cenas de uma história simples. Peça para a criança colocar em ordem e depois contar o que aconteceu, trabalhando a noção de tempo e a estrutura narrativa.", materials: "Cartões de sequência lógica." },
+              { title: "Leitura Compartilhada Adaptada", description: "Leia um livro com frases repetitivas, dando pausas para que a criança complete a frase. Use entonações variadas e aponte para as figuras para manter o engajamento, respeitando o ritmo da criança.", materials: "Livro infantil com frases repetitivas." },
             ],
           },
           {
             name: "💞 Socioemocional",
             activities: [
-              { title: "Vídeos com Pausa para Inferência", description: "Assistir a vídeos curtos de interações sociais e pausar para perguntar 'O que você acha que ele está sentindo?' ou 'O que vai acontecer agora?'.", materials: "Tablet ou computador com vídeos curtos." },
+              { title: "Teatro de Fantoches e Emoções", description: "Use fantoches para representar pequenas cenas com emoções claras (um fantoche está triste porque perdeu a bola). Peça para a criança identificar a emoção e pensar em como ajudar o fantoche.", materials: "Fantoches." },
+              { title: "Antecipação com Mini-Rotina", description: "Antes de cada atividade, mostre uma mini-rotina visual 'Primeiro-Depois' (ex: 'Primeiro, jogo da memória. Depois, massinha'). Isso cria previsibilidade e diminui a ansiedade com as transições.", materials: "Quadro 'Primeiro-Depois', figuras de atividades." },
+              { title: "Caixa de Correio dos Sentimentos", description: "Tenha uma caixa de correio e figuras de emoções. A criança pode 'enviar uma carta' colocando a figura que representa como ela está se sentindo, sem a necessidade de falar.", materials: "Caixa de sapatos decorada, figuras de emoções." },
             ],
           },
           {
             name: "👂 Sensorial e Motor",
             activities: [
-              { title: "Dessensibilização Oral", description: "Usar massageadores orais, escovas de dente de diferentes texturas ou alimentos com sabores/texturas variadas para diminuir a hipersensibilidade oral.", materials: "Massageadores orais, escovas, alimentos." },
+              { title: "Sons e Ações", description: "Associe sons a movimentos corporais (ex: som de tambor = bater os pés fortes; som de sino = andar na ponta dos pés). Isso ajuda a criança a processar estímulos auditivos e a organizar uma resposta motora.", materials: "Instrumentos musicais (tambor, sino)." },
+              { title: "Massagem Oral e Brincadeiras", description: "Antes de trabalhar os sons da fala, faça brincadeiras com a boca (estalar a língua, vibrar os lábios) ou use massageadores orais para regular a sensibilidade e preparar a musculatura.", materials: "Massageadores orais, espelho." },
+              { title: "Sussurros e Volumes", description: "Brinque de falar a mesma palavra em diferentes volumes (sussurrando, normal, alto). Isso ajuda a modular a hipersensibilidade auditiva e a trabalhar a prosódia (entonação).", materials: "Nenhum." },
             ],
           },
         ],
@@ -333,28 +347,33 @@ export const activitiesData: SpecialtyActivities[] = [
           {
             name: "💬 Comunicação e Linguagem",
             activities: [
-              { title: "Circuito da Conversa", description: "Em cada estação do circuito, a criança precisa fazer uma pergunta ou um comentário (verbal ou com CAA) para receber a instrução do próximo passo. Ex: 'O que eu faço agora?'.", materials: "Cones, bambolês, sistema de CAA." },
-              { title: "Espelho Sonoro e Motor", description: "O terapeuta faz um som e um movimento (ex: diz 'Pula!' e pula). A criança imita. A ecolalia é usada como ponto de partida para a ação motora e a interação.", materials: "Colchonetes." },
-              { title: "Jogo de Estátua Comunicativa", description: "Quando a música para, além de virar estátua, a criança deve apontar (usando um apontador a laser, se motivador) para uma figura que represente o que ela quer fazer a seguir.", materials: "Aparelho de som, figuras de atividades." },
+              { title: "Circuito com Comandos Verbais", description: "Crie um circuito motor onde a criança precisa seguir comandos verbais de 1 ou 2 etapas (ex: 'Primeiro pule no bambolê, depois role no colchonete'). Isso integra a compreensão da linguagem ao movimento.", materials: "Bambolês, colchonetes, cones." },
+              { title: "Estátua com Partes do Corpo", description: "Na brincadeira de estátua, quando a música parar, o terapeuta diz uma parte do corpo (ex: 'mão no joelho!'). A criança deve fazer a estátua na posição indicada, trabalhando o vocabulário corporal e a compreensão.", materials: "Aparelho de som." },
+              { title: "Brincadeira do 'Siga o Mestre' com CAA", description: "O 'mestre' (terapeuta ou a criança) escolhe uma figura de ação em um app de CAA (ex: 'pular', 'girar') e todos devem imitar o movimento, associando a figura à ação motora.", materials: "Tablet com app de CAA." },
             ],
           },
           {
             name: "🧠 Cognição e Aprendizagem",
             activities: [
-              { title: "Circuito com Sequência Lógica", description: "Montar um circuito onde a criança precisa seguir uma sequência de cores ou formas (ex: pular no azul, depois no amarelo), trabalhando a memória de trabalho e o planejamento.", materials: "Círculos de EVA coloridos." },
+              { title: "Jogo de Boliche com Conceitos", description: "Em cada pino de boliche, cole uma figura (ex: animais). Ao derrubar um pino, a criança deve nomear a figura. Varie com cores, formas ou letras para trabalhar diferentes conceitos de forma concreta.", materials: "Pinos de boliche de plástico, figuras." },
+              { title: "Caça ao Tesouro Generalizada", description: "Esconda objetos iguais em locais diferentes da sala (ex: 3 bolas). A criança aprende a procurar o objeto em múltiplos contextos, treinando a generalização do conceito 'bola'.", materials: "Objetos idênticos." },
+              { title: "Circuito 'Faça Você Mesmo'", description: "Apresente os materiais do circuito (arcos, túnel) e incentive a criança a montar seu próprio percurso. Isso respeita o ritmo dela e trabalha o planejamento motor e a iniciativa.", materials: "Arcos, túnel, cones, almofadas." },
             ],
           },
           {
             name: "💞 Socioemocional",
             activities: [
-              { title: "Jogo do Espelho Corporal", description: "Em dupla, um faz um movimento e o outro imita, trabalhando a atenção ao outro, a imitação e a consciência corporal.", materials: "Nenhum." },
+              { title: "Dança do Espelho Emocional", description: "Em frente a um espelho, o terapeuta faz um movimento e uma expressão facial (ex: pular de alegria, encolher-se de tristeza). A criança imita, conectando a emoção à expressão corporal.", materials: "Espelho." },
+              { title: "Cabana da Calma", description: "Crie um 'ritual' para entrar e sair da cabana sensorial. Antes de entrar, mostre uma figura de 'pausa'. Isso cria previsibilidade para um momento de autorregulação.", materials: "Cabana de tecido, almofadas, figura de 'pausa'." },
+              { title: "Jogo de 'O Chão é Lava' Cooperativo", description: "O objetivo é que todos atravessem a sala sem tocar no chão, usando almofadas e tapetes. É preciso ajudar uns aos outros, promovendo a interação e a resolução de problemas em um contexto de ansiedade controlada.", materials: "Almofadas, tapetes de EVA." },
             ],
           },
           {
             name: "👂 Sensorial e Motor",
             activities: [
-              { title: "Circuito Sensorial", description: "Criar um caminho com diferentes texturas para andar, objetos para pular e túneis para passar, trabalhando a integração sensorial e o planejamento motor.", materials: "Tapetes de texturas, bambolês, túneis de pano." },
-              { title: "Dança das Estátuas", description: "Colocar uma música e dançar livremente. Quando a música para, todos devem virar estátuas. Ajuda na consciência corporal e no controle inibitório.", materials: "Aparelho de som." },
+              { title: "Dança da Estereotipia", description: "Observe o movimento repetitivo da criança (ex: balançar) e o incorpore em uma dança ou ritmo. Cante uma música enquanto balançam juntos. Isso dá um novo contexto, significado e controle ao movimento.", materials: "Música." },
+              { title: "Massagem com Bolas e Rolos", description: "Use bolas de diferentes texturas ou rolos de espuma para fazer uma massagem de pressão profunda nos braços, pernas e costas da criança. Isso ajuda a regular o sistema tátil e proprioceptivo.", materials: "Bolas sensoriais, rolo de espuma." },
+              { title: "Caixa de Areia Cinética", description: "Ofereça uma caixa com areia cinética e pequenos objetos para a criança esconder e encontrar. É uma atividade tátil com alta previsibilidade (a areia sempre se comporta da mesma forma), o que é calmante.", materials: "Areia cinética, caixa, pequenos brinquedos." },
             ],
           },
         ],
@@ -416,28 +435,33 @@ export const activitiesData: SpecialtyActivities[] = [
           {
             name: "💬 Comunicação e Linguagem",
             activities: [
-              { title: "Leitura Compartilhada Interativa", description: "Durante a leitura, fazer pausas e usar um sistema de figuras para que a criança possa comentar, fazer perguntas ou responder sobre a história, mantendo a 'conversa' sobre o livro.", materials: "Livro infantil, figuras relacionadas à história." },
-              { title: "Criação de Histórias em Conjunto", description: "Começar uma história e pedir para a criança adicionar a próxima frase (verbalmente ou apontando para uma figura), praticando a manutenção de um tópico.", materials: "Folha em branco, canetas, cartões com figuras." },
-              { title: "Diário Terapêutico com CAA", description: "Usar um caderno e um sistema de comunicação alternativa para que a criança registre (colando figuras, usando um app) algo sobre seu dia, e o terapeuta responde por escrito, criando um diálogo assíncrono.", materials: "Caderno, cola, figuras de CAA." },
+              { title: "Leitura Compartilhada com Figuras", description: "Durante a leitura de um livro, forneça à criança figuras-chave da história. Peça que ela levante a figura correspondente quando a palavra aparecer no texto, promovendo a atenção compartilhada e a manutenção do tópico.", materials: "Livro infantil, figuras impressas." },
+              { title: "Criação de Livro sobre Rotinas", description: "Crie um livro simples com a criança sobre uma rotina (ex: 'Como eu me preparo para a escola'). Use fotos ou desenhos e frases curtas. Isso dá função à linguagem escrita e trabalha a previsibilidade.", materials: "Folhas, grampeador, fotos ou desenhos." },
+              { title: "Jogo da Memória com Ações", description: "Crie um jogo da memória onde os pares são uma figura de um objeto e uma figura da ação correspondente (ex: par de 'bola' é 'chutar'). Isso ajuda a expandir o vocabulário de verbos e a dar função aos substantivos.", materials: "Cartões de jogo da memória." },
             ],
           },
           {
             name: "🧠 Cognição e Aprendizagem",
             activities: [
-              { title: "Aprendizagem baseada em Hiperfoco", description: "Utilizar o tema de alto interesse da criança (ex: dinossauros) para ensinar conceitos acadêmicos (contar dinossauros, ler sobre eles, escrever seus nomes).", materials: "Livros, brinquedos e materiais sobre o tema de interesse." },
-              { title: "Roteiro Visual para Tarefas", description: "Criar um passo a passo visual para a realização de tarefas escolares, como resolver um problema de matemática, para dar previsibilidade e autonomia.", materials: "Cartões com figuras ou texto." },
+              { title: "Aprendizagem baseada em Hiperfoco", description: "Utilize o tema de alto interesse da criança (ex: planetas) para ensinar conceitos acadêmicos. Ex: contar planetas (matemática), ler sobre Marte (leitura), escrever os nomes dos planetas (escrita).", materials: "Livros, brinquedos e materiais sobre o tema de interesse." },
+              { title: "Mapa Mental Visual", description: "Para organizar ideias para uma redação ou estudar para uma prova, crie um mapa mental com um desenho central e 'braços' com as ideias secundárias. A estrutura visual é mais concreta que um texto linear.", materials: "Folha grande, canetas coloridas." },
+              { title: "Ensino em Múltiplos Exemplos", description: "Para ensinar um conceito (ex: 'metade'), mostre-o de várias formas: uma maçã cortada ao meio, uma folha de papel dobrada, um copo com água pela metade. Isso ajuda na generalização.", materials: "Maçã, papel, copo com água." },
             ],
           },
           {
             name: "💞 Socioemocional",
             activities: [
-              { title: "Diário das Emoções na Escola", description: "Criar um diário simples onde a criança pode desenhar ou colar figuras para representar como se sentiu em diferentes momentos do dia escolar.", materials: "Caderno, lápis de cor, adesivos de emoções." },
+              { title: "Role-play de Situações Escolares", description: "Use bonecos para encenar situações comuns na escola (ex: pedir um lápis emprestado, entrar numa brincadeira). Pratique as falas e as ações esperadas, oferecendo um roteiro seguro para a criança.", materials: "Bonecos, miniaturas de cenário escolar." },
+              { title: "Horário Visual de Tarefas", description: "Crie um 'planner' visual para a lição de casa, com a ordem das matérias e um quadradinho para a criança dar 'check' ao terminar. Isso dá previsibilidade e a sensação de dever cumprido, diminuindo a ansiedade.", materials: "Quadro branco pequeno, canetas, apagador." },
+              { title: "Jogo 'Como o colega se sentiria?'", description: "Apresente cartões com situações sociais simples (ex: 'Você pegou o brinquedo da mão dele'). Peça para a criança escolher, entre duas figuras de emoção, como o colega se sentiria. Isso treina a Teoria da Mente.", materials: "Cartões com situações, cartões com emoções." },
             ],
           },
           {
             name: "👂 Sensorial e Motor",
             activities: [
-              { title: "Alfabeto Tátil", description: "Usar letras de lixa ou feitas com massinha para que a criança trace com o dedo, associando a forma da letra a uma experiência sensorial.", materials: "Letras de lixa, massinha de modelar." },
+              { title: "Alfabeto Tátil", description: "Crie letras do alfabeto com diferentes texturas (lixa, algodão, barbante). A criança traça a letra com o dedo enquanto diz o som, associando o grafema a uma experiência tátil e auditiva.", materials: "Cartões, cola, lixa, algodão, barbante." },
+              { title: "Pausas Motoras Estruturadas", description: "Entre as atividades acadêmicas, insira pausas curtas com atividades sensoriais que ajudam a regular (ex: 2 minutos pulando, 2 minutos apertando massinha). Isso melhora a atenção para a próxima tarefa.", materials: "Corda, massinha." },
+              { title: "Adaptação de Materiais de Escrita", description: "Experimente diferentes adaptadores de lápis (grossos, triangulares, com peso) para encontrar o que oferece o melhor feedback proprioceptivo e melhora a caligrafia e a resistência à escrita.", materials: "Diferentes tipos de adaptadores de lápis." },
             ],
           },
         ],
@@ -499,28 +523,33 @@ export const activitiesData: SpecialtyActivities[] = [
           {
             name: "💬 Comunicação e Linguagem",
             activities: [
-              { title: "Cardápio de Figuras (PECS)", description: "Criar um cardápio visual onde a criança pode usar figuras para montar seu prato ou escolher o lanche, promovendo a comunicação e a autonomia.", materials: "Fichas com fotos de alimentos, velcro." },
-              { title: "Conversa na Cozinha", description: "Durante o preparo de alimentos, modelar e incentivar frases simples como 'me dá a banana', 'eu quero mais', usando o contexto motivador da comida.", materials: "Ingredientes e utensílios de cozinha." },
-              { title: "Modelagem de Comentários", description: "Quando a criança repetir o nome de um alimento (ecolalia), expanda com um comentário. Criança: 'Biscoito'. Terapeuta: 'Sim, o biscoito é crocante!'.", materials: "Alimentos variados." },
+              { title: "Cardápio de Figuras (PECS)", description: "Crie um cardápio visual onde a criança pode usar figuras para montar seu prato ou escolher o lanche. Ela entrega a figura do que quer, trabalhando a iniciação da comunicação de forma funcional.", materials: "Fichas com fotos de alimentos, pasta com velcro." },
+              { title: "Modelagem de Frases na Cozinha", description: "Durante o preparo de um lanche, modele frases curtas e funcionais. Se a criança aponta para a banana, diga 'Eu quero banana' e a incentive a imitar (mesmo que seja só o som inicial).", materials: "Ingredientes e utensílios de cozinha." },
+              { title: "Livro de Receitas com CAA", description: "Crie um livro de receitas simples usando o sistema de CAA da criança. Cada passo da receita é uma figura. A criança 'lê' a receita apontando para as figuras, trabalhando a linguagem e a previsibilidade.", materials: "Sistema de CAA, ingredientes." },
             ],
           },
           {
             name: "🧠 Cognição e Aprendizagem",
             activities: [
-              { title: "Separando os Alimentos", description: "Brincar de separar alimentos (reais ou de brinquedo) por cor, forma ou grupo alimentar (frutas, legumes), trabalhando a categorização.", materials: "Alimentos variados ou de brinquedo." },
+              { title: "Jogo de Adivinhar a Fruta", description: "Coloque pedaços de frutas conhecidas em potes. A criança experimenta e deve apontar para a figura da fruta correspondente. Isso trabalha a associação do sabor (concreto) com a representação (abstrato).", materials: "Frutas, potes, figuras de frutas." },
+              { title: "Generalizando o Alimento", description: "Apresente um alimento que a criança aceita (ex: batata frita) e, ao lado, o mesmo alimento em outro formato (ex: purê de batata). Apenas para ver, cheirar e talvez tocar. O objetivo é ajudá-la a generalizar que 'batata é batata'.", materials: "Batata em diferentes formatos." },
+              { title: "Culinária Passo a Passo", description: "Siga uma receita visual com passos bem definidos. Respeite o tempo da criança para processar cada etapa, permitindo que ela participe no seu ritmo, seja apenas observando ou ajudando a misturar.", materials: "Receita visual, ingredientes." },
             ],
           },
           {
             name: "💞 Socioemocional",
             activities: [
-              { title: "Prato das Emoções", description: "Usar alimentos para montar carinhas que representem diferentes emoções no prato, ajudando a criança a associar e nomear sentimentos de forma lúdica.", materials: "Alimentos variados (rodelas de banana, uvas, tiras de cenoura)." },
+              { title: "Prato das Emoções", description: "Use alimentos para montar carinhas que representem diferentes emoções no prato (ex: rodelas de banana para os olhos, um morango para a boca feliz). Converse sobre as emoções enquanto montam.", materials: "Alimentos variados." },
+              { title: "Piquenique Estruturado", description: "Faça um piquenique na sala de terapia. Crie uma rotina visual para o piquenique: estender a toalha, arrumar os potes, comer, guardar. A previsibilidade do evento diminui a ansiedade social e alimentar.", materials: "Toalha, cesta, potes, alimentos." },
+              { title: "Escala de 'Aceitação'", description: "Crie uma escala visual simples (ex: um rosto com nojo, um neutro, um feliz). Após interagir com um alimento novo (mesmo que só tocando), a criança pode apontar para a figura que representa sua sensação, validando seu sentimento.", materials: "Escala visual de emoções." },
             ],
           },
           {
             name: "👂 Sensorial e Motor",
             activities: [
-              { title: "Exploração Sensorial de Alimentos", description: "Apresente um alimento novo sem a pressão de comer. Incentive a criança a tocar, cheirar, amassar, e descrever o alimento. É o primeiro passo da hierarquia da alimentação.", materials: "Um alimento novo (ex: brócolis cozido, uma fatia de manga)." },
-              { title: "Culinária Terapêutica", description: "Envolva a criança no preparo de uma receita simples (ex: espetinho de frutas, biscoitos). O contato com os alimentos em um contexto lúdico diminui a ansiedade e aumenta a chance de experimentar.", materials: "Ingredientes da receita, utensílios seguros para crianças." },
+              { title: "Hierarquia da Exposição Sensorial", description: "Siga os passos: 1. Tolerar o alimento no ambiente. 2. Tolerar no prato. 3. Tocar com um garfo. 4. Tocar com o dedo. 5. Cheirar. 6. Lamber. 7. Morder e cuspir. 8. Morder e engolir. Avance um passo de cada vez, sem pressão.", materials: "Um alimento novo." },
+              { title: "Pintura com Iogurte", description: "Use iogurte com corante alimentício para a criança pintar em um prato ou plástico. É uma forma divertida de dessensibilizar ao toque de texturas pastosas e ao cheiro de alimentos.", materials: "Iogurte natural, corante alimentício, prato." },
+              { title: "Caixa Sensorial de Grãos", description: "Tenha uma caixa com grãos (arroz, feijão) e brinquedos pequenos escondidos. A criança mergulha as mãos para encontrar os brinquedos, trabalhando a hipossensibilidade tátil e diminuindo a busca oral por estímulos.", materials: "Caixa, grãos, brinquedos." },
             ],
           },
         ],
@@ -580,7 +609,7 @@ export const activitiesData: SpecialtyActivities[] = [
           {
             name: "💬 Comunicação e Linguagem",
             activities: [
-              { title: "Canção de Pergunta e Resposta", description: "Criar uma música simples com uma estrutura de pergunta e resposta (ex: Terapeuta canta 'Como você está?', e a criança responde com um som ou palavra no ritmo), iniciando uma conversa musical.", materials: "Voz, instrumento harmônico." },
+              { title: "Canção de Pergunta e Resposta", description: "Crie uma música simples com uma estrutura de pergunta e resposta (ex: Terapeuta canta 'Como você está?', e a criança responde com um som ou palavra no ritmo), iniciando uma conversa musical.", materials: "Voz, instrumento harmônico." },
               { title: "Variações na Ecolalia Musical", description: "O terapeuta imita a vocalização da criança (ecolalia) e, em seguida, a repete com uma pequena variação de ritmo ou melodia, convidando a criança a imitar de volta e criando um diálogo.", materials: "Voz, instrumentos." },
               { title: "Escolha de Músicas com Figuras", description: "Apresentar cartões com figuras de músicas ou instrumentos para a criança escolher o que quer cantar/tocar, usando um sistema de comunicação alternativa para iniciar uma atividade.", materials: "Cartões com figuras (PECS), tablet com app de música." },
             ],
@@ -588,19 +617,25 @@ export const activitiesData: SpecialtyActivities[] = [
           {
             name: "🧠 Cognição e Aprendizagem",
             activities: [
-              { title: "Canção com Sequência", description: "Criar uma música que tenha uma sequência de ações ou sons que a criança precise memorizar e repetir, trabalhando a memória de trabalho.", materials: "Instrumentos de percussão." },
+              { title: "Música e Sequência", description: "Crie uma sequência de 3 sons/instrumentos (ex: tambor, sino, chocalho). Toque a sequência e peça para a criança imitar. Comece com 2 sons e aumente gradualmente, trabalhando a memória de trabalho e o planejamento.", materials: "Instrumentos de percussão." },
+              { title: "Canção da Generalização", description: "Crie uma canção sobre um conceito (ex: 'grande e pequeno'). Cante a música mostrando um objeto grande e um pequeno. Depois, peça para a criança encontrar outros objetos grandes e pequenos na sala enquanto cantam.", materials: "Objetos grandes e pequenos." },
+              { title: "Improvisação Livre e Guiada", description: "Inicie com uma improvisação livre, permitindo que a criança explore os sons no seu ritmo. Aos poucos, o terapeuta introduz um ritmo simples e repetitivo, convidando a criança a entrar na estrutura musical, respeitando seu tempo.", materials: "Instrumentos variados." },
             ],
           },
           {
             name: "💞 Socioemocional",
             activities: [
-              { title: "Música das Emoções", description: "Tocar diferentes melodias (alegre, triste, agitada) e pedir para a criança expressar com o corpo ou com um instrumento como a música a faz sentir.", materials: "Aparelho de som, instrumentos variados." },
+              { title: "Playlist das Emoções", description: "Toque trechos de músicas com emoções claras (alegre, triste, calma, agitada). Use cartões de emoções para a criança associar a música ao sentimento. Isso ajuda a decodificar emoções de forma não-verbal.", materials: "Aparelho de som, cartões de emoções." },
+              { title: "Canção da Rotina", description: "Crie pequenas canções para os momentos de transição da sessão (ex: 'Agora vamos guardar', 'É hora de dar tchau'). A música torna a rotina previsível e diminui a ansiedade com as mudanças.", materials: "Voz." },
+              { title: "Improvisação de 'Espelho Sonoro'", description: "O terapeuta 'espelha' musicalmente o que a criança está fazendo: se ela bate rápido no tambor, o terapeuta toca algo rápido no teclado. Isso valida a expressão da criança e cria uma conexão segura.", materials: "Instrumentos variados." },
             ],
           },
           {
             name: "👂 Sensorial e Motor",
             activities: [
-              { title: "Exploração de Timbres e Vibrações", description: "Oferecer instrumentos que produzam diferentes vibrações (tambor, triângulo, chocalho) para a criança explorar, trabalhando a discriminação auditiva e a sensibilidade tátil.", materials: "Instrumentos com diferentes timbres." },
+              { title: "Exploração de Vibrações", description: "Use instrumentos que produzem fortes vibrações, como um tambor oceânico ou um violão. Deixe a criança sentir a vibração na barriga, nas costas ou nas mãos. Ótimo para crianças hipossensíveis.", materials: "Tambor, violão." },
+              { title: "Dança com Fitas e Lenços", description: "Coloque uma música e incentive a criança a dançar com fitas ou lenços coloridos. Isso pode dar uma nova função a estereotipias como o flapping das mãos, integrando o movimento em uma atividade com propósito.", materials: "Música, fitas de cetim, lenços." },
+              { title: "Criação de um 'Cantinho do Silêncio'", description: "Dentro da sala, tenha um espaço com fones abafadores de ruído e talvez um instrumento muito suave (como um kalimba). Ensine a criança que ela pode ir para lá quando os sons estiverem muito altos, criando um ambiente adaptado.", materials: "Fones abafadores, instrumento suave." },
             ],
           },
         ],
@@ -668,20 +703,25 @@ export const activitiesData: SpecialtyActivities[] = [
           {
             name: "🧠 Cognição e Aprendizagem",
             activities: [
-              { title: "Sequência Motora com Cores", description: "Criar uma sequência de movimentos associada a cores (ex: 'azul = sentar na bola', 'vermelho = rolar no colchonete') para trabalhar o planejamento motor e a memória.", materials: "Cartões coloridos, equipamentos de fisioterapia." },
+              { title: "Sequência Motora com Cores", description: "Crie uma sequência de movimentos associada a cores (ex: 'azul = sentar na bola', 'vermelho = rolar no colchonete'). A criança deve seguir a sequência de cartões coloridos, trabalhando o planejamento motor e a abstração.", materials: "Cartões coloridos, equipamentos de fisioterapia." },
+              { title: "Generalização de Habilidades Motoras", description: "Se a criança aprendeu a pular dentro de bambolês, generalize a habilidade pulando sobre uma corda no chão, depois pulando de um degrau baixo. Mostre que a mesma ação 'pular' pode ser usada em diferentes contextos.", materials: "Bambolês, corda, degrau de EVA." },
+              { title: "Circuito com Estações de Descanso", description: "Monte um circuito com 2 ou 3 desafios motores e intercale com uma 'estação de descanso' (ex: deitar em um pufe). Isso respeita o ritmo da criança e ajuda a manter a motivação e a regulação.", materials: "Equipamentos de circuito, pufe ou almofada grande." },
             ],
           },
           {
             name: "💞 Socioemocional",
             activities: [
-              { title: "Jogo Motor em Dupla", description: "Propor atividades que exijam cooperação, como rolar uma bola grande um para o outro ou construir uma torre de almofadas juntos, trabalhando a interação e o respeito ao espaço do outro.", materials: "Bola suíça, almofadas." },
+              { title: "Jogo de Imitação de Posturas de Animais", description: "Brinque de imitar animais (engatinhar como um urso, pular como um sapo). O terapeuta faz uma postura e a criança imita, trabalhando a interpretação de linguagem corporal de forma lúdica.", materials: "Colchonetes." },
+              { title: "Circuito da Previsibilidade", description: "Tenha um quadro com a sequência de 3 ou 4 exercícios que serão feitos na sessão. À medida que cada um é completado, a criança move a figura para a caixa de 'terminado'. Isso cria uma rotina segura e previsível.", materials: "Quadro visual, figuras de exercícios." },
+              { title: "Massagem de Pressão Profunda", description: "Use uma bola suíça para rolar suavemente sobre as pernas e costas da criança (com ela deitada de bruços). A pressão profunda é calmante e ajuda a diminuir a ansiedade e a organizar o corpo.", materials: "Bola suíça, colchonete." },
             ],
           },
           {
             name: "👂 Sensorial e Motor",
             activities: [
-              { title: "Treino de Marcha na Ponta dos Pés", description: "Usar pistas visuais no chão (pegadas) e exercícios de alongamento da panturrilha para incentivar o contato do calcanhar com o solo durante a marcha.", materials: "Fita adesiva colorida, tapetes." },
-              { title: "Exercícios em Bola Suíça", description: "Sentar-se ou deitar-se na bola para trabalhar o fortalecimento do core, o equilíbrio e fornecer estímulo vestibular e proprioceptivo.", materials: "Bola de fisioterapia (bola suíça)." },
+              { title: "Balanço de Lycra (Acalmar ou Alertar)", description: "Para crianças hipersensíveis ou ansiosas, use movimentos lentos e lineares no balanço. Para crianças hipossensíveis, use movimentos mais rápidos e com rotação para 'acordar' o sistema vestibular.", materials: "Balanço de lycra." },
+              { title: "Abraço de Urso com Almofadas", description: "Faça um 'sanduíche' com a criança entre duas almofadas grandes e aplique uma pressão suave. Isso fornece um estímulo proprioceptivo intenso que pode substituir a necessidade de bater o corpo ou se jogar.", materials: "Almofadas grandes ou pufes." },
+              { title: "Sala com Iluminação Adaptada", description: "Reduza a iluminação da sala, usando luz indireta ou colorida (pisca-pisca de Natal, projetor de estrelas). Um ambiente com menos estímulos visuais pode ajudar a criança a se concentrar melhor nos estímulos do próprio corpo.", materials: "Luzes indiretas, projetores." },
             ],
           },
         ],
