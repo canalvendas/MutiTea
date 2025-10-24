@@ -4,14 +4,30 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { ActivityPlanForm } from "@/components/ActivityPlanForm";
 import { SavedActivityPlansList, SavedActivityPlan } from "@/components/SavedActivityPlansList";
 import { toast } from "sonner";
-import { useProfile } from "@/components/AppLayout";
+import { useAuth } from "@/context/AuthContext";
 import { activitiesData } from "@/data/activities";
 
 const Activities = () => {
-  const { profileData } = useProfile();
+  const { profile, loading } = useAuth();
   const [savedPlans, setSavedPlans] = useState<SavedActivityPlan[]>([]);
 
-  const specialtyActivities = activitiesData.find(s => s.specialty === profileData.specialty);
+  if (loading) {
+    return (
+      <div className="p-4 md:p-6 text-center">
+        <p>Carregando...</p>
+      </div>
+    );
+  }
+
+  if (!profile || !profile.specialty) {
+    return (
+      <div className="p-4 md:p-6 text-center">
+        <p>Não foi possível carregar os dados do perfil para encontrar atividades. Por favor, complete seu perfil.</p>
+      </div>
+    );
+  }
+
+  const specialtyActivities = activitiesData.find(s => s.specialty === profile.specialty);
   const diagnosesForSpecialty = specialtyActivities ? specialtyActivities.diagnoses : [];
 
   const handleSavePlan = (data: { patientName: string; content: string }) => {
@@ -51,7 +67,7 @@ const Activities = () => {
       <Card>
         <CardHeader>
           <CardTitle>Criar Novo Plano de Atividades</CardTitle>
-          <CardDescription>Selecione o paciente e as demandas para gerar sugestões de atividades para a sua especialidade: <span className="font-semibold text-primary">{profileData.specialty}</span>.</CardDescription>
+          <CardDescription>Selecione o paciente e as demandas para gerar sugestões de atividades para a sua especialidade: <span className="font-semibold text-primary">{profile.specialty}</span>.</CardDescription>
         </CardHeader>
         <CardContent>
           <ActivityPlanForm onSavePlan={handleSavePlan} diagnoses={diagnosesForSpecialty} />
