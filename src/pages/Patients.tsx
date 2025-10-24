@@ -91,6 +91,7 @@ const Patients = () => {
         console.log("Paciente adicionado com sucesso:", data);
         setPatients((prevPatients) => [...prevPatients, data as Patient].sort((a, b) => a.name.localeCompare(b.name)));
         toast.success(`Paciente ${patientData.name} adicionado com sucesso!`);
+        setIsAddPatientDialogOpen(false);
       }
     } catch (error) {
       console.error("Erro inesperado ao adicionar paciente:", error);
