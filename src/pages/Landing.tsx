@@ -73,6 +73,13 @@ const Landing = () => {
         <section className="relative py-20 md:py-32">
           <div className="absolute inset-0 -z-10 bg-gradient-to-br from-primary/10 via-background to-background"></div>
           <div className="container text-center max-w-4xl mx-auto">
+            <div className="flex justify-center mb-6">
+              <img 
+                src="/logo.png" 
+                alt="MultiTEA Logo" 
+                className="h-24 w-24 md:h-32 md:w-32 object-contain"
+              />
+            </div>
             <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
               Gestão inteligente para profissionais que cuidam com amor.
             </h1>
