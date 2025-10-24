@@ -167,6 +167,25 @@ export const activitiesData: SpecialtyActivities[] = [
         ],
       },
       {
+        name: "😤 TOD – Transtorno Opositivo-Desafiador",
+        icon: "😤",
+        demands: [
+          {
+            name: "💬 Comportamento",
+            activities: [
+              { title: "Circuito da Cooperação", description: "Criar um circuito motor onde duas pessoas precisam colaborar para completar a tarefa, como carregar uma bola grande juntos sem deixar cair.", materials: "Bolas, cones, almofadas." },
+              { title: "Projeto de Construção Conjunta", description: "Propor a construção de uma grande estrutura com blocos ou caixas, onde a negociação e a divisão de tarefas são essenciais para o sucesso.", materials: "Blocos de montar, caixas de papelão." },
+            ],
+          },
+          {
+            name: "💞 Socioemocional",
+            activities: [
+              { title: "Atividades de 'Trabalho Pesado' para Regulação", description: "Usar atividades proprioceptivas (empurrar uma parede, carregar uma cesta com peso) como estratégia para ajudar a criança a se regular antes que a frustração se instale.", materials: "Cesta, objetos com peso seguro." },
+            ],
+          },
+        ],
+      },
+      {
         name: "🌱 DI – Deficiência Intelectual",
         icon: "🌱",
         demands: [
@@ -210,6 +229,38 @@ export const activitiesData: SpecialtyActivities[] = [
         ],
       },
       {
+        name: "⚡ TDAH – Transtorno de Déficit de Atenção e Hiperatividade",
+        icon: "⚡",
+        demands: [
+          {
+            name: "🧠 Atenção e Funções Executivas",
+            activities: [
+              { title: "Jogo do Detetive de Sons", description: "A criança fecha os olhos e o terapeuta faz um som (ex: bater palmas, tocar um sino). A criança deve identificar o som. Aumente a complexidade com sequências de sons.", materials: "Sino, chocalho, objetos que fazem som." },
+              { title: "História com Pausas", description: "Leia uma história curta e faça pausas estratégicas, pedindo para a criança prever o que vai acontecer. Isso trabalha a memória de trabalho e a atenção sustentada.", materials: "Livro infantil." },
+            ],
+          },
+          {
+            name: "💬 Comportamento",
+            activities: [
+              { title: "Bastão da Fala", description: "Em uma conversa ou jogo, apenas a pessoa que está segurando um objeto (o 'bastão da fala') pode falar. Isso ajuda a treinar o respeito aos turnos e o controle da impulsividade verbal.", materials: "Qualquer objeto fácil de segurar (caneta decorada, pequeno bastão)." },
+            ],
+          },
+        ],
+      },
+      {
+        name: "😤 TOD – Transtorno Opositivo-Desafiador",
+        icon: "😤",
+        demands: [
+          {
+            name: "💬 Comportamento",
+            activities: [
+              { title: "Jogo de Perguntas e Respostas", description: "Praticar como fazer perguntas e dar respostas de forma respeitosa, usando um tom de voz neutro. Pode ser feito com um jogo de tabuleiro simples como mediador.", materials: "Jogo de tabuleiro, cartas com perguntas." },
+              { title: "Criação de Regras em Conjunto", description: "Antes de iniciar um jogo, crie 2 ou 3 regras junto com a criança. O envolvimento no processo aumenta a probabilidade de ela seguir as regras.", materials: "Papel, caneta." },
+            ],
+          },
+        ],
+      },
+      {
         name: "🌱 DI – Deficiência Intelectual",
         icon: "🌱",
         demands: [
@@ -234,6 +285,44 @@ export const activitiesData: SpecialtyActivities[] = [
     specialty: "Psicomotricidade",
     icon: Footprints,
     diagnoses: [
+      {
+        name: "🧩 TEA – Transtorno do Espectro Autista",
+        icon: "🧩",
+        demands: [
+          {
+            name: "👂 Sensorial e Motor",
+            activities: [
+              { title: "Circuito Sensorial", description: "Criar um caminho com diferentes texturas para andar, objetos para pular e túneis para passar, trabalhando a integração sensorial e o planejamento motor.", materials: "Tapetes de texturas, bambolês, túneis de pano." },
+              { title: "Dança das Estátuas", description: "Colocar uma música e dançar livremente. Quando a música para, todos devem virar estátuas. Ajuda na consciência corporal e no controle inibitório.", materials: "Aparelho de som." },
+            ],
+          },
+        ],
+      },
+      {
+        name: "⚡ TDAH – Transtorno de Déficit de Atenção e Hiperatividade",
+        icon: "⚡",
+        demands: [
+          {
+            name: "💬 Comportamento",
+            activities: [
+              { title: "Corrida de Obstáculos", description: "Criar um percurso desafiador para que a criança possa gastar sua energia de forma direcionada e funcional, trabalhando agilidade e planejamento motor.", materials: "Cones, cordas, almofadas." },
+              { title: "Yoga para Crianças", description: "Usar posturas de yoga que imitam animais para trabalhar o equilíbrio, a consciência corporal e a capacidade de se acalmar.", materials: "Tapete de yoga ou colchonete." },
+            ],
+          },
+        ],
+      },
+      {
+        name: "😤 TOD – Transtorno Opositivo-Desafiador",
+        icon: "😤",
+        demands: [
+          {
+            name: "💞 Socioemocional",
+            activities: [
+              { title: "Jogos Cooperativos com Bola", description: "O objetivo é manter uma bola de praia no ar o maior tempo possível, com todos tocando nela. O foco é no grupo, não na competição individual.", materials: "Bola de praia ou balão." },
+            ],
+          },
+        ],
+      },
       {
         name: "🌱 DI – Deficiência Intelectual",
         icon: "🌱",
@@ -260,6 +349,44 @@ export const activitiesData: SpecialtyActivities[] = [
     icon: BookOpen,
     diagnoses: [
       {
+        name: "🧩 TEA – Transtorno do Espectro Autista",
+        icon: "🧩",
+        demands: [
+          {
+            name: "🧠 Cognição e Aprendizagem",
+            activities: [
+              { title: "Aprendizagem baseada em Hiperfoco", description: "Utilizar o tema de alto interesse da criança (ex: dinossauros) para ensinar conceitos acadêmicos (contar dinossauros, ler sobre eles, escrever seus nomes).", materials: "Livros, brinquedos e materiais sobre o tema de interesse." },
+              { title: "Roteiro Visual para Tarefas", description: "Criar um passo a passo visual para a realização de tarefas escolares, como resolver um problema de matemática, para dar previsibilidade e autonomia.", materials: "Cartões com figuras ou texto." },
+            ],
+          },
+        ],
+      },
+      {
+        name: "⚡ TDAH – Transtorno de Déficit de Atenção e Hiperatividade",
+        icon: "⚡",
+        demands: [
+          {
+            name: "🧠 Atenção e Funções Executivas",
+            activities: [
+              { title: "Mapas Mentais para Estudo", description: "Ensinar a criança a organizar as informações de um texto ou aula em um mapa mental, usando cores e desenhos, o que ajuda na memorização e organização das ideias.", materials: "Folha grande, canetas coloridas." },
+              { title: "Jogo de Organização de Materiais", description: "Transformar a arrumação da mochila ou do estojo em um jogo cronometrado, com um checklist visual, para treinar a organização de forma lúdica.", materials: "Mochila, estojo, material escolar, cronômetro." },
+            ],
+          },
+        ],
+      },
+      {
+        name: "😤 TOD – Transtorno Opositivo-Desafiador",
+        icon: "😤",
+        demands: [
+          {
+            name: "🧠 Cognitivo e Escolar",
+            activities: [
+              { title: "Projetos de Escolha do Aluno", description: "Permitir que o aluno escolha o tema de um pequeno projeto ou pesquisa (dentro das opções dadas pelo terapeuta/professor) para aumentar o engajamento e a sensação de autonomia.", materials: "Livros, acesso à internet supervisionado." },
+            ],
+          },
+        ],
+      },
+      {
         name: "🌱 DI – Deficiência Intelectual",
         icon: "🌱",
         demands: [
@@ -285,6 +412,43 @@ export const activitiesData: SpecialtyActivities[] = [
     icon: Salad,
     diagnoses: [
       {
+        name: "🧩 TEA – Transtorno do Espectro Autista",
+        icon: "🧩",
+        demands: [
+          {
+            name: "👂 Sensorial e Motor",
+            activities: [
+              { title: "Exploração Sensorial de Alimentos", description: "Apresente um alimento novo sem a pressão de comer. Incentive a criança a tocar, cheirar, amassar, e descrever o alimento. É o primeiro passo da hierarquia da alimentação.", materials: "Um alimento novo (ex: brócolis cozido, uma fatia de manga)." },
+              { title: "Culinária Terapêutica", description: "Envolva a criança no preparo de uma receita simples (ex: espetinho de frutas, biscoitos). O contato com os alimentos em um contexto lúdico diminui a ansiedade e aumenta a chance de experimentar.", materials: "Ingredientes da receita, utensílios seguros para crianças." },
+            ],
+          },
+        ],
+      },
+      {
+        name: "⚡ TDAH – Transtorno de Déficit de Atenção e Hiperatividade",
+        icon: "⚡",
+        demands: [
+          {
+            name: "💬 Comportamento",
+            activities: [
+              { title: "Mindful Eating para Crianças", description: "Antes de comer, peça para a criança descrever o alimento usando os 5 sentidos. Isso ajuda a diminuir a impulsividade alimentar e aumenta a consciência sobre a comida.", materials: "Um alimento (ex: uma uva, um pedaço de chocolate)." },
+            ],
+          },
+        ],
+      },
+      {
+        name: "😤 TOD – Transtorno Opositivo-Desafiador",
+        icon: "😤",
+        demands: [
+          {
+            name: "💬 Comportamento",
+            activities: [
+              { title: "Cozinheiro Chefe por um Dia", description: "Deixe a criança escolher, entre duas opções saudáveis, o que será o lanche ou uma parte do jantar. Envolvê-la no processo de escolha e preparo pode diminuir a recusa.", materials: "Ingredientes e utensílios de cozinha." },
+            ],
+          },
+        ],
+      },
+      {
         name: "🌱 DI – Deficiência Intelectual",
         icon: "🌱",
         demands: [
@@ -309,6 +473,43 @@ export const activitiesData: SpecialtyActivities[] = [
     icon: Music,
     diagnoses: [
       {
+        name: "🧩 TEA – Transtorno do Espectro Autista",
+        icon: "🧩",
+        demands: [
+          {
+            name: "💬 Comunicação e Linguagem",
+            activities: [
+              { title: "Improvisação Musical", description: "Criar um diálogo não-verbal onde o terapeuta toca um ritmo ou melodia e a criança responde com um instrumento. Fomenta a reciprocidade e a comunicação espontânea.", materials: "Instrumentos de percussão variados (tambor, chocalho)." },
+              { title: "Canções com Rotinas", description: "Criar músicas curtas para momentos de transição (guardar brinquedos, lavar as mãos). A música oferece previsibilidade e ajuda a organizar o comportamento.", materials: "Voz, instrumento harmônico (violão, teclado)." },
+            ],
+          },
+        ],
+      },
+      {
+        name: "⚡ TDAH – Transtorno de Déficit de Atenção e Hiperatividade",
+        icon: "⚡",
+        demands: [
+          {
+            name: "🧠 Atenção e Funções Executivas",
+            activities: [
+              { title: "Jogo de Ritmo e Memória", description: "O terapeuta toca uma sequência rítmica simples e a criança deve repeti-la. Aumente a complexidade gradualmente para treinar a memória de trabalho e a atenção.", materials: "Tambor ou palmas." },
+            ],
+          },
+        ],
+      },
+      {
+        name: "😤 TOD – Transtorno Opositivo-Desafiador",
+        icon: "😤",
+        demands: [
+          {
+            name: "💞 Socioemocional",
+            activities: [
+              { title: "Composição de 'Rap da Raiva'", description: "Usar um ritmo forte e repetitivo para que a criança possa criar letras (mesmo que sejam apenas palavras soltas) para expressar sua raiva ou frustração de forma construtiva.", materials: "Base rítmica (pode ser de um aplicativo), microfone de brinquedo." },
+            ],
+          },
+        ],
+      },
+      {
         name: "🌱 DI – Deficiência Intelectual",
         icon: "🌱",
         demands: [
@@ -322,6 +523,50 @@ export const activitiesData: SpecialtyActivities[] = [
             name: "👂 Motor e Sensorial",
             activities: [
               { title: "Exploração de Instrumentos", description: "Oferecer instrumentos de diferentes texturas, formas e sons (chocalho, tambor, pandeiro) para exploração livre, estimulando a integração sensorial e a coordenação motora.", materials: "Instrumentos de percussão variados." },
+            ],
+          },
+        ],
+      },
+    ],
+  },
+  {
+    specialty: "Fisioterapia",
+    icon: HeartPulse,
+    diagnoses: [
+      {
+        name: "🧩 TEA – Transtorno do Espectro Autista",
+        icon: "🧩",
+        demands: [
+          {
+            name: "👂 Sensorial e Motor",
+            activities: [
+              { title: "Treino de Marcha na Ponta dos Pés", description: "Usar pistas visuais no chão (pegadas) e exercícios de alongamento da panturrilha para incentivar o contato do calcanhar com o solo durante a marcha.", materials: "Fita adesiva colorida, tapetes." },
+              { title: "Exercícios em Bola Suíça", description: "Sentar-se ou deitar-se na bola para trabalhar o fortalecimento do core, o equilíbrio e fornecer estímulo vestibular e proprioceptivo.", materials: "Bola de fisioterapia (bola suíça)." },
+            ],
+          },
+        ],
+      },
+      {
+        name: "⚡ TDAH – Transtorno de Déficit de Atenção e Hiperatividade",
+        icon: "⚡",
+        demands: [
+          {
+            name: "💬 Comportamento",
+            activities: [
+              { title: "Circuito de Agilidade", description: "Criar um circuito que exija mudanças rápidas de direção, saltos e corridas para canalizar a energia motora e trabalhar a coordenação e o planejamento.", materials: "Cones, arcos, pequenos obstáculos." },
+            ],
+          },
+        ],
+      },
+      {
+        name: "🌱 DI – Deficiência Intelectual",
+        icon: "🌱",
+        demands: [
+          {
+            name: "👂 Motor e Sensorial",
+            activities: [
+              { title: "Fortalecimento de Core com Brincadeiras", description: "Brincar de 'carrinho de mão', 'ponte' ou 'aviãozinho' para fortalecer a musculatura abdominal e das costas de forma lúdica.", materials: "Colchonete." },
+              { title: "Treino de Equilíbrio em Superfícies Instáveis", description: "Andar sobre almofadas, discos de equilíbrio ou colchões para desafiar e aprimorar as reações de equilíbrio e a propriocepção.", materials: "Almofadas, discos de equilíbrio." },
             ],
           },
         ],
