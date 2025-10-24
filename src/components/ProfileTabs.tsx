@@ -99,17 +99,25 @@ export const ProfileTabs = ({
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(profileFormSchema),
     defaultValues: {
-      ...profileData,
       firstName: profileData.firstName || '',
       lastName: profileData.lastName || '',
+      email: profileData.email || '',
+      phone: profileData.phone || '',
+      address: profileData.address || '',
+      specialty: profileData.specialty || '',
+      crp: profileData.crp || '',
     },
   });
 
   useEffect(() => {
     form.reset({
-      ...profileData,
       firstName: profileData.firstName || '',
       lastName: profileData.lastName || '',
+      email: profileData.email || '',
+      phone: profileData.phone || '',
+      address: profileData.address || '',
+      specialty: profileData.specialty || '',
+      crp: profileData.crp || '',
     });
   }, [profileData, form]);
 
@@ -120,8 +128,16 @@ export const ProfileTabs = ({
   };
 
   const handleCancel = () => {
-    form.reset(profileData); // Reseta o formulário para os valores originais
-    setIsEditing(false); // Sai do modo de edição
+    form.reset({
+      firstName: profileData.firstName || '',
+      lastName: profileData.lastName || '',
+      email: profileData.email || '',
+      phone: profileData.phone || '',
+      address: profileData.address || '',
+      specialty: profileData.specialty || '',
+      crp: profileData.crp || '',
+    });
+    setIsEditing(false);
   };
 
   const getCouncilLabel = () => {
