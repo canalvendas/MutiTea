@@ -7,7 +7,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { SavedEvolution } from "@/pages/Profile";
+import { SavedEvolution } from "@/types";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Edit, Trash2, Eye, Download } from "lucide-react";
@@ -27,7 +27,8 @@ const EvolutionItem = ({ evolution, onEdit, onDelete }: { evolution: SavedEvolut
   
   const handleDownloadPDF = () => {
     toast.info("Gerando PDF da Evolução...");
-    const { data, patientName, specialty } = evolution;
+    const { data, specialty } = evolution;
+    const patientName = evolution.patients.name;
     
     const doc = new jsPDF('p', 'mm', 'a4');
     const pageWidth = doc.internal.pageSize.getWidth();
@@ -53,7 +54,7 @@ const EvolutionItem = ({ evolution, onEdit, onDelete }: { evolution: SavedEvolut
     doc.setTextColor(28, 25, 23);
 
     Object.entries(data).forEach(([key, value]) => {
-      if (key === 'patientName' || key === 'sessionDate' || !value || (Array.isArray(value) && value.length === 0)) {
+      if (key === 'patientId' || key === 'sessionDate' || !value || (Array.isArray(value) && value.length === 0)) {
         return;
       }
       
@@ -100,9 +101,9 @@ const EvolutionItem = ({ evolution, onEdit, onDelete }: { evolution: SavedEvolut
       <AccordionTrigger>
         <div className="flex items-center justify-between w-full pr-4">
           <div className="text-left">
-            <p className="font-semibold">{evolution.patientName}</p>
+            <p className="font-semibold">{evolution.patients.name}</p>
             <p className="text-sm text-muted-foreground">
-              Data: {new Date(evolution.submissionDate).toLocaleDateString('pt-BR')}
+              Data: {new Date(evolution.created_at).toLocaleDateString('pt-BR')}
             </p>
           </div>
           <div className="flex items-center gap-4">
@@ -117,7 +118,7 @@ const EvolutionItem = ({ evolution, onEdit, onDelete }: { evolution: SavedEvolut
       <AccordionContent>
         <div className="p-4">
           {Object.entries(evolution.data).map(([key, value]) => {
-            if (key === 'patientName' || !value || (Array.isArray(value) && value.length === 0)) {
+            if (key === 'patientId' || !value || (Array.isArray(value) && value.length === 0)) {
               return null;
             }
             return (

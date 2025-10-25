@@ -7,7 +7,8 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { SavedReport, ProfileData } from "@/pages/Profile";
+import { SavedReport } from "@/types";
+import { ProfileData } from "@/pages/Profile";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Trash2, Download } from "lucide-react";
@@ -32,7 +33,8 @@ const ReportItem = ({ report, onDelete, profileData }: { report: SavedReport; on
   
   const handleDownloadPDF = () => {
     toast.info("Gerando PDF do relatório...");
-    const { data, patientName, specialty } = report;
+    const { data, specialty } = report;
+    const patientName = report.patients.name;
     const { content, startDate, endDate } = data;
 
     const doc = new jsPDF('p', 'mm', 'a4');
@@ -162,9 +164,9 @@ const ReportItem = ({ report, onDelete, profileData }: { report: SavedReport; on
       <AccordionTrigger>
         <div className="flex items-center justify-between w-full pr-4">
           <div className="text-left">
-            <p className="font-semibold">{report.patientName}</p>
+            <p className="font-semibold">{report.patients.name}</p>
             <p className="text-sm text-muted-foreground">
-              Data: {new Date(report.submissionDate).toLocaleDateString('pt-BR')}
+              Data: {new Date(report.created_at).toLocaleDateString('pt-BR')}
             </p>
           </div>
           <Badge variant="outline">{report.specialty}</Badge>

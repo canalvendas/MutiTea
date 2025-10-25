@@ -7,7 +7,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { SavedDevolutiva } from "@/pages/Profile";
+import { SavedDevolutiva } from "@/types";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Trash2, Download } from "lucide-react";
@@ -26,7 +26,7 @@ const DevolutivaItem = ({ devolutiva, onDelete }: { devolutiva: SavedDevolutiva;
     const pageWidth = doc.internal.pageSize.getWidth();
     const textLines = doc.splitTextToSize(devolutiva.content, pageWidth - margin * 2);
     doc.text(textLines, margin, margin);
-    doc.save(`Devolutiva_${devolutiva.patientName.replace(/\s+/g, '_')}.pdf`);
+    doc.save(`Devolutiva_${devolutiva.patients.name.replace(/\s+/g, '_')}.pdf`);
     toast.success("PDF gerado com sucesso!");
   };
 
@@ -35,9 +35,9 @@ const DevolutivaItem = ({ devolutiva, onDelete }: { devolutiva: SavedDevolutiva;
       <AccordionTrigger>
         <div className="flex items-center justify-between w-full pr-4">
           <div className="text-left">
-            <p className="font-semibold">{devolutiva.patientName}</p>
+            <p className="font-semibold">{devolutiva.patients.name}</p>
             <p className="text-sm text-muted-foreground">
-              Data: {new Date(devolutiva.submissionDate).toLocaleDateString('pt-BR')}
+              Data: {new Date(devolutiva.created_at).toLocaleDateString('pt-BR')}
             </p>
           </div>
           <Badge variant="outline">{devolutiva.specialty}</Badge>

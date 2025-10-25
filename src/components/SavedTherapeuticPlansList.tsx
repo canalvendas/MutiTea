@@ -8,7 +8,8 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { SavedTherapeuticPlan, ProfileData } from "@/pages/Profile";
+import { SavedTherapeuticPlan } from "@/types";
+import { ProfileData } from "@/pages/Profile";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Trash2, Download } from "lucide-react";
@@ -34,7 +35,7 @@ const PlanItem = ({ plan, onDelete, profileData }: { plan: SavedTherapeuticPlan;
     const pdfContent = document.createElement('div');
     pdfContent.className = 'p-8 font-sans text-gray-800';
     
-    const lines = plan.planContent.split('\n');
+    const lines = plan.plan_content.split('\n');
     let currentList: HTMLUListElement | null = null;
 
     const header = document.createElement('div');
@@ -110,7 +111,7 @@ const PlanItem = ({ plan, onDelete, profileData }: { plan: SavedTherapeuticPlan;
         heightLeft -= pdfHeight;
       }
       
-      pdf.save(`Plano_Terapeutico_${plan.specialty}_${plan.patientName.replace(/\s+/g, '_')}.pdf`);
+      pdf.save(`Plano_Terapeutico_${plan.specialty}_${plan.patients.name.replace(/\s+/g, '_')}.pdf`);
       toast.success("PDF gerado com sucesso!");
     } catch (err) {
       console.error("Erro ao gerar PDF:", err);
@@ -125,9 +126,9 @@ const PlanItem = ({ plan, onDelete, profileData }: { plan: SavedTherapeuticPlan;
       <AccordionTrigger>
         <div className="flex items-center justify-between w-full pr-4">
           <div className="text-left">
-            <p className="font-semibold">{plan.patientName}</p>
+            <p className="font-semibold">{plan.patients.name}</p>
             <p className="text-sm text-muted-foreground">
-              Data: {new Date(plan.submissionDate).toLocaleDateString('pt-BR')}
+              Data: {new Date(plan.created_at).toLocaleDateString('pt-BR')}
             </p>
           </div>
           <Badge variant="outline">{plan.specialty}</Badge>
@@ -135,7 +136,7 @@ const PlanItem = ({ plan, onDelete, profileData }: { plan: SavedTherapeuticPlan;
       </AccordionTrigger>
       <AccordionContent>
         <div className="p-4 space-y-4">
-          <pre className="whitespace-pre-wrap font-sans text-sm bg-muted/50 p-4 rounded-md">{plan.planContent}</pre>
+          <pre className="whitespace-pre-wrap font-sans text-sm bg-muted/50 p-4 rounded-md">{plan.plan_content}</pre>
           <div className="flex justify-end space-x-2 pt-4 border-t mt-4">
             <Button variant="outline" size="sm" onClick={(e) => { e.stopPropagation(); handleDownloadPDF(); }}>
               <Download className="h-4 w-4 mr-2" />
